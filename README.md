@@ -1,77 +1,62 @@
 # Qafiyah
 
-Open-source Arabic poetry database, web app, API, and bot. Built with Next.js, Hono, and PostgreSQL.
+The open-source home of Arabic poetry: 944K+ verses from 932 poets across 10 historical eras, with a DB, API, and web interface.
 
-- **Website:** [qafiyah.com](https://qafiyah.com)
-- **API:** [api.qafiyah.com](https://api.qafiyah.com)
-- **Bot:** [@qafiyahdotcom](https://x.com/qafiyahdotcom)
+## Links
 
-## Features
+- Website: [qafiyah.com](https://qafiyah.com)
+- API: [api.qafiyah.com](https://api.qafiyah.com)
+- Bot: [@qafiyahdotcom](https://x.com/qafiyahdotcom)
+- Database Dumps: [Database Backup](https://github.com/alwalxed/qafiyah/tree/main/.db_dumps)
 
-- ~1M verses across ~86K poems from ~900 poets
-- Organized by era, meter, rhyme, and theme
-- RESTful API access
-- Twitter bot posting a random verse hourly
-- Open database dumps (auto-updated on changes)
+## Architecture
 
-## Tech Stack
+**Monorepo structure:**
+- `apps/web` — Next.js application (Cloudflare Pages)
+- `apps/api` — Hono REST API (Cloudflare Workers)
+- `apps/bot` — Automated Twitter bot
+- `packages/` — Shared schemas, configs
 
-| Layer       | Technologies                          |
-|-------------|---------------------------------------|
-| Frontend   | Next.js, React Query, Tailwind CSS, Zustand |
-| Backend    | Hono, Cloudflare Workers              |
-| Database   | PostgreSQL, Drizzle ORM               |
-| Infra      | Cloudflare Pages/Workers, GitHub Actions, Hetzner |
+**Stack:** Next.js, Hono, PostgreSQL, Drizzle ORM.
 
-## Data Stats
+## Database
 
-- Verses: 944,844
-- Poems: 85,342
-- Poets: 932
-- Eras: 10
-- Meters: 44
-- Rhymes: 47
-- Themes: 27
+**Current Statistics:**
+- 944,844 verses
+- 85,342 poems
+- 932 poets
+- 10 eras
+- 44 meters
+- 47 rhyme patterns
+- 27 themes
 
-**Note:** Latest full `.db_dumps/` available for research/dev/integration. Auto-updated on changes. Use dumps instead of scraping the API/site.
+**Access:** Database dumps in `.db_dumps/` are updated automatically. Use these for research or integration instead of scraping.
 
-## Getting Started
+## Quick Start
 
-### Prerequisites
+**Requirements:**
+- Node.js 18+
+- pnpm 8+
+- Docker
 
-- Node.js ≥18
-- pnpm ≥8
-- Docker (for local DB)
-
-### Install
-
+**Installation:**
 ```bash
 git clone https://github.com/alwalxed/qafiyah.git
 cd qafiyah
 pnpm install
-```
-
-### Setup DB
-
-```bash
 ./scripts/setup-local-db.sh
-```
-
-### Run
-
-```bash
 pnpm dev
 ```
 
-Access at http://localhost:3000.
+Application runs at `http://localhost:3000`
 
 ## Documentation
 
 - [Search Implementation](notes/features/SEARCH.md)
-- [Contributing](CONTRIBUTING.md)
+- [Contributing Guidelines](CONTRIBUTING.md)
 - [Code of Conduct](CODE_OF_CONDUCT.md)
 - [Security Policy](SECURITY.md)
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+[MIT](LICENSE)
