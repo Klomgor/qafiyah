@@ -1,140 +1,114 @@
 # Qafiyah | قافية
 
-Open-source Arabic poetry DB and website with 944K+ verses by 932 poets from 10 eras. Built with Nextjs, Hono, and Supabase.
+An open-source Arabic poetry database and web platform containing over 944,000 verses from 932 poets spanning 10 historical eras. Built with Next.js, Hono, and PostgreSQL.
 
-## 📑 Table of Contents
+## Table of Contents
 
-- [📋 Project Overview](#-project-overview)
-- [🏗️ Architecture](#️-architecture)
-- [💻 Tech Stack](#-tech-stack)
-- [📊 Data Statistics](#-data-statistics)
-- [🗄️ Data Schema](#️-data-schema)
-- [🚀 Development Setup](#-development-setup)
-- [📚 Further Reading](#-further-reading)
-- [🤝 Contributing](#-contributing)
-- [📄 License](#-license)
+- [Overview](#overview)
+- [Features](#features)
+- [Architecture](#architecture)
+- [Technology Stack](#technology-stack)
+- [Data Statistics](#data-statistics)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Database Setup](#database-setup)
+  - [Development](#development)
+- [Database Access](#database-access)
+- [Documentation](#documentation)
+- [Contributing](#contributing)
+- [License](#license)
 
-## 📋 Project Overview
+## Overview
 
-- **Website**: [qafiyah.com](https://qafiyah.com)
-- **API**: [api.qafiyah.com](https://api.qafiyah.com)
-- **Twitter**: [x.com/qafiyahdotcom](https://twitter.com/qafiyahdotcom)
-- **Database**: [latest_database_dumps](https://github.com/alwalxed/qafiyah/tree/main/.db_dumps)
+Qafiyah is a comprehensive digital archive of classical and contemporary Arabic poetry. The platform provides structured access to poetic works with detailed metadata including poet information, historical periods, poetic meters, rhyme schemes, and thematic classifications.
 
-> 🔔 **Note**: You don’t need to scrape the site or API — our [database dumps](https://github.com/alwalxed/qafiyah/tree/main/.db_dumps) are open and regularly updated.
+**Website:** [qafiyah.com](https://qafiyah.com)
+**API:** [api.qafiyah.com](https://api.qafiyah.com)
+**Twitter Bot:** [@qafiyahdotcom](https://x.com/qafiyahdotcom)
 
-## 🏗️ Architecture
+## Features
 
-- **Web**: Nextjs app running on Cloudflare Pages (Edge)
-- **API**: Hono-based Cloudflare Worker
-- **Bot**: Twitter bot posting poems every 30 minutes
-- **Packages**: Shared Zod schemas, ESLint configs, and TypeScript configs
+- Searchable database of 944,844+ verses across 85,342+ poems
+- Poetry organized by historical era, meter, rhyme, and theme
+- RESTful API for programmatic access
+- Open database dumps updated with every change
+- Automated Twitter bot posting curated selections
 
-## 💻 Tech Stack
+## Architecture
 
-| Component    | Technologies                               |
-| ------------ | ------------------------------------------ |
-| **Frontend** | Nextjs, React Query, Tailwind CSS, Zustand |
-| **Backend**  | Hono, Cloudflare Workers,                  |
-| **Database** | Supabase PostgreSQL with Drizzle ORM       |
+The project is structured as a monorepo with the following components:
 
-## 📊 Data Statistics
+- **Web Application:** Next.js frontend deployed on Cloudflare Pages
+- **API Service:** Hono-based REST API running on Cloudflare Workers
+- **Twitter Bot:** Automated posting service scheduled via GitHub Actions
+- **Shared Packages:** Common Zod schemas, ESLint configurations, and TypeScript definitions
 
-- 📝 **Total Verses:** 944,844
-- 📚 **Total Poems:** 85,342
-- 🧑‍🎤 **Unique Poets:** 932
-- 🕰️ **Historical Eras:** 10
-- 🪶 **Distinct Meters:** 44
-- 🎭 **Rhyme Schemes:** 47
-- 🎨 **Themes Covered:** 27
-- 🧾 **Poem Types:** 1
+## Technology Stack
 
-_For latest data, use our [DB dumps](https://github.com/alwalxed/qafiyah/tree/main/.db_dumps) (updated with every change) instead of scraping._
+| Layer | Technologies |
+|-------|-------------|
+| Frontend | Next.js, React Query, Tailwind CSS, Zustand |
+| Backend | Hono, Cloudflare Workers |
+| Database | PostgreSQL, Drizzle ORM |
+| Infrastructure | Cloudflare Pages, Cloudflare Workers, GitHub Actions |
 
-## 🗄️ Data Schema
+## Data Statistics
 
-### 📚 `poems`
+- **Total Verses:** 944,844
+- **Total Poems:** 85,342
+- **Poets:** 932
+- **Historical Eras:** 10
+- **Poetic Meters:** 44
+- **Rhyme Schemes:** 47
+- **Thematic Categories:** 27
 
-| Column   | Type    | Nullable | Description           |
-| -------- | ------- | -------- | --------------------- |
-| id       | integer | NO       | Primary key           |
-| title    | text    | NO       | Poem title            |
-| meter_id | integer | NO       | FK to `meters(id)`    |
-| theme_id | integer | NO       | FK to `themes(id)`    |
-| poet_id  | integer | NO       | FK to `poets(id)`     |
-| slug     | uuid    | NO       | Unique URL identifier |
-| content  | text    | NO       | Full poem content     |
-| rhyme_id | integer | YES      | FK to `rhymes(id)`    |
+For the most current data, refer to the database dumps in `.db_dumps/` rather than scraping the API or website.
 
-### 🧑‍🎤 `poets`
+## Getting Started
 
-| Column | Type    | Nullable | Description          |
-| ------ | ------- | -------- | -------------------- |
-| id     | integer | NO       | Primary key          |
-| name   | text    | NO       | Poet's name          |
-| slug   | text    | NO       | URL identifier       |
-| era_id | integer | NO       | FK to `eras(id)`     |
-| bio    | text    | YES      | Biography (optional) |
+### Prerequisites
 
-### 🕰️ `eras`
+- Node.js 18.x or higher
+- pnpm 8.x or higher
+- Docker (for local database)
 
-| Column | Type    | Nullable | Description    |
-| ------ | ------- | -------- | -------------- |
-| id     | integer | NO       | Primary key    |
-| name   | text    | NO       | Era name       |
-| slug   | text    | NO       | URL identifier |
-
-### 🪶 `meters`
-
-| Column | Type    | Nullable | Description    |
-| ------ | ------- | -------- | -------------- |
-| id     | integer | NO       | Primary key    |
-| name   | text    | NO       | Meter name     |
-| slug   | text    | NO       | URL identifier |
-
-### 🎭 `rhymes`
-
-| Column  | Type    | Nullable | Description    |
-| ------- | ------- | -------- | -------------- |
-| id      | integer | NO       | Primary key    |
-| pattern | text    | NO       | Rhyme pattern  |
-| slug    | uuid    | NO       | URL identifier |
-
-### 🎨 `themes`
-
-| Column | Type    | Nullable | Description    |
-| ------ | ------- | -------- | -------------- |
-| id     | integer | NO       | Primary key    |
-| name   | text    | NO       | Theme name     |
-| slug   | uuid    | NO       | URL identifier |
-
-## 🚀 Development Setup
-
+### Installation
 ```bash
-# 1. Create environment variables file for Cloudflare Worker
-touch ./apps/api/.dev.vars
-
-# 2. Set up your database connections
-Add DATABASE_URL and SEARCH_DATABASE_URL to your .dev.vars file
-
-# 3. Import database dump
-Download and restore from https://github.com/alwalxed/qafiyah/tree/main/.db_dumps
-
-# 4. Install dependencies
+git clone https://github.com/alwalxed/qafiyah.git
+cd qafiyah
 pnpm install
+```
 
-# 5. Start development server
+### Database Setup
+```bash
+./scripts/setup-local-db.sh
+```
+
+### Development
+```bash
 pnpm dev
 ```
 
-## 📚 Further Reading
+The web application will be available at `http://localhost:3000`.
 
-Learn more about the search implementation in [SEARCH.md](https://github.com/alwalxed/qafiyah/blob/main/notes/features/SEARCH.md).
+## Database Access
 
-## 🤝 Contributing
+Complete database dumps are available in the `.db_dumps/` directory and are updated automatically with each schema or data change. These dumps are provided for research, analysis, local development, data integration, and archival purposes.
 
-Contributions are welcomed via PRs. Feel free to help improve the project.
+Please use these dumps instead of scraping the website or API.
 
-## 📄 License
+## Documentation
 
-This project is open source under the [MIT License](https://github.com/alwalxed/qafiyah/blob/main/LICENSE).
+- [Search Implementation](./notes/features/SEARCH.md)
+- [Contributing Guidelines](./CONTRIBUTING.md)
+- [Code of Conduct](./CODE_OF_CONDUCT.md)
+- [Security Policy](./SECURITY.md)
+
+## Contributing
+
+Contributions are welcome. Please read the [Contributing Guidelines](./CONTRIBUTING.md) before submitting pull requests.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.

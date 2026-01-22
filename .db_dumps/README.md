@@ -1,14 +1,30 @@
-# Restore Guide
+# Database Restoration Guide
 
-This guide restores the database dump into your local PostgreSQL instance. The dump was created with **PostgreSQL 15.8**. Check your version: `pg_restore --version`. And update if it's lower.
+This guide provides instructions for restoring the database dump into a local PostgreSQL instance.
 
-## 1. Create a new database
+## Prerequisites
+
+The database dump was created using **PostgreSQL 16**. Verify your PostgreSQL version before proceeding:
+
+```bash
+pg_restore --version
+```
+
+If your version is lower than 16, update PostgreSQL to ensure compatibility.
+
+## Restoration Steps
+
+### 1. Create the Database
+
+Create a new database named `qafiyah`:
 
 ```bash
 createdb -U postgres qafiyah
 ```
 
-## 2. Restore the dump
+### 2. Restore the Dump
+
+Execute the following command to restore the database dump:
 
 ```bash
 pg_restore \
@@ -20,4 +36,20 @@ pg_restore \
   /path/to/qafiyah_public_YYYYMMDD_HHMM.dump
 ```
 
-> Note: You can ignore the harmless `schema "public" already exists` warning.
+Replace `/path/to/qafiyah_public_YYYYMMDD_HHMM.dump` with the actual path to your dump file.
+
+## Notes
+
+- The warning `schema "public" already exists` can be safely ignored.
+- Ensure the PostgreSQL service is running before executing these commands.
+- If authentication issues occur, verify your PostgreSQL user permissions and connection settings.
+
+## Verification
+
+After restoration, verify the database contents:
+
+```bash
+psql -U postgres -d qafiyah -c "\dt"
+```
+
+This command lists all tables in the restored database.
