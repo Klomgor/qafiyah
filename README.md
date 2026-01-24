@@ -23,6 +23,7 @@ This is a monorepo containing:
 ## Database
 
 **Current Statistics:**
+
 - 944,844 verses
 - 85,342 poems
 - 932 poets
@@ -36,11 +37,13 @@ Database dumps are available in `.db_dumps/` and are updated automatically. Thes
 ## Quick Start
 
 **Requirements:**
+
 - Node.js 18 or higher
 - pnpm 8 or higher
 - Docker
 
 **Installation:**
+
 ```bash
 git clone https://github.com/alwalxed/qafiyah.git
 cd qafiyah
@@ -50,6 +53,22 @@ pnpm dev
 ```
 
 The application will run at `http://localhost:3000`
+
+## Acknowledgments
+
+The Qafiyah project acknowledges the following contributors, listed chronologically by date of contribution:
+
+- **Khalid Alraddady**, AI Engineer at [HRSD](https://www.hrsd.gov.sa/en)<br>
+  Contribution: Development of the semantic search feature currently under active development.<br>
+  Links: [LinkedIn](https://www.linkedin.com/in/khalid-alraddady/)
+
+- **Khalid Almulaify**, PhD in Morphology and Syntax at [IMSIU](https://imamu.edu.sa)<br>
+  Contribution: Ongoing financial sponsorship ($100/month) and extensive usage of the public API through a widely used [Telegram bot](https://t.me/QafiyahVerseBot).<br>
+  Links: [GitHub](https://github.com/khalidmfy)
+
+- **Malath Alsaif**, Software Engineer at [Ejari](https://www.ejari.sa)<br>
+  Contribution: UI improvements and implementation of the local database development workflow.<br>
+  Links: [LinkedIn](https://www.linkedin.com/in/malath-a-alsaif-a49a382a7/)
 
 ## Documentation
 
@@ -61,19 +80,3 @@ The application will run at `http://localhost:3000`
 ## License
 
 [MIT](LICENSE)
-
-## Acknowledgments
-
-The Qafiyah project acknowledges the following contributors, listed chronologically by date of contribution:
-
-- **Khalid Alraddady**, AI Engineer at [HRSD](https://www.hrsd.gov.sa/en)<br>
-Contribution: Development of the semantic search feature currently under active development.<br>
-Links: [LinkedIn](https://www.linkedin.com/in/khalid-alraddady/)
-
-- **Khalid Almulaify**, PhD in Morphology and Syntax at [IMSIU](https://imamu.edu.sa)<br>
-Contribution: Ongoing financial sponsorship ($100/month) and extensive usage of the public API through a widely used [Telegram bot](https://t.me/QafiyahVerseBot).<br>
-Links: [GitHub](https://github.com/khalidmfy)
-
-- **Malath Alsaif**, Software Engineer at [Ejari](https://www.ejari.sa)<br>
-Contribution: UI improvements and implementation of the local database development workflow.<br>
-Links: [LinkedIn](https://www.linkedin.com/in/malath-a-alsaif-a49a382a7/)
