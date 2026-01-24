@@ -66,14 +66,14 @@ The application will run at `http://localhost:3000`
 
 The Qafiyah project acknowledges the following contributors, listed chronologically by date of contribution:
 
-- **Khalid Alraddady**, AI Engineer at [HRSD](https://www.hrsd.gov.sa/en)
-  Contribution: Development of the semantic search feature currently under active development.
-  Links: [LinkedIn](https://www.linkedin.com/in/khalid-alraddady/)
+- **Khalid Alraddady**, AI Engineer at [HRSD](https://www.hrsd.gov.sa/en)<br>
+Contribution: Development of the semantic search feature currently under active development.<br>
+Links: [LinkedIn](https://www.linkedin.com/in/khalid-alraddady/)
 
-- **Khalid Almulaify**, PhD in Morphology and Syntax at [IMSIU](https://imamu.edu.sa)
-  Contribution: Ongoing financial sponsorship ($100/month) and extensive usage of the public API through a widely used [Telegram bot](https://t.me/QafiyahVerseBot).
-  Links: [GitHub](https://github.com/khalidmfy)
+- **Khalid Almulaify**, PhD in Morphology and Syntax at [IMSIU](https://imamu.edu.sa)<br>
+Contribution: Ongoing financial sponsorship ($100/month) and extensive usage of the public API through a widely used [Telegram bot](https://t.me/QafiyahVerseBot).<br>
+Links: [GitHub](https://github.com/khalidmfy)
 
-- **Malath Alsaif**, Software Engineer at [Ejari](https://www.ejari.sa)
-  Contribution: UI improvements and implementation of the local database development workflow.
-  Links: [LinkedIn](https://www.linkedin.com/in/malath-a-alsaif-a49a382a7/)
+- **Malath Alsaif**, Software Engineer at [Ejari](https://www.ejari.sa)<br>
+Contribution: UI improvements and implementation of the local database development workflow.<br>
+Links: [LinkedIn](https://www.linkedin.com/in/malath-a-alsaif-a49a382a7/)
