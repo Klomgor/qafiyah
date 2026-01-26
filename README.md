@@ -6,17 +6,20 @@ An open-source repository of Arabic poetry containing over 944,000 verses from 9
 
 - Website: [qafiyah.com](https://qafiyah.com)
 - API: [api.qafiyah.com](https://api.qafiyah.com)
-- Bot: [@qafiyahdotcom](https://x.com/qafiyahdotcom)
-- Database Dumps: [Database Backup](https://github.com/alwalxed/qafiyah/tree/main/.db_dumps)
+- Bot: [@qafiyahiyahdotcom](https://x.com/qafiyahdotcom)
+- Database Dumps: [Database Backup](public/datasets/)
 
 ## Architecture
 
 This is a monorepo containing:
 
-- `apps/web` — Next.js application (Cloudflare Pages)
-- `apps/api` — Hono REST API (Cloudflare Workers)
-- `apps/bot` — Automated Twitter bot
-- `packages/` — Shared schemas and configurations
+- `apps/static-web` — Next.js frontend (Cloudflare Pages)
+- `apps/serverless-api` — Hono REST API (Cloudflare Workers)
+- `apps/twitter-bot` — Twitter bot that posts poems
+- `apps/dataset-publisher` — Publishes dataset to Hugging Face
+- `apps/db-inspector` — Database schema inspection tool
+- `packages/schemas` — Shared Zod schemas and validation
+- `packages/tsconfig` — Shared TypeScript configuration
 
 **Technology Stack:** Next.js, Hono, PostgreSQL, Drizzle ORM
 
@@ -32,7 +35,7 @@ This is a monorepo containing:
 - 47 rhyme patterns
 - 27 themes
 
-Database dumps are available in `.db_dumps/` and are updated automatically. These are provided for research and integration purposes as an alternative to scraping the API.
+Database dumps are available in `public/datasets` and are updated automatically. These are provided for research and integration purposes as an alternative to scraping the API.
 
 ## Quick Start
 
@@ -72,7 +75,7 @@ The Qafiyah project acknowledges the following contributors, listed chronologica
 
 ## Documentation
 
-- [Search Implementation](notes/features/SEARCH.md)
+- [Search Implementation](public/docs/SEARCH_FEATURE_IMPLEMENTATION.md)
 - [Contributing Guidelines](CONTRIBUTING.md)
 - [Code of Conduct](CODE_OF_CONDUCT.md)
 - [Security Policy](SECURITY.md)
