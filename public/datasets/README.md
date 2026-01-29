@@ -1,55 +1,32 @@
-# Database Restoration Guide
+# Database Restore
 
-This guide provides instructions for restoring the database dump into a local PostgreSQL instance.
+## Requirements
+- PostgreSQL ≥ 17 (required for dump format version 1.16)
+- `pg_restore`
 
-## Prerequisites
-
-The database dump was created using **PostgreSQL 16**. Verify your PostgreSQL version before proceeding:
-
+## Restore
 ```bash
-pg_restore --version
-```
-
-If your version is lower than 16, update PostgreSQL to ensure compatibility.
-
-## Restoration Steps
-
-### 1. Create the Database
-
-Create a new database named `qafiyah`:
-
-```bash
-createdb -U postgres qafiyah
-```
-
-### 2. Restore the Dump
-
-Execute the following command to restore the database dump:
-
-```bash
+dropdb --if-exists qafiyah && createdb qafiyah && \
 pg_restore \
-  -U postgres \
+  -U qafiyah \
   -d qafiyah \
-  -F c \
+  --clean \
+  --if-exists \
   --no-owner \
-  --no-acl \
-  /path/to/qafiyah_public_YYYYMMDD_HHMM.dump
+  --no-privileges \
+  ./0002_10_06_2025/qafiyah_public_20250610_1424.dump
 ```
 
-Replace `/path/to/qafiyah_public_YYYYMMDD_HHMM.dump` with the actual path to your dump file.
-
-## Notes
-
-- The warning `schema "public" already exists` can be safely ignored.
-- Ensure the PostgreSQL service is running before executing these commands.
-- If authentication issues occur, verify your PostgreSQL user permissions and connection settings.
-
-## Verification
-
-After restoration, verify the database contents:
+## Expected Warning
 
 ```bash
-psql -U postgres -d qafiyah -c "\dt"
+ERROR: schema "public" already exists
 ```
 
-This command lists all tables in the restored database.
+## Verify
+
+```bash
+psql -U qafiyah -d qafiyah -c "\dt"
+psql -U qafiyah -d qafiyah -c "SELECT count(*) FROM poems;"
+```
+

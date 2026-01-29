@@ -4,10 +4,11 @@ An open-source repository of Arabic poetry containing over 944,000 verses from 9
 
 ## Links
 
-- Website: [qafiyah.com](https://qafiyah.com)
-- API: [api.qafiyah.com](https://api.qafiyah.com)
-- Bot: [@qafiyahiyahdotcom](https://x.com/qafiyahdotcom)
-- Database Dumps: [Database Backup](public/datasets/)
+- Official Website: [qafiyah.com](https://qafiyah.com)
+- Public API: [api.qafiyah.com](https://api.qafiyah.com)
+- X/Twitter Bot: [@qafiyahdotcom](https://x.com/qafiyahdotcom)
+- Full PostgreSQL Database Dump: [Database Download](public/datasets/)
+- Hugging Face Dataset: [qafiyah/classical-arabic-poetry](https://huggingface.co/datasets/qafiyah/classical-arabic-poetry)
 
 ## Architecture
 
@@ -16,12 +17,10 @@ This is a monorepo containing:
 - `apps/static-web` — Next.js frontend (Cloudflare Pages)
 - `apps/serverless-api` — Hono REST API (Cloudflare Workers)
 - `apps/twitter-bot` — Twitter bot that posts poems
-- `apps/dataset-publisher` — Publishes dataset to Hugging Face
-- `apps/db-inspector` — Database schema inspection tool
 - `packages/schemas` — Shared Zod schemas and validation
 - `packages/tsconfig` — Shared TypeScript configuration
 
-**Technology Stack:** Next.js, Hono, PostgreSQL, Drizzle ORM
+**Tech Stack:** Next.js, Hono, PostgreSQL, Drizzle ORM
 
 ## Database
 
