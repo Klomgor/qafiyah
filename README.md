@@ -14,9 +14,9 @@ An open-source repository of Arabic poetry containing over 944,000 verses from 9
 
 This is a monorepo containing:
 
-- `apps/static-web` — Next.js frontend (Cloudflare Pages)
-- `apps/serverless-api` — Hono REST API (Cloudflare Workers)
-- `apps/twitter-bot` — Twitter bot that posts poems
+- `apps/web` — Next.js frontend (Cloudflare Pages)
+- `apps/api` — Hono REST API (Cloudflare Workers)
+- `apps/bot` — Twitter bot that posts poems
 - `packages/schemas` — Shared Zod schemas and validation
 - `packages/tsconfig` — Shared TypeScript configuration
 
