@@ -50,11 +50,13 @@ Database dumps are available in [`public/datasets`](public/datasets) and are upd
 git clone https://github.com/alwalxed/qafiyah.git
 cd qafiyah
 pnpm install
-./scripts/setup-local-db.sh
+./scripts/setup-database.sh
 pnpm dev
 ```
 
 The application will run at `http://localhost:3000`
+
+**Local database:** `./scripts/setup-database.sh` creates two PostgreSQL instances and writes `.dev.vars` (dev, port 5433) and `.dev.vars.test` (test/micro, port 5434, ~300 poems for fast build validation). Use `pnpm dev` for normal development; use `pnpm dev:test` then `pnpm build:static` for fast build validation. Production: set `DATABASE_URL` in `.env.prod` (manual).
 
 ## Acknowledgments
 
