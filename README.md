@@ -4,11 +4,11 @@ An open-source repository of Arabic poetry containing over 944,000 verses from 9
 
 ## Links
 
-- Web: [qafiyah.com](https://qafiyah.com)
-- API: [api.qafiyah.com](https://api.qafiyah.com)
-- Bot: [@qafiyahdotcom](https://x.com/qafiyahdotcom)
-- Database: [Download](public/datasets/)
-- HF: [qafiyah/classical-arabic-poetry](https://huggingface.co/datasets/qafiyah/classical-arabic-poetry)
+- [Website](https://qafiyah.com)
+- [Public API](https://api.qafiyah.com)
+- [Twitter Bot](https://x.com/qafiyahdotcom)
+- [Database Download](public/datasets/)
+- [Hugging Face Dataset](https://huggingface.co/datasets/qafiyah/classical-arabic-poetry)
 
 ## Architecture
 
