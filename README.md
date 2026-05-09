@@ -14,13 +14,13 @@ An open-source repository of Arabic poetry containing over 944,000 verses from 9
 
 This is a monorepo containing:
 
-- `apps/web`: Next.js frontend (Cloudflare Pages)
+- `apps/web`: Astro static site
 - `apps/api`: Hono REST API (Cloudflare Workers)
 - `apps/bot`: Twitter bot that posts poems
-- `packages/schemas`: Shared Zod schemas and validation
-- `packages/tsconfig`: Shared TypeScript configuration
+- `packages/db`: Shared Drizzle ORM queries and schema
+- `packages/typescript`: Shared TypeScript configuration
 
-**Tech Stack:** Next.js, Hono, PostgreSQL, Drizzle ORM
+**Tech Stack:** Astro, Hono, PostgreSQL, Drizzle ORM
 
 ## Database
 
@@ -41,7 +41,7 @@ Database dumps are available in [`data/datasets`](data/datasets) and are updated
 **Requirements:**
 
 - Node.js 18 or higher
-- pnpm 8 or higher
+- pnpm 10 or higher
 - Docker
 
 **Installation:**
@@ -54,9 +54,9 @@ pnpm install
 pnpm dev
 ```
 
-The application will run at `http://localhost:3000`
+The web app runs at `http://localhost:4321` and the API at `http://localhost:8787`.
 
-**Local database:** `./dev/setup-database.sh` creates two PostgreSQL instances and writes `.dev.vars` (dev, port 5433) and `.dev.vars.test` (test/micro, port 5434, ~300 poems for fast build validation). Use `pnpm dev` for normal development; use `pnpm dev:test` then `pnpm build:static` for fast build validation. Production: set `DATABASE_URL` in `.env.prod` (manual).
+**Local database:** `./dev/setup-database.sh` creates two PostgreSQL instances and writes `.dev.vars` (dev, port 5433) and `.dev.vars.test` (test/micro, port 5434, ~300 poems for fast build validation). Use `pnpm dev` for normal development; use `pnpm turbo run dev:test --filter=@qafiyah/api` then `pnpm turbo run build --filter=@qafiyah/web` for fast build validation. Production: set `DATABASE_URL` in `.env.prod` (manual).
 
 ## Acknowledgments
 
