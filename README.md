@@ -7,7 +7,7 @@ An open-source repository of Arabic poetry containing over 944,000 verses from 9
 - [Website](https://qafiyah.com)
 - [Public API](https://api.qafiyah.com)
 - [Twitter Bot](https://x.com/qafiyahdotcom)
-- [Database Download](public/datasets/)
+- [Database Download](data/datasets/)
 - [Hugging Face Dataset](https://huggingface.co/datasets/qafiyah/classical-arabic-poetry)
 
 ## Architecture
@@ -34,7 +34,7 @@ This is a monorepo containing:
 - 47 rhyme patterns
 - 27 themes
 
-Database dumps are available in [`public/datasets`](public/datasets) and are updated automatically. These are provided for research and integration purposes as an alternative to scraping the API.
+Database dumps are available in [`data/datasets`](data/datasets) and are updated automatically. These are provided for research and integration purposes as an alternative to scraping the API.
 
 ## Quick Start
 
@@ -50,13 +50,13 @@ Database dumps are available in [`public/datasets`](public/datasets) and are upd
 git clone https://github.com/alwalxed/qafiyah.git
 cd qafiyah
 pnpm install
-./scripts/setup-database.sh
+./dev/setup-database.sh
 pnpm dev
 ```
 
 The application will run at `http://localhost:3000`
 
-**Local database:** `./scripts/setup-database.sh` creates two PostgreSQL instances and writes `.dev.vars` (dev, port 5433) and `.dev.vars.test` (test/micro, port 5434, ~300 poems for fast build validation). Use `pnpm dev` for normal development; use `pnpm dev:test` then `pnpm build:static` for fast build validation. Production: set `DATABASE_URL` in `.env.prod` (manual).
+**Local database:** `./dev/setup-database.sh` creates two PostgreSQL instances and writes `.dev.vars` (dev, port 5433) and `.dev.vars.test` (test/micro, port 5434, ~300 poems for fast build validation). Use `pnpm dev` for normal development; use `pnpm dev:test` then `pnpm build:static` for fast build validation. Production: set `DATABASE_URL` in `.env.prod` (manual).
 
 ## Acknowledgments
 
@@ -76,7 +76,7 @@ The Qafiyah project acknowledges the following contributors, listed chronologica
 
 ## Documentation
 
-- [Search Implementation](public/docs/SEARCH_FEATURE_IMPLEMENTATION.md)
+- [Search Implementation](data/docs/SEARCH_FEATURE_IMPLEMENTATION.md)
 - [Contributing Guidelines](CONTRIBUTING.md)
 - [Code of Conduct](CODE_OF_CONDUCT.md)
 - [Security Policy](SECURITY.md)
