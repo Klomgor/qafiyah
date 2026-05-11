@@ -56,7 +56,7 @@ pnpm dev
 
 The web app runs at `http://localhost:4321` and the API at `http://localhost:8787`.
 
-**Local database:** `./dev/setup-database.sh` creates two PostgreSQL instances and writes `.dev.vars` (dev, port 5433) and `.dev.vars.test` (test/micro, port 5434, ~300 poems for fast build validation). Use `pnpm dev` for normal development; use `pnpm turbo run dev:test --filter=@qafiyah/api` then `pnpm turbo run build --filter=@qafiyah/web` for fast build validation. Production: set `DATABASE_URL` in `.env.prod` (manual).
+**Local database:** `./dev/setup-database.sh` creates two PostgreSQL instances and writes `apps/api/.dev.vars` + `apps/web/.env` (dev, port 5433) and `apps/api/.dev.vars.test` (test/micro, port 5434, ~300 poems for fast build validation). Use `pnpm dev` for normal development; use `pnpm turbo run dev:test --filter=@qafiyah/api` then `pnpm turbo run build --filter=@qafiyah/web` for fast build validation. Production: set `DATABASE_URL` in `.env.prod` (manual).
 
 ## Acknowledgments
 
