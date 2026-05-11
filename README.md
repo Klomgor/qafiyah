@@ -6,25 +6,26 @@ An open-source repository of Arabic poetry containing over 944,000 verses from 9
 
 - [Website](https://qafiyah.com)
 - [Public API](https://api.qafiyah.com)
-- [Twitter Bot](https://x.com/qafiyahdotcom)
+- [X Bot](https://x.com/qafiyahdotcom)
 - [Database Download](data/datasets/)
 - [Hugging Face Dataset](https://huggingface.co/datasets/qafiyah/classical-arabic-poetry)
 
 ## Architecture
 
-This is a monorepo containing:
+pnpm + Turborepo monorepo:
 
-- `apps/web`: Astro static site
-- `apps/api`: Hono REST API (Cloudflare Workers)
-- `apps/bot`: Twitter bot that posts poems
-- `packages/db`: Shared Drizzle ORM queries and schema
-- `packages/typescript`: Shared TypeScript configuration
+- `apps/web`, Astro 6 static site; queries the database directly at build time
+- `apps/api`, Hono REST API on Cloudflare Workers
+- `apps/bot`, X (Twitter) bot that posts a random poem 4× daily via GitHub Actions cron
+- `packages/db`, Shared Drizzle ORM schema, queries, and Postgres client
+- `packages/constants`, Shared brand, URLs, and dev-port constants
+- `packages/typescript`, Shared TypeScript configs (base, astro, cloudflare, node)
 
-**Tech Stack:** Astro, Hono, PostgreSQL, Drizzle ORM
+**Tech stack:** Astro 6, React (islands), Hono, Cloudflare Workers, PostgreSQL, Drizzle ORM, Turborepo, Biome, Vitest
 
 ## Database
 
-**Current Statistics:**
+**Current statistics:**
 
 - 944,844 verses
 - 85,342 poems
@@ -34,15 +35,15 @@ This is a monorepo containing:
 - 47 rhyme patterns
 - 27 themes
 
-Database dumps are available in [`data/datasets`](data/datasets) and are updated automatically. These are provided for research and integration purposes as an alternative to scraping the API.
+PostgreSQL custom-format dumps are published in [`data/datasets`](data/datasets) and refreshed periodically. They are provided for research and integration as an alternative to scraping the API. See the [restore instructions](data/datasets/README.md) (requires PostgreSQL ≥ 17 and `pg_restore`)
 
 ## Quick Start
 
 **Requirements:**
 
-- Node.js 18 or higher
-- pnpm 10 or higher
-- Docker
+- Node.js ≥ 18
+- pnpm 10 (enforced via `packageManager`)
+- Docker (for the local Postgres containers spun up by `db:setup`)
 
 **Installation:**
 
@@ -50,13 +51,9 @@ Database dumps are available in [`data/datasets`](data/datasets) and are updated
 git clone https://github.com/alwalxed/qafiyah.git
 cd qafiyah
 pnpm install
-./dev/setup-database.sh
-pnpm dev
+pnpm db:setup   # boots dev + test Postgres in Docker and restores the latest dump
+pnpm dev        # runs all workspaces via Turbo
 ```
-
-The web app runs at `http://localhost:4321` and the API at `http://localhost:8787`.
-
-**Local database:** `./dev/setup-database.sh` creates two PostgreSQL instances and writes `apps/api/.dev.vars` + `apps/web/.env` (dev, port 5433) and `apps/api/.dev.vars.test` (test/micro, port 5434, ~300 poems for fast build validation). Use `pnpm dev` for normal development; use `pnpm turbo run dev:test --filter=@qafiyah/api` then `pnpm turbo run build --filter=@qafiyah/web` for fast build validation. Production: set `DATABASE_URL` in `.env.prod` (manual).
 
 ## Acknowledgments
 
