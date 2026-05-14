@@ -7,7 +7,7 @@ An open-source repository of Arabic poetry containing over 944,000 verses from 9
 - [Website](https://qafiyah.com)
 - [Public API](https://api.qafiyah.com)
 - [X Bot](https://x.com/qafiyahdotcom)
-- [Database Download](data/datasets/)
+- [Database Download](dumps/)
 - [Hugging Face Dataset](https://huggingface.co/datasets/qafiyah/classical-arabic-poetry)
 
 ## Architecture
@@ -35,7 +35,7 @@ pnpm + Turborepo monorepo:
 - 47 rhyme patterns
 - 27 themes
 
-PostgreSQL custom-format dumps are published in [`data/datasets`](data/datasets) and refreshed periodically. They are provided for research and integration as an alternative to scraping the API. See the [restore instructions](data/datasets/README.md) (requires PostgreSQL ≥ 17 and `pg_restore`)
+PostgreSQL custom-format dumps are published in [`dumps`](dumps) and refreshed periodically. They are provided for research and integration as an alternative to scraping the API. See the [restore instructions](dumps/README.md) (requires PostgreSQL ≥ 17 and `pg_restore`)
 
 ## Quick Start
 
@@ -73,7 +73,7 @@ The Qafiyah project acknowledges the following contributors, listed chronologica
 
 ## Documentation
 
-- [Search Implementation](data/docs/SEARCH_FEATURE_IMPLEMENTATION.md)
+- [Search Implementation](docs/SEARCH_FEATURE_IMPLEMENTATION.md)
 - [Contributing Guidelines](.github/CONTRIBUTING.md)
 - [Code of Conduct](.github/CODE_OF_CONDUCT.md)
 - [Security Policy](.github/SECURITY.md)
