@@ -74,9 +74,9 @@ The Qafiyah project acknowledges the following contributors, listed chronologica
 ## Documentation
 
 - [Search Implementation](data/docs/SEARCH_FEATURE_IMPLEMENTATION.md)
-- [Contributing Guidelines](CONTRIBUTING.md)
-- [Code of Conduct](CODE_OF_CONDUCT.md)
-- [Security Policy](SECURITY.md)
+- [Contributing Guidelines](.github/CONTRIBUTING.md)
+- [Code of Conduct](.github/CODE_OF_CONDUCT.md)
+- [Security Policy](.github/SECURITY.md)
 
 ## License
 
