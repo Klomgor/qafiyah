@@ -15,7 +15,7 @@ If you're working in this repo, prefer the one-liner — it spins up Postgres in
 Docker, restores the newest dump, and writes the env files:
 
 ```bash
-pnpm db:setup
+bun run db:setup
 ```
 
 ## Restore (manual / external use)

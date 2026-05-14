@@ -12,7 +12,7 @@ An open-source repository of Arabic poetry containing over 944,000 verses from 9
 
 ## Architecture
 
-pnpm + Turborepo monorepo:
+bun + Turborepo monorepo:
 
 - `apps/web`, Astro 6 static site; queries the database directly at build time
 - `apps/api`, Hono REST API on Cloudflare Workers
@@ -42,7 +42,7 @@ PostgreSQL custom-format dumps are published in [`dumps`](dumps) and refreshed p
 **Requirements:**
 
 - Node.js ≥ 20
-- pnpm 10 (enforced via `packageManager`)
+- bun ≥ 1.3 (enforced via `packageManager`)
 - Docker (for the local Postgres containers spun up by `db:setup`)
 
 **Installation:**
@@ -50,9 +50,9 @@ PostgreSQL custom-format dumps are published in [`dumps`](dumps) and refreshed p
 ```bash
 git clone https://github.com/alwalxed/qafiyah.git
 cd qafiyah
-pnpm install
-pnpm db:setup   # boots dev + test Postgres in Docker and restores the latest dump
-pnpm dev        # runs all workspaces via Turbo
+bun install
+bun run db:setup   # boots dev + test Postgres in Docker and restores the latest dump
+bun run dev        # runs all workspaces via Turbo
 ```
 
 ## Acknowledgments
