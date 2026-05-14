@@ -41,7 +41,7 @@ PostgreSQL custom-format dumps are published in [`data/datasets`](data/datasets)
 
 **Requirements:**
 
-- Node.js ≥ 18
+- Node.js ≥ 20
 - pnpm 10 (enforced via `packageManager`)
 - Docker (for the local Postgres containers spun up by `db:setup`)
 
