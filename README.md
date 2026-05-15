@@ -71,6 +71,10 @@ The Qafiyah project acknowledges the following contributors, listed chronologica
   Contribution: UI improvements and implementation of the local database development workflow.<br>
   Links: [LinkedIn](https://www.linkedin.com/in/malath-a-alsaif-a49a382a7/)
 
+- **Fahad Alghamdi**, Software Engineer at [Thmanyah](https://thmanyah.com)<br>
+  Contribution: Flagged a redundant per-request `SELECT 1` health check in the DB middleware that added unnecessary latency on every request.<br>
+  Links: [GitHub](https://github.com/v0id-user)
+
 ## Documentation
 
 - [Search Implementation](docs/SEARCH_FEATURE_IMPLEMENTATION.md)
