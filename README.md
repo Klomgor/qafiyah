@@ -2,7 +2,11 @@
 
 # Qafiyah | قافية
 
-<img src="apps/web/public/open-graph-white.png" alt="Qafiyah" width="100%" />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset=".github/readme_banner_darkmode.png" />
+  <source media="(prefers-color-scheme: light)" srcset=".github/readme_banner_lightmode.png" />
+  <img src=".github/readme_banner_fallback.png" alt="Qafiyah" width="100%" />
+</picture>
 
 **An open-source repository of Arabic poetry, with database dumps, REST API, and web interface.**
 
@@ -140,7 +144,7 @@ qafiyah/
     ├── db/           Shared Drizzle ORM schema, queries, and Postgres client
     ├── contracts/    Shared oRPC contract definitions
     ├── constants/    Shared brand, URLs, and dev-port constants
-    └── typescript/   Shared TypeScript configs (base, astro, cloudflare, node)
+    └── typescript/   Shared TypeScript configs (base, astro, cloudflare, bun)
 ```
 
 **Data flow:**
@@ -169,7 +173,6 @@ PostgreSQL custom-format dumps are published in [`dumps/`](dumps) and refreshed 
 
 ### Prerequisites
 
-- Node.js ≥ 20
 - Bun ≥ 1.3.14 (enforced via `packageManager`)
 - Docker (for the local Postgres containers spun up by `db:setup`)
 
