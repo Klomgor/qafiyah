@@ -59,21 +59,17 @@ bun run dev        # runs all workspaces via Turbo
 
 The Qafiyah project acknowledges the following contributors, listed chronologically by date of contribution:
 
-- **Khalid Alraddady**, AI Engineer at [HRSD](https://www.hrsd.gov.sa/en)<br>
-  Contribution: Development of the semantic search feature currently under active development.<br>
-  Links: [LinkedIn](https://www.linkedin.com/in/khalid-alraddady/)
+- **[Khalid Alraddady](https://www.linkedin.com/in/khalid-alraddady/)**, AI Engineer at [HRSD](https://www.hrsd.gov.sa/en)<br>
+  Contribution: Development of the semantic search feature currently under active development.
 
-- **Khalid Almulaify**, PhD in Morphology and Syntax at [IMSIU](https://imamu.edu.sa)<br>
-  Contribution: Ongoing financial sponsorship ($100/month) and extensive usage of the public API through a widely used [Telegram bot](https://t.me/QafiyahVerseBot).<br>
-  Links: [GitHub](https://github.com/khalidmfy)
+- **[Khalid Almulaify](https://github.com/khalidmfy)**, PhD in Morphology and Syntax at [IMSIU](https://imamu.edu.sa)<br>
+  Contribution: Ongoing financial sponsorship ($100/month) and extensive usage of the public API through a widely used [Telegram bot](https://t.me/QafiyahVerseBot).
 
-- **Malath Alsaif**, Software Engineer at [Ejari](https://www.ejari.sa)<br>
-  Contribution: UI improvements and implementation of the local database development workflow.<br>
-  Links: [LinkedIn](https://www.linkedin.com/in/malath-a-alsaif-a49a382a7/)
+- **[Malath Alsaif](https://www.linkedin.com/in/malath-a-alsaif-a49a382a7/)**, Software Engineer at [Ejari](https://www.ejari.sa)<br>
+  Contribution: UI improvements and implementation of the local database development workflow.
 
-- **Fahad Alghamdi**, Software Engineer at [Thmanyah](https://thmanyah.com)<br>
-  Contribution: Flagged a redundant per-request `SELECT 1` health check in the DB middleware that added unnecessary latency on every request.<br>
-  Links: [GitHub](https://github.com/v0id-user)
+- **[Fahad Alghamdi](https://github.com/v0id-user)**, Software Engineer at [Thmanyah](https://thmanyah.com)<br>
+  Contribution: Flagged a redundant per-request `SELECT 1` health check in the DB middleware that added unnecessary latency on every request.
 
 ## Documentation
 
