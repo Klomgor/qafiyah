@@ -2,6 +2,8 @@
 
 # Qafiyah | قافية
 
+<img src="apps/web/public/open-graph-white.png" alt="Qafiyah" width="100%" />
+
 **An open-source repository of Arabic poetry, with database dumps, REST API, and web interface.**
 
 [![Turborepo](https://img.shields.io/badge/Turborepo-monorepo-EF4444?logo=turborepo&logoColor=white)](https://turbo.build/repo)
