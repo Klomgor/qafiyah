@@ -59,16 +59,16 @@ bun run dev        # runs all workspaces via Turbo
 
 The Qafiyah project acknowledges the following contributors, listed chronologically by date of contribution:
 
-- **[Khalid Alraddady](https://www.linkedin.com/in/khalid-alraddady/)**, AI Engineer @ [HRSD](https://www.hrsd.gov.sa/en)<br>
+- **<a href="https://www.linkedin.com/in/khalid-alraddady/" target="_blank" rel="noopener">Khalid Alraddady</a>**, AI Engineer @ <a href="https://www.hrsd.gov.sa/en" target="_blank" rel="noopener">HRSD</a><br>
   Development of the semantic search feature currently under active development.
 
-- **[Khalid Almulaify](https://github.com/khalidmfy)**, PhD in Morphology and Syntax @ [IMSIU](https://imamu.edu.sa)<br>
-  Ongoing financial sponsorship ($100/month) and extensive usage of the public API through a widely used [Telegram bot](https://t.me/QafiyahVerseBot).
+- **<a href="https://github.com/khalidmfy" target="_blank" rel="noopener">Khalid Almulaify</a>**, PhD in Morphology and Syntax @ <a href="https://imamu.edu.sa" target="_blank" rel="noopener">IMSIU</a><br>
+  Ongoing financial sponsorship ($100/month) and extensive usage of the public API through a widely used <a href="https://t.me/QafiyahVerseBot" target="_blank" rel="noopener">Telegram bot</a>.
 
-- **[Malath Alsaif](https://www.linkedin.com/in/malath-a-alsaif-a49a382a7/)**, Software Engineer @ [Ejari](https://www.ejari.sa)<br>
+- **<a href="https://www.linkedin.com/in/malath-a-alsaif-a49a382a7/" target="_blank" rel="noopener">Malath Alsaif</a>**, Software Engineer @ <a href="https://www.ejari.sa" target="_blank" rel="noopener">Ejari</a><br>
   UI improvements and implementation of the local database development workflow.
 
-- **[Fahad Alghamdi](https://github.com/v0id-user)**, Software Engineer @ [Thmanyah](https://thmanyah.com)<br>
+- **<a href="https://github.com/v0id-user" target="_blank" rel="noopener">Fahad Alghamdi</a>**, Software Engineer @ <a href="https://thmanyah.com" target="_blank" rel="noopener">Thmanyah</a><br>
   Flagged a redundant per-request `SELECT 1` health check in the DB middleware that added unnecessary latency on every request.
 
 ## Documentation
