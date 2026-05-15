@@ -1,6 +1,6 @@
 <div align="center">
 
-# Qafiyah | قافية
+# Qafiyah
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset=".github/readme_banner_darkmode.png" />
@@ -27,15 +27,13 @@
 
 </div>
 
----
-
 ## About
 
 Qafiyah is an open-source classical Arabic poetry corpus containing **944,844 verses** from **932 poets** spanning **10 historical eras**. The project provides a static website, a public REST API, downloadable PostgreSQL dumps, and a Hugging Face dataset to support readers, researchers, and developers building on top of classical Arabic literature.
 
 ## Table of Contents
 
-- [Qafiyah | قافية](#qafiyah--قافية)
+- [Qafiyah](#qafiyah)
   - [About](#about)
   - [Table of Contents](#table-of-contents)
   - [Features](#features)
