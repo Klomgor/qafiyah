@@ -1,8 +1,28 @@
 # Database Dumps
 
 PostgreSQL custom-format (`pg_dump -Fc`) snapshots of the `public` schema.
-Newer subdirectories supersede older ones — the highest-numbered directory is
-the current dump.
+
+## Directory Naming Convention
+
+Each dump is stored in a subdirectory named `{sequence}_{DD}_{MM}_{YYYY}`, where `{sequence}` is a zero-padded four-digit index that determines sort order. Example: `0003_29_01_2026` is the third dump, created on 29 January 2026. The highest-numbered directory always contains the current dump.
+
+## Dataset Contents
+
+The current dump (`0003_29_01_2026`) contains:
+
+| Metric          | Count   |
+| --------------- | ------- |
+| Verses          | 944,844 |
+| Poems           | 85,342  |
+| Poets           | 932     |
+| Historical eras | 10      |
+| Meters          | 44      |
+| Rhyme patterns  | 47      |
+| Themes          | 27      |
+
+## Format Compatibility
+
+Dumps are produced with `pg_dump -Fc` (PostgreSQL custom format, version 1.16). PostgreSQL 17 or later is required to restore them with `pg_restore`. Older PostgreSQL versions may produce an error about an unsupported dump format version.
 
 ## Requirements
 
@@ -11,8 +31,7 @@ the current dump.
 
 ## Restore (local development)
 
-If you're working in this repo, prefer the one-liner — it spins up Postgres in
-Docker, restores the newest dump, and writes the env files:
+If you are working in this repo, prefer the one-liner, it spins up Postgres in Docker, restores the newest dump, and writes the env files:
 
 ```bash
 bun run db:setup
@@ -20,9 +39,10 @@ bun run db:setup
 
 ## Restore (manual / external use)
 
-Replace the path below with the newest `*.dump` in this directory:
+Find the latest dump file and restore it:
 
 ```bash
+# Find the latest dump: ls dumps/*/\*.dump | sort | tail -1
 dropdb --if-exists qafiyah && createdb qafiyah && \
 pg_restore \
   -U qafiyah \
