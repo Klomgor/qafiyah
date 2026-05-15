@@ -59,17 +59,17 @@ bun run dev        # runs all workspaces via Turbo
 
 The Qafiyah project acknowledges the following contributors, listed chronologically by date of contribution:
 
-- **[Khalid Alraddady](https://www.linkedin.com/in/khalid-alraddady/)**, AI Engineer at [HRSD](https://www.hrsd.gov.sa/en)<br>
-  Contribution: Development of the semantic search feature currently under active development.
+- **[Khalid Alraddady](https://www.linkedin.com/in/khalid-alraddady/)**, AI Engineer @ [HRSD](https://www.hrsd.gov.sa/en)<br>
+  Development of the semantic search feature currently under active development.
 
-- **[Khalid Almulaify](https://github.com/khalidmfy)**, PhD in Morphology and Syntax at [IMSIU](https://imamu.edu.sa)<br>
-  Contribution: Ongoing financial sponsorship ($100/month) and extensive usage of the public API through a widely used [Telegram bot](https://t.me/QafiyahVerseBot).
+- **[Khalid Almulaify](https://github.com/khalidmfy)**, PhD in Morphology and Syntax @ [IMSIU](https://imamu.edu.sa)<br>
+  Ongoing financial sponsorship ($100/month) and extensive usage of the public API through a widely used [Telegram bot](https://t.me/QafiyahVerseBot).
 
-- **[Malath Alsaif](https://www.linkedin.com/in/malath-a-alsaif-a49a382a7/)**, Software Engineer at [Ejari](https://www.ejari.sa)<br>
-  Contribution: UI improvements and implementation of the local database development workflow.
+- **[Malath Alsaif](https://www.linkedin.com/in/malath-a-alsaif-a49a382a7/)**, Software Engineer @ [Ejari](https://www.ejari.sa)<br>
+  UI improvements and implementation of the local database development workflow.
 
-- **[Fahad Alghamdi](https://github.com/v0id-user)**, Software Engineer at [Thmanyah](https://thmanyah.com)<br>
-  Contribution: Flagged a redundant per-request `SELECT 1` health check in the DB middleware that added unnecessary latency on every request.
+- **[Fahad Alghamdi](https://github.com/v0id-user)**, Software Engineer @ [Thmanyah](https://thmanyah.com)<br>
+  Flagged a redundant per-request `SELECT 1` health check in the DB middleware that added unnecessary latency on every request.
 
 ## Documentation
 
