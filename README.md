@@ -241,19 +241,20 @@ bun run dev        # runs the web app and API in development mode via Turbo
 
 ## Scripts
 
-| Script              | Description                                                            |
-| ------------------- | ---------------------------------------------------------------------- |
-| `bun run dev`       | Run the web app and API in development mode via Turbo                  |
-| `bun run build`     | Build all workspaces                                                   |
-| `bun run test`      | Run Vitest across all workspaces                                       |
-| `bun run types`     | Type-check all workspaces with `tsc --noEmit`                          |
-| `bun run lint`      | Lint and auto-fix with Biome                                           |
-| `bun run format`    | Format JS/TS with Biome and Markdown/MDX with Prettier                 |
-| `bun run knip`      | Detect unused files, dependencies, and exports                         |
-| `bun run madge`     | Detect circular imports across `apps/` and `packages/`                 |
-| `bun run ci`        | Run format, lint, types, test, knip, madge, and `bun audit` in order   |
-| `bun run db:setup`  | Boot dev + test Postgres in Docker and restore the latest dump         |
-| `bun run clean:dev` | Kill orphan Astro, Wrangler, and Workerd processes from prior dev runs |
+| Script                    | Description                                                                           |
+| ------------------------- | ------------------------------------------------------------------------------------- |
+| `bun run dev`             | Run the web app and API in development mode via Turbo                                 |
+| `bun run build`           | Build all workspaces                                                                  |
+| `bun run test`            | Run Vitest across all workspaces                                                      |
+| `bun run types`           | Type-check all workspaces with `tsc --noEmit`                                         |
+| `bun run lint`            | Lint and auto-fix with Biome                                                          |
+| `bun run format`          | Format JS/TS with Biome and Markdown/MDX with Prettier                                |
+| `bun run knip`            | Detect unused files, dependencies, and exports                                        |
+| `bun run madge`           | Detect circular imports across `apps/` and `packages/`                                |
+| `bun run ci`              | Run format, lint, types, test, knip, madge, and `bun audit` in order                  |
+| `bun run db:setup`        | Boot dev + test Postgres in Docker and restore the latest dump                        |
+| `bun run clean:dev`       | Kill orphan Astro, Wrangler, and Workerd processes from prior dev runs                |
+| `bun run optimize:images` | Raster sources, sibling `.webp` using [Bun.Image](https://bun.com/docs/runtime/image) |
 
 ## API Documentation
 
