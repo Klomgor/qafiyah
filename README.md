@@ -5,7 +5,7 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset=".github/readme_banner_darkmode.png" />
   <source media="(prefers-color-scheme: light)" srcset=".github/readme_banner_lightmode.png" />
-  <img src=".github/readme_banner_fallback.png" alt="Qafiyah" width="100%" />
+  <img src=".github/readme_banner_fallback.png" alt="Qafiyah" width="5120" height="2560" />
 </picture>
 
 **An open-source repository of Arabic poetry, with database dumps, REST API, and web interface.**
@@ -100,11 +100,11 @@ Qafiyah is an open-source classical Arabic poetry corpus containing **944,844 ve
 
 ### Bot (`apps/bot`)
 
-| Tool                                                            | Purpose                                 |
-| --------------------------------------------------------------- | --------------------------------------- |
-| [twitter-api-v2](https://github.com/PLhery/node-twitter-api-v2) | X/Twitter API client                    |
-| [tsx](https://github.com/privatenumber/tsx)                     | TypeScript execution for the bot script |
-| [dotenv](https://github.com/motdotla/dotenv)                    | Environment variable loading            |
+| Tool                                                            | Purpose                                              |
+| --------------------------------------------------------------- | ---------------------------------------------------- |
+| [Bun](https://bun.sh)                                           | Runs the bot script directly (`bun src/index.ts`)    |
+| [twitter-api-v2](https://github.com/PLhery/node-twitter-api-v2) | X/Twitter API client                                 |
+| [envin](https://github.com/nktnet1/envin)                       | Type-safe environment variable loading and parsing   |
 
 ### Data Layer
 
@@ -224,9 +224,6 @@ Listed chronologically by date of contribution:
 ## Documentation
 
 - [Search Implementation](docs/SEARCH_FEATURE_IMPLEMENTATION.md)
-- [Contributing Guidelines](.github/CONTRIBUTING.md)
-- [Code of Conduct](.github/CODE_OF_CONDUCT.md)
-- [Security Policy](.github/SECURITY.md)
 
 ## License
 
