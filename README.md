@@ -34,9 +34,7 @@ Qafiyah is an open-source classical Arabic poetry corpus containing **944,844 ve
 
 <div align="center">
 
-<video src="https://github.com/alwalxed/qafiyah/raw/main/.github/website_demo.mp4" controls width="100%"></video>
-
-[Watch live at qafiyah.com →](https://qafiyah.com)
+[![Qafiyah website demo](.github/website_demo.gif)](https://qafiyah.com)
 
 </div>
 
