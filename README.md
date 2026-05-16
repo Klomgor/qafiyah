@@ -116,9 +116,9 @@ Qafiyah is an open-source classical Arabic poetry corpus containing **944,844 ve
 
 ## Architecture
 
-Qafiyah is a Bun + Turborepo monorepo.
+Qafiyah is a Bun + Turborepo monorepo with three apps and four shared packages.
 
-```
+```bash
 qafiyah/
 ├── apps/
 │   ├── web/          Astro 6 static site; queries the API at build time via oRPC, with browser-side fetches for interactive features
@@ -131,68 +131,46 @@ qafiyah/
     └── typescript/   Shared TypeScript configs (base, astro, cloudflare, bun)
 ```
 
-**Data flow:**
-
-- `apps/web` is fully static. It queries the API at build time via oRPC (`src/lib/api/static.ts`) and falls back to the production API from the browser for interactive features.
-- `packages/db` is the database layer (Drizzle schema, queries, `createDb` factory); `apps/api` is its sole consumer, with no Drizzle or Postgres imports under `apps/api/src`.
-- `packages/contracts` defines the oRPC contracts shared between `apps/api` (server procedures) and `apps/web` (typed client).
+**Package dependencies**, who imports whom at compile time:
 
 ```mermaid
 graph TD
-    subgraph APPS
-        WEB["apps/web\nAstro 6 static site · React islands"]
-        API["apps/api\nHono REST API · oRPC procedures"]
-        BOT["apps/bot\nX/Twitter bot"]
-    end
-
-    subgraph PACKAGES
-        DB["packages/db\nDrizzle ORM · queries · Arabic text utils"]
-        CONTRACTS["packages/contracts\noRPC contracts · Valibot schemas"]
-        CONSTANTS["packages/constants\nBrand strings · URLs · dev ports"]
-        TS["packages/typescript\nShared TypeScript configs"]
-    end
-
-    subgraph EXTERNAL
-        PG[("PostgreSQL\ntsvector/GIN full-text search")]
-        CF(["Cloudflare Workers\nAPI runtime host"])
-        NGINX(["nginx on VPS\nserves static HTML"])
-        GHA(["GitHub Actions\ncron scheduler"])
-        TWITTER(["X / Twitter API\nbot post target"])
-        HF(["Hugging Face\ndataset mirror"])
-        BROWSER(["Browser\nend-user client"])
-    end
-
-    %% ── Internal imports (package dependency edges) ──
-    WEB --> CONTRACTS
-    WEB --> CONSTANTS
-    WEB --> TS
-    API --> DB
-    API --> CONTRACTS
-    API --> CONSTANTS
-    API --> TS
-    BOT --> CONSTANTS
-    DB --> TS
-    CONTRACTS --> TS
-
-    %% ── BUILD-TIME data flow (dashed) ──
-    WEB -.->|"BUILD-TIME · oRPC pre-render fetch"| API
-
-    %% ── RUNTIME data flows ──
-    BROWSER -->|"RUNTIME · search / random poem"| API
-    DB -->|"SQL + FTS queries"| PG
-
-    %% ── Hosting / deployment ──
-    API -->|"hosted on"| CF
-    WEB -->|"rsync dist/ to"| NGINX
-
-    %% ── Bot trigger chain ──
-    GHA -->|"cron trigger"| BOT
-    BOT -->|"GET /poems/random"| API
-    BOT -->|"post tweet"| TWITTER
-
-    %% ── Dataset mirror (write-only, dashed) ──
-    API -.->|"write-only export"| HF
+  subgraph APPS
+    WEB["apps/web\nAstro · React islands"]
+    API["apps/api\nHono · Cloudflare Workers"]
+    BOT["apps/bot\nGitHub Actions cron"]
+  end
+  subgraph PACKAGES
+    DB["packages/db\nDrizzle ORM · queries"]
+    CONTRACTS["packages/contracts\noRPC · Valibot schemas"]
+    CONSTANTS["packages/constants"]
+    TS["packages/typescript"]
+  end
+  WEB --> CONTRACTS & CONSTANTS & TS
+  API --> DB & CONTRACTS & CONSTANTS & TS
+  BOT --> CONSTANTS
+  DB --> TS
+  CONTRACTS --> TS
 ```
+
+Two constraints worth noting: `packages/db` is consumed exclusively by `apps/api`, there are no Drizzle or Postgres imports anywhere under `apps/web` or `apps/bot`. And `apps/web` is fully static; it queries the API at build time via oRPC (`src/lib/api/static.ts`) and falls back to the production API from the browser only for interactive features.
+
+**Runtime data flow**, how requests move once deployed:
+
+```mermaid
+graph LR
+  BROWSER["Browser"] -->|"search / random"| API["apps/api"]
+  WEB["apps/web"] -.->|"build-time oRPC"| API
+  API --> DB["packages/db"]
+  DB -->|"SQL + FTS"| PG[("PostgreSQL")]
+  API -->|"hosted on"| CF(["Cloudflare Workers"])
+  GHA(["GitHub Actions"]) -->|"cron"| BOT["apps/bot"]
+  BOT -->|"GET /poems/random"| API
+  BOT -->|"post tweet"| TW(["X / Twitter"])
+  API -.->|"dataset export"| HF(["Hugging Face"])
+```
+
+> Dashed arrows (`-.->`) represent out-of-band or non-request relationships: build-time calls and the periodic Hugging Face dataset export.
 
 ## Database
 
