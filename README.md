@@ -17,7 +17,6 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-language-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Hono](https://img.shields.io/badge/Hono-router-E36002?logo=hono&logoColor=white)](https://hono.dev)
 [![Drizzle](https://img.shields.io/badge/Drizzle-ORM-C5F74F?logo=drizzle&logoColor=black)](https://orm.drizzle.team)
-[![Elasticsearch](https://img.shields.io/badge/Elasticsearch-search-00BCD4?logo=elasticsearch&logoColor=white)](https://www.elastic.co)
 [![OpenAPI](https://img.shields.io/badge/OpenAPI-spec-6BA539?logo=openapiinitiative&logoColor=white)](https://api.qafiyah.com)
 [![oRPC](https://img.shields.io/badge/oRPC-typesafe%20API-8B5CF6)](https://orpc.unnoq.com)
 [![Valibot](https://img.shields.io/badge/Valibot-validation-FACC15?logoColor=black)](https://valibot.dev)
@@ -52,6 +51,7 @@ Qafiyah is an open-source classical Arabic poetry corpus containing **944,844 ve
     - [Development](#development)
   - [Scripts](#scripts)
   - [API Documentation](#api-documentation)
+  - [Deployment](#deployment)
   - [Contributing](#contributing)
   - [Acknowledgments](#acknowledgments)
   - [Documentation](#documentation)
@@ -71,11 +71,12 @@ Qafiyah is an open-source classical Arabic poetry corpus containing **944,844 ve
 
 ### Core
 
-| Tool                                         | Purpose                                       |
-| -------------------------------------------- | --------------------------------------------- |
-| [Bun](https://bun.sh)                        | Package manager and JavaScript runtime        |
-| [Turborepo](https://turbo.build)             | Monorepo task orchestration and build caching |
-| [TypeScript](https://www.typescriptlang.org) | Language across all packages                  |
+| Tool                                         | Purpose                                            |
+| -------------------------------------------- | -------------------------------------------------- |
+| [Bun](https://bun.sh)                        | Package manager and JavaScript runtime             |
+| [Turborepo](https://turbo.build)             | Monorepo task orchestration and build caching      |
+| [TypeScript](https://www.typescriptlang.org) | Language across all packages                       |
+| [envin](https://github.com/nktnet1/envin)    | Type-safe environment variable loading and parsing |
 
 ### Web (`apps/web`)
 
@@ -84,7 +85,7 @@ Qafiyah is an open-source classical Arabic poetry corpus containing **944,844 ve
 | [Astro](https://astro.build)                 | Static site framework; pages pre-rendered at build time |
 | [React](https://react.dev)                   | Interactive islands (search, nav, random poem)          |
 | [TailwindCSS](https://tailwindcss.com)       | Utility-first CSS                                       |
-| [Radix UI](https://www.radix-ui.com)         | Unstyled accessible UI primitives                       |
+| [Radix Slot](https://www.radix-ui.com)       | Polymorphic-render primitive for component composition  |
 | [TanStack Query](https://tanstack.com/query) | Server-state and data-fetching in React islands         |
 
 ### API (`apps/api`)
@@ -95,16 +96,15 @@ Qafiyah is an open-source classical Arabic poetry corpus containing **944,844 ve
 | [oRPC](https://orpc.unnoq.com)                       | Type-safe RPC with shared contracts                             |
 | [Valibot](https://valibot.dev)                       | Schema validation for all oRPC contract inputs and outputs      |
 | [OpenAPI](https://www.openapis.org)                  | API spec auto-generated from oRPC contracts via `@orpc/openapi` |
-| [Scalar](https://scalar.com)                         | Interactive API documentation served at `/docs`                 |
+| [Scalar](https://scalar.com)                         | Interactive API documentation served at `/v1/docs`              |
 | [Cloudflare Workers](https://workers.cloudflare.com) | Serverless runtime; deployed via Wrangler                       |
 
 ### Bot (`apps/bot`)
 
-| Tool                                                            | Purpose                                            |
-| --------------------------------------------------------------- | -------------------------------------------------- |
-| [Bun](https://bun.sh)                                           | Runs the bot script directly (`bun src/index.ts`)  |
-| [twitter-api-v2](https://github.com/PLhery/node-twitter-api-v2) | X/Twitter API client                               |
-| [envin](https://github.com/nktnet1/envin)                       | Type-safe environment variable loading and parsing |
+| Tool                                                            | Purpose                                |
+| --------------------------------------------------------------- | -------------------------------------- |
+| [GitHub Actions](https://github.com/features/actions)           | Cron scheduler and runtime for the bot |
+| [twitter-api-v2](https://github.com/PLhery/node-twitter-api-v2) | X/Twitter API client                   |
 
 ### Data Layer
 
@@ -112,7 +112,6 @@ Qafiyah is an open-source classical Arabic poetry corpus containing **944,844 ve
 | ---------------------------------------- | ------------------------------------------------------------- |
 | [Drizzle ORM](https://orm.drizzle.team)  | SQL query builder and schema definitions in `packages/db`     |
 | [PostgreSQL](https://www.postgresql.org) | Primary database; full-text search via `tsvector`/GIN indexes |
-| [Elasticsearch](https://www.elastic.co)  | Semantic search index (in active development)                 |
 | [Docker](https://www.docker.com)         | Local Postgres containers for development and testing         |
 
 ### Tooling
@@ -126,7 +125,6 @@ Qafiyah is an open-source classical Arabic poetry corpus containing **944,844 ve
 | [commitlint](https://commitlint.js.org)   | Conventional commit enforcement                      |
 | [Knip](https://knip.dev)                  | Detection of unused files, dependencies, and exports |
 | [Madge](https://github.com/pahen/madge)   | Circular dependency detection                        |
-| [Hugging Face](https://huggingface.co)    | Public dataset hosting for ML/NLP use cases          |
 
 ## Architecture
 
@@ -135,11 +133,11 @@ Qafiyah is a Bun + Turborepo monorepo.
 ```
 qafiyah/
 ├── apps/
-│   ├── web/          Astro 6 static site; queries the API at build time via oRPC
+│   ├── web/          Astro 6 static site; queries the API at build time via oRPC, with browser-side fetches for interactive features
 │   ├── api/          Hono REST API on Cloudflare Workers
 │   └── bot/          X/Twitter bot; posts 4× daily via GitHub Actions cron
 └── packages/
-    ├── db/           Shared Drizzle ORM schema, queries, and Postgres client
+    ├── db/           Drizzle ORM schema, queries, Arabic-text utilities, and Postgres client factory
     ├── contracts/    Shared oRPC contract definitions
     ├── constants/    Shared brand, URLs, and dev-port constants
     └── typescript/   Shared TypeScript configs (base, astro, cloudflare, bun)
@@ -148,7 +146,7 @@ qafiyah/
 **Data flow:**
 
 - `apps/web` is fully static. It queries the API at build time via oRPC (`src/lib/api/static.ts`) and falls back to the production API from the browser for interactive features.
-- `apps/api` is the single source of truth for queries, with `packages/db` as its sole consumer of the database.
+- `packages/db` is the database layer (Drizzle schema, queries, `createDb` factory); `apps/api` is its sole consumer, with no Drizzle or Postgres imports under `apps/api/src`.
 - `packages/contracts` defines the oRPC contracts shared between `apps/api` (server procedures) and `apps/web` (typed client).
 
 ## Database
@@ -171,8 +169,9 @@ PostgreSQL custom-format dumps are published in [`dumps/`](dumps) and refreshed 
 
 ### Prerequisites
 
-- Bun ≥ 1.3.14 (enforced via `packageManager`)
+- Bun ≥ 1.3.14 (enforced via `packageManager`; the root `preinstall` script aborts under npm, yarn, or pnpm)
 - Docker (for the local Postgres containers spun up by `db:setup`)
+- PostgreSQL ≥ 17 with `pg_restore` (only needed if you restore the bundled dumps directly; the Dockerized workflow handles this for you)
 
 ### Installation
 
@@ -186,23 +185,34 @@ bun install
 
 ```bash
 bun run db:setup   # boots dev + test Postgres in Docker and restores the latest dump
-bun run dev        # runs all workspaces via Turbo
+bun run dev        # runs the web app and API in development mode via Turbo
 ```
 
 ## Scripts
 
-| Script             | Description                                                |
-| ------------------ | ---------------------------------------------------------- |
-| `bun run dev`      | Run all workspaces in development mode via Turbo           |
-| `bun run build`    | Build all workspaces                                       |
-| `bun run test`     | Run Vitest across all workspaces                           |
-| `bun run lint`     | Lint with Biome                                            |
-| `bun run format`   | Format with Biome                                          |
-| `bun run db:setup` | Boot dev + test Postgres in Docker and restore latest dump |
+| Script              | Description                                                            |
+| ------------------- | ---------------------------------------------------------------------- |
+| `bun run dev`       | Run the web app and API in development mode via Turbo                  |
+| `bun run build`     | Build all workspaces                                                   |
+| `bun run test`      | Run Vitest across all workspaces                                       |
+| `bun run types`     | Type-check all workspaces with `tsc --noEmit`                          |
+| `bun run lint`      | Lint and auto-fix with Biome                                           |
+| `bun run format`    | Format JS/TS with Biome and Markdown/MDX with Prettier                 |
+| `bun run knip`      | Detect unused files, dependencies, and exports                         |
+| `bun run madge`     | Detect circular imports across `apps/` and `packages/`                 |
+| `bun run ci`        | Run format, lint, types, test, knip, madge, and `bun audit` in order   |
+| `bun run db:setup`  | Boot dev + test Postgres in Docker and restore the latest dump         |
+| `bun run clean:dev` | Kill orphan Astro, Wrangler, and Workerd processes from prior dev runs |
 
 ## API Documentation
 
-The public REST API is hosted at [`api.qafiyah.com`](https://api.qafiyah.com) and ships with interactive documentation at [`api.qafiyah.com/docs`](https://api.qafiyah.com/docs), generated from oRPC contracts via `@orpc/openapi` and rendered with Scalar.
+The public REST API is hosted at [`api.qafiyah.com`](https://api.qafiyah.com) and ships with interactive documentation at [`api.qafiyah.com/v1/docs`](https://api.qafiyah.com/v1/docs), generated from oRPC contracts via `@orpc/openapi` and rendered with Scalar. The root URL redirects to the docs.
+
+## Deployment
+
+- **API:** `bun --filter @qafiyah/api run deploy` runs `wrangler deploy --minify`, publishing the Worker to Cloudflare.
+- **Web:** the site is self-hosted on a VPS behind nginx. Build locally with `bun --filter @qafiyah/web run build`, then rsync `apps/web/dist/` to `/var/www/qafiyah`. The nginx configuration is checked in at `apps/web/nginx.conf`.
+- **Bot:** no deploy step. `.github/workflows/post-poem.yml` runs the bot on a cron schedule (08/12/16/20 UTC) directly from `main`.
 
 ## Contributing
 
@@ -217,9 +227,9 @@ Contributions are welcome. Before opening a pull request, please read:
 Listed chronologically by date of contribution:
 
 - **[Khalid Alraddady](https://www.linkedin.com/in/khalid-alraddady/)**, AI Engineer at [HRSD](https://www.hrsd.gov.sa/en). Development of the semantic search feature currently under active development.
-- **[Khalid Almulaify](https://github.com/khalidmfy)**, PhD in Morphology and Syntax at [IMSIU](https://imamu.edu.sa). Ongoing financial sponsorship ($100/month) and extensive usage of the public API through a widely used [Telegram bot](https://t.me/QafiyahVerseBot).
+- **[Khalid Almulaify](https://github.com/khalidmfy)**, PhD in Morphology and Syntax at [IMSIU](https://imamu.edu.sa). Ongoing financial sponsorship ($100/month) and sustained usage of the public API through a [Telegram bot](https://t.me/QafiyahVerseBot).
 - **[Malath Alsaif](https://www.linkedin.com/in/malath-a-alsaif-a49a382a7/)**, Software Engineer at [Ejari](https://www.ejari.sa). UI improvements and implementation of the local database development workflow.
-- **[Fahad Alghamdi](https://github.com/v0id-user)**, Software Engineer at [Thmanyah](https://thmanyah.com). Flagged a redundant per-request `SELECT 1` health check in the DB middleware that added unnecessary latency on every request.
+- **[Fahad Alghamdi](https://github.com/v0id-user)**, Software Engineer at [Thmanyah](https://thmanyah.com). Diagnosis of a redundant per-request `SELECT 1` health check in the DB middleware.
 
 ## Documentation
 
