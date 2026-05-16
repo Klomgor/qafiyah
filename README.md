@@ -28,14 +28,13 @@
 
 ## About
 
-Qafiyah is an open-source classical Arabic poetry corpus containing **944,844 verses** from **932 poets** spanning **10 historical eras**. The project provides a static website, a public REST API, downloadable PostgreSQL dumps, and a Hugging Face dataset to support readers, researchers, and developers building on top of classical Arabic literature.
+Qafiyah is an open-source classical Arabic poetry corpus containing **944,844 verses** from **932 poets** spanning **10 historical eras**. It provides full-text search with Arabic diacritics normalization, faceted browsing by era, meter (44 types), rhyme pattern (47 patterns), and theme (27 themes), a public REST API on Cloudflare Workers with auto-generated OpenAPI docs, downloadable PostgreSQL dumps, a Hugging Face dataset for ML/NLP use, and an X/Twitter bot that posts a random poem four times daily. All built to support readers, researchers, and developers working with classical Arabic literature.
 
 ## Table of Contents
 
 - [Qafiyah](#qafiyah)
   - [About](#about)
   - [Table of Contents](#table-of-contents)
-  - [Features](#features)
   - [Tech Stack](#tech-stack)
     - [Core](#core)
     - [Web (`apps/web`)](#web-appsweb)
@@ -51,21 +50,10 @@ Qafiyah is an open-source classical Arabic poetry corpus containing **944,844 ve
     - [Development](#development)
   - [Scripts](#scripts)
   - [API Documentation](#api-documentation)
-  - [Deployment](#deployment)
   - [Contributing](#contributing)
   - [Acknowledgments](#acknowledgments)
   - [Documentation](#documentation)
   - [License](#license)
-
-## Features
-
-- **Full-text search** across 944,844 verses with Arabic diacritics normalization
-- **Faceted browsing** by era, meter (44 types), rhyme pattern (47 patterns), and theme (27 themes)
-- **Static-first web app** pre-rendered at build time from the public API
-- **Public REST API** on Cloudflare Workers with auto-generated OpenAPI docs
-- **X/Twitter bot** posting a random poem four times daily via GitHub Actions
-- **Downloadable PostgreSQL dumps** for offline research and integration
-- **Hugging Face dataset** for ML/NLP use cases
 
 ## Tech Stack
 
@@ -187,7 +175,7 @@ graph TD
     CONTRACTS --> TS
 
     %% ── BUILD-TIME data flow (dashed) ──
-    WEB -. "BUILD-TIME · oRPC pre-render fetch" .-> API
+    WEB -.->|"BUILD-TIME · oRPC pre-render fetch"| API
 
     %% ── RUNTIME data flows ──
     BROWSER -->|"RUNTIME · search / random poem"| API
@@ -265,12 +253,6 @@ bun run dev        # runs the web app and API in development mode via Turbo
 
 The public REST API is hosted at [`api.qafiyah.com`](https://api.qafiyah.com) and ships with interactive documentation at [`api.qafiyah.com/v1/docs`](https://api.qafiyah.com/v1/docs), generated from oRPC contracts via `@orpc/openapi` and rendered with Scalar. The root URL redirects to the docs.
 
-## Deployment
-
-- **API:** `bun --filter @qafiyah/api run deploy` runs `wrangler deploy --minify`, publishing the Worker to Cloudflare.
-- **Web:** the site is self-hosted on a VPS behind nginx. Build locally with `bun --filter @qafiyah/web run build`, then rsync `apps/web/dist/` to `/var/www/qafiyah`. The nginx configuration is checked in at `apps/web/nginx.conf`.
-- **Bot:** no deploy step. `.github/workflows/post-poem.yml` runs the bot on a cron schedule (08/12/16/20 UTC) directly from `main`.
-
 ## Contributing
 
 Contributions are welcome. Before opening a pull request, please read:
@@ -291,6 +273,7 @@ Listed chronologically by date of contribution:
 ## Documentation
 
 - [Search Implementation](docs/SEARCH_FEATURE_IMPLEMENTATION.md)
+- [Deployment](docs/DEPLOYMENT.md)
 
 ## License
 
