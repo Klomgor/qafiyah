@@ -44,6 +44,7 @@ Qafiyah is an open-source classical Arabic poetry corpus containing **944,844 ve
     - [Tooling](#tooling)
   - [Architecture](#architecture)
   - [Database](#database)
+  - [Roadmap](#roadmap)
   - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
@@ -187,6 +188,13 @@ graph LR
 | Themes         | 27      |
 
 PostgreSQL custom-format dumps are published in [`dumps/`](dumps) and refreshed periodically. They are provided for research and integration as an alternative to scraping the API. See the [restore instructions](dumps/README.md); restoring requires PostgreSQL ≥ 17 and `pg_restore`.
+
+## Roadmap
+
+- **Semantic Search** powered by vector embeddings
+- **Elasticsearch** for advanced full-text & semantic capabilities
+- **Mobile apps** (iOS & Android)
+- **Contributor Dashboard** for trusted users to edit and curate content
 
 ## Getting Started
 
