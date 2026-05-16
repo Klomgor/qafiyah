@@ -119,7 +119,7 @@ Qafiyah is an open-source classical Arabic poetry corpus containing **944,844 ve
 
 Qafiyah is a Bun + Turborepo monorepo with three apps and four shared packages.
 
-```bash
+```
 qafiyah/
 ├── apps/
 │   ├── web/          Astro 6 static site; queries the API at build time via oRPC, with browser-side fetches for interactive features
@@ -154,7 +154,7 @@ graph TD
   CONTRACTS --> TS
 ```
 
-Two constraints worth noting: `packages/db` is consumed exclusively by `apps/api`, there are no Drizzle or Postgres imports anywhere under `apps/web` or `apps/bot`. And `apps/web` is fully static; it queries the API at build time via oRPC (`src/lib/api/static.ts`) and falls back to the production API from the browser only for interactive features.
+> Two constraints worth noting: `packages/db` is consumed exclusively by `apps/api`, there are no Drizzle or Postgres imports anywhere under `apps/web` or `apps/bot`. And `apps/web` is fully static; it queries the API at build time via oRPC (`src/lib/api/static.ts`) and falls back to the production API from the browser only for interactive features.
 
 **Runtime data flow**, how requests move once deployed:
 
