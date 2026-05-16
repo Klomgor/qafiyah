@@ -5,7 +5,7 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset=".github/readme_banner_darkmode.png" />
   <source media="(prefers-color-scheme: light)" srcset=".github/readme_banner_lightmode.png" />
-  <img src=".github/readme_banner_fallback.png" alt="Qafiyah" width="5120" height="2560" />
+  <img src=".github/readme_banner_fallback.png" alt="Qafiyah" />
 </picture>
 
 **An open-source repository of Arabic poetry, with database dumps, REST API, and web interface.**
