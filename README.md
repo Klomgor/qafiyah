@@ -28,7 +28,7 @@
 
 ## About
 
-Qafiyah is an open-source classical Arabic poetry corpus containing **944,844 verses** from **932 poets** spanning **10 historical eras**. It provides full-text search with Arabic diacritics normalization, faceted browsing by era, meter (44 types), rhyme pattern (47 patterns), and theme (27 themes), a public REST API on Cloudflare Workers with auto-generated OpenAPI docs, downloadable PostgreSQL dumps, a Hugging Face dataset for ML/NLP use, and an X/Twitter bot that posts a random poem four times daily. All built to support readers, researchers, and developers working with classical Arabic literature.
+Qafiyah is an open-source corpus of classical Arabic poetry: **944,844 verses** from **932 poets** spanning **10 historical eras**. It offers full-text search with Arabic diacritics normalization; faceted browsing by era, meter (44), rhyme pattern (47), and theme (27); a public REST API on Cloudflare Workers with auto-generated OpenAPI docs; downloadable PostgreSQL dumps; and a Hugging Face dataset for ML/NLP research. An X/Twitter bot posts a random poem four times daily. The project is built for readers, researchers, and developers working with classical Arabic literature.
 
 ## Demo
 
@@ -50,31 +50,22 @@ Full schema and interactive playground: [`api.qafiyah.com/v1/docs`](https://api.
 
 ## Table of Contents
 
-- [Qafiyah](#qafiyah)
-  - [About](#about)
-  - [Demo](#demo)
-  - [Try it](#try-it)
-  - [Table of Contents](#table-of-contents)
-  - [Tech Stack](#tech-stack)
-    - [Core](#core)
-    - [Web (`apps/web`)](#web-appsweb)
-    - [API (`apps/api`)](#api-appsapi)
-    - [Bot (`apps/bot`)](#bot-appsbot)
-    - [Data Layer](#data-layer)
-    - [Tooling](#tooling)
-  - [Architecture](#architecture)
-  - [Database](#database)
-  - [Roadmap](#roadmap)
-  - [Getting Started](#getting-started)
-    - [Prerequisites](#prerequisites)
-    - [Installation](#installation)
-    - [Development](#development)
-  - [Scripts](#scripts)
-  - [API Documentation](#api-documentation)
-  - [Contributing](#contributing)
-  - [Acknowledgments](#acknowledgments)
-  - [Documentation](#documentation)
-  - [License](#license)
+- [About](#about)
+- [Demo](#demo)
+- [Try it](#try-it)
+- [Tech Stack](#tech-stack)
+- [Architecture](#architecture)
+- [Database](#database)
+- [Getting Started](#getting-started)
+- [Scripts](#scripts)
+- [API Documentation](#api-documentation)
+- [Roadmap](#roadmap)
+- [Documentation](#documentation)
+- [Contributing](#contributing)
+- [Acknowledgments](#acknowledgments)
+- [Citation](#citation)
+- [Sponsor](#sponsor)
+- [License](#license)
 
 ## Tech Stack
 
@@ -174,7 +165,7 @@ graph TD
   CONTRACTS --> TS
 ```
 
-> Two constraints worth noting: `packages/db` is consumed exclusively by `apps/api`, there are no Drizzle or Postgres imports anywhere under `apps/web` or `apps/bot`. And `apps/web` is fully static; it queries the API at build time via oRPC (`src/lib/api/static.ts`) and falls back to the production API from the browser only for interactive features.
+**Two architectural constraints worth noting.** `packages/db` is consumed exclusively by `apps/api`, with no Drizzle or Postgres imports anywhere under `apps/web` or `apps/bot`. And `apps/web` is fully static: it queries the API at build time via oRPC (`src/lib/api/static.ts`) and falls back to the production API from the browser only for interactive features.
 
 **Runtime data flow**, how requests move once deployed:
 
@@ -191,7 +182,7 @@ graph LR
   API -.->|"dataset export"| HF(["Hugging Face"])
 ```
 
-> Dashed arrows (`-.->`) represent out-of-band or non-request relationships: build-time calls and the periodic Hugging Face dataset export.
+Dashed arrows (`-.->`) represent out-of-band or non-request relationships: build-time calls and the periodic Hugging Face dataset export.
 
 ## Database
 
@@ -207,14 +198,9 @@ graph LR
 | Rhyme patterns | 47      |
 | Themes         | 27      |
 
+_Counts above reflect the latest dump (`0003_29_01_2026`, January 2026). Stats refresh with each new dump in [`dumps/`](dumps)._
+
 PostgreSQL custom-format dumps are published in [`dumps/`](dumps) and refreshed periodically. They are provided for research and integration as an alternative to scraping the API. See the [restore instructions](dumps/README.md); restoring requires PostgreSQL ≥ 17 and `pg_restore`.
-
-## Roadmap
-
-- **Semantic Search** powered by vector embeddings
-- **Elasticsearch** for advanced full-text & semantic capabilities
-- **Mobile apps** (iOS & Android)
-- **Contributor Dashboard** for trusted users to edit and curate content
 
 ## Getting Started
 
@@ -241,24 +227,37 @@ bun run dev        # runs the web app and API in development mode via Turbo
 
 ## Scripts
 
-| Script                    | Description                                                                           |
-| ------------------------- | ------------------------------------------------------------------------------------- |
-| `bun run dev`             | Run the web app and API in development mode via Turbo                                 |
-| `bun run build`           | Build all workspaces                                                                  |
-| `bun run test`            | Run Vitest across all workspaces                                                      |
-| `bun run types`           | Type-check all workspaces with `tsc --noEmit`                                         |
-| `bun run lint`            | Lint and auto-fix with Biome                                                          |
-| `bun run format`          | Format JS/TS with Biome and Markdown/MDX with Prettier                                |
-| `bun run knip`            | Detect unused files, dependencies, and exports                                        |
-| `bun run madge`           | Detect circular imports across `apps/` and `packages/`                                |
-| `bun run ci`              | Run format, lint, types, test, knip, madge, and `bun audit` in order                  |
-| `bun run db:setup`        | Boot dev + test Postgres in Docker and restore the latest dump                        |
-| `bun run clean:dev`       | Kill orphan Astro, Wrangler, and Workerd processes from prior dev runs                |
-| `bun run optimize:images` | Raster sources, sibling `.webp` using [Bun.Image](https://bun.com/docs/runtime/image) |
+| Script                    | Description                                                                                                      |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `bun run dev`             | Run the web app and API in development mode via Turbo                                                            |
+| `bun run build`           | Build all workspaces                                                                                             |
+| `bun run test`            | Run Vitest across all workspaces                                                                                 |
+| `bun run types`           | Type-check all workspaces with `tsc --noEmit`                                                                    |
+| `bun run lint`            | Lint and auto-fix with Biome                                                                                     |
+| `bun run format`          | Format JS/TS with Biome and Markdown/MDX with Prettier                                                           |
+| `bun run knip`            | Detect unused files, dependencies, and exports                                                                   |
+| `bun run madge`           | Detect circular imports across `apps/` and `packages/`                                                           |
+| `bun run ci`              | Run format, lint, types, test, knip, madge, and `bun audit` in order                                             |
+| `bun run db:setup`        | Boot dev + test Postgres in Docker and restore the latest dump                                                   |
+| `bun run clean:dev`       | Kill orphan Astro, Wrangler, and Workerd processes from prior dev runs                                           |
+| `bun run optimize:images` | Convert raster images in the repo to sibling `.webp` files using [Bun.Image](https://bun.com/docs/runtime/image) |
 
 ## API Documentation
 
 The public REST API is hosted at [`api.qafiyah.com`](https://api.qafiyah.com) and ships with interactive documentation at [`api.qafiyah.com/v1/docs`](https://api.qafiyah.com/v1/docs), generated from oRPC contracts via `@orpc/openapi` and rendered with Scalar. The root URL redirects to the docs.
+
+## Roadmap
+
+- **In progress** — Semantic search _(see [Acknowledgments](#acknowledgments))_
+- **Planned** — Elasticsearch
+- **Planned** — Mobile app (React Native / Expo)
+- **Exploring** — Internal dashboard for content management
+- **Planned** — Dark mode
+
+## Documentation
+
+- [Search Implementation](docs/SEARCH_FEATURE_IMPLEMENTATION.md)
+- [Deployment](docs/DEPLOYMENT.md)
 
 ## Contributing
 
@@ -277,10 +276,23 @@ Listed chronologically by date of contribution:
 - **[Malath Alsaif](https://www.linkedin.com/in/malath-a-alsaif-a49a382a7/)**, Software Engineer at [Ejari](https://www.ejari.sa). UI improvements and implementation of the local database development workflow.
 - **[Fahad Alghamdi](https://github.com/v0id-user)**, Software Engineer at [Thmanyah](https://thmanyah.com). Diagnosis of a redundant per-request `SELECT 1` health check in the DB middleware.
 
-## Documentation
+## Citation
 
-- [Search Implementation](docs/SEARCH_FEATURE_IMPLEMENTATION.md)
-- [Deployment](docs/DEPLOYMENT.md)
+If you use Qafiyah in academic work, please cite it as:
+
+```bibtex
+@misc{qafiyah2026,
+  title  = {Qafiyah: An Open Corpus of Classical Arabic Poetry},
+  author = {Alqahtani, Alwaleed},
+  year   = {2026},
+  url    = {https://qafiyah.com},
+  note   = {Dataset: https://huggingface.co/datasets/qafiyah/classical-arabic-poetry}
+}
+```
+
+## Sponsor
+
+If Qafiyah is useful to you or your work, you can support the project on [GitHub Sponsors](https://github.com/sponsors/alwalxed). Sponsorship funds dataset upkeep, API hosting, and ongoing maintenance.
 
 ## License
 
