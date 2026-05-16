@@ -3,9 +3,9 @@
 # Qafiyah
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset=".github/readme_banner_darkmode.png" />
-  <source media="(prefers-color-scheme: light)" srcset=".github/readme_banner_lightmode.png" />
-  <img src=".github/readme_banner_fallback.png" alt="Qafiyah" />
+  <source media="(prefers-color-scheme: dark)" srcset=".github/readme_banner_darkmode.webp" />
+  <source media="(prefers-color-scheme: light)" srcset=".github/readme_banner_lightmode.webp" />
+  <img src=".github/readme_banner_fallback.webp" alt="Qafiyah" />
 </picture>
 
 **An open-source repository of Arabic poetry, with database dumps, REST API, and web interface.**
