@@ -30,14 +30,6 @@
 
 Qafiyah is an open-source corpus of classical Arabic poetry: **944,844 verses** from **932 poets** spanning **10 historical eras**. It offers full-text search with Arabic diacritics normalization; faceted browsing by era, meter (44), rhyme pattern (47), and theme (27); a public REST API on Cloudflare Workers with auto-generated OpenAPI docs; downloadable PostgreSQL dumps; and a Hugging Face dataset for ML/NLP research. An X/Twitter bot posts a random poem four times daily. The project is built for readers, researchers, and developers working with classical Arabic literature.
 
-## Demo
-
-<div align="center">
-
-[![Qafiyah website demo](.github/website_demo.gif)](https://qafiyah.com)
-
-</div>
-
 ## Try it
 
 One request, no auth, returns a random classical Arabic poem as plain text:
@@ -52,7 +44,6 @@ Full schema and interactive playground: [`api.qafiyah.com/v1/docs`](https://api.
 
 - [Qafiyah](#qafiyah)
   - [About](#about)
-  - [Demo](#demo)
   - [Try it](#try-it)
   - [Table of Contents](#table-of-contents)
   - [Tech Stack](#tech-stack)
