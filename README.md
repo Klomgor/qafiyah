@@ -50,22 +50,33 @@ Full schema and interactive playground: [`api.qafiyah.com/v1/docs`](https://api.
 
 ## Table of Contents
 
-- [About](#about)
-- [Demo](#demo)
-- [Try it](#try-it)
-- [Tech Stack](#tech-stack)
-- [Architecture](#architecture)
-- [Database](#database)
-- [Getting Started](#getting-started)
-- [Scripts](#scripts)
-- [API Documentation](#api-documentation)
-- [Roadmap](#roadmap)
-- [Documentation](#documentation)
-- [Contributing](#contributing)
-- [Acknowledgments](#acknowledgments)
-- [Citation](#citation)
-- [Sponsor](#sponsor)
-- [License](#license)
+- [Qafiyah](#qafiyah)
+  - [About](#about)
+  - [Demo](#demo)
+  - [Try it](#try-it)
+  - [Table of Contents](#table-of-contents)
+  - [Tech Stack](#tech-stack)
+    - [Core](#core)
+    - [Web (`apps/web`)](#web-appsweb)
+    - [API (`apps/api`)](#api-appsapi)
+    - [Bot (`apps/bot`)](#bot-appsbot)
+    - [Data Layer](#data-layer)
+    - [Tooling](#tooling)
+  - [Architecture](#architecture)
+  - [Database](#database)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+    - [Development](#development)
+  - [Scripts](#scripts)
+  - [API Documentation](#api-documentation)
+  - [Roadmap](#roadmap)
+  - [Documentation](#documentation)
+  - [Contributing](#contributing)
+  - [Acknowledgments](#acknowledgments)
+  - [Citation](#citation)
+  - [Sponsor](#sponsor)
+  - [License](#license)
 
 ## Tech Stack
 
@@ -248,11 +259,11 @@ The public REST API is hosted at [`api.qafiyah.com`](https://api.qafiyah.com) an
 
 ## Roadmap
 
-- **In progress** — Semantic search _(see [Acknowledgments](#acknowledgments))_
-- **Planned** — Elasticsearch
-- **Planned** — Mobile app (React Native / Expo)
-- **Exploring** — Internal dashboard for content management
-- **Planned** — Dark mode
+- Semantic Search
+- Elasticsearch
+- Mobile app (React Native / Expo)
+- Internal dashboard for content management
+- Dark mode
 
 ## Documentation
 
