@@ -149,6 +149,63 @@ qafiyah/
 - `packages/db` is the database layer (Drizzle schema, queries, `createDb` factory); `apps/api` is its sole consumer, with no Drizzle or Postgres imports under `apps/api/src`.
 - `packages/contracts` defines the oRPC contracts shared between `apps/api` (server procedures) and `apps/web` (typed client).
 
+```mermaid
+graph TD
+    subgraph APPS
+        WEB["apps/web\nAstro 6 static site · React islands"]
+        API["apps/api\nHono REST API · oRPC procedures"]
+        BOT["apps/bot\nX/Twitter bot"]
+    end
+
+    subgraph PACKAGES
+        DB["packages/db\nDrizzle ORM · queries · Arabic text utils"]
+        CONTRACTS["packages/contracts\noRPC contracts · Valibot schemas"]
+        CONSTANTS["packages/constants\nBrand strings · URLs · dev ports"]
+        TS["packages/typescript\nShared TypeScript configs"]
+    end
+
+    subgraph EXTERNAL
+        PG[("PostgreSQL\ntsvector/GIN full-text search")]
+        CF(["Cloudflare Workers\nAPI runtime host"])
+        NGINX(["nginx on VPS\nserves static HTML"])
+        GHA(["GitHub Actions\ncron scheduler"])
+        TWITTER(["X / Twitter API\nbot post target"])
+        HF(["Hugging Face\ndataset mirror"])
+        BROWSER(["Browser\nend-user client"])
+    end
+
+    %% ── Internal imports (package dependency edges) ──
+    WEB --> CONTRACTS
+    WEB --> CONSTANTS
+    WEB --> TS
+    API --> DB
+    API --> CONTRACTS
+    API --> CONSTANTS
+    API --> TS
+    BOT --> CONSTANTS
+    DB --> TS
+    CONTRACTS --> TS
+
+    %% ── BUILD-TIME data flow (dashed) ──
+    WEB -. "BUILD-TIME · oRPC pre-render fetch" .-> API
+
+    %% ── RUNTIME data flows ──
+    BROWSER -->|"RUNTIME · search / random poem"| API
+    DB -->|"SQL + FTS queries"| PG
+
+    %% ── Hosting / deployment ──
+    API -->|"hosted on"| CF
+    WEB -->|"rsync dist/ to"| NGINX
+
+    %% ── Bot trigger chain ──
+    GHA -->|"cron trigger"| BOT
+    BOT -->|"GET /poems/random"| API
+    BOT -->|"post tweet"| TWITTER
+
+    %% ── Dataset mirror (write-only, dashed) ──
+    API -.->|"write-only export"| HF
+```
+
 ## Database
 
 **Current statistics:**
