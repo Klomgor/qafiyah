@@ -100,11 +100,11 @@ Qafiyah is an open-source classical Arabic poetry corpus containing **944,844 ve
 
 ### Bot (`apps/bot`)
 
-| Tool                                                            | Purpose                                              |
-| --------------------------------------------------------------- | ---------------------------------------------------- |
-| [Bun](https://bun.sh)                                           | Runs the bot script directly (`bun src/index.ts`)    |
-| [twitter-api-v2](https://github.com/PLhery/node-twitter-api-v2) | X/Twitter API client                                 |
-| [envin](https://github.com/nktnet1/envin)                       | Type-safe environment variable loading and parsing   |
+| Tool                                                            | Purpose                                            |
+| --------------------------------------------------------------- | -------------------------------------------------- |
+| [Bun](https://bun.sh)                                           | Runs the bot script directly (`bun src/index.ts`)  |
+| [twitter-api-v2](https://github.com/PLhery/node-twitter-api-v2) | X/Twitter API client                               |
+| [envin](https://github.com/nktnet1/envin)                       | Type-safe environment variable loading and parsing |
 
 ### Data Layer
 
