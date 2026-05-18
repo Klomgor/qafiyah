@@ -61,10 +61,12 @@ Full schema and interactive playground: [`api.qafiyah.com/v1/docs`](https://api.
     - [Development](#development)
   - [Scripts](#scripts)
   - [API Documentation](#api-documentation)
-  - [Roadmap](#roadmap)
+  - [Rate Limits and Terms of Use](#rate-limits-and-terms-of-use)
   - [Documentation](#documentation)
+  - [Roadmap](#roadmap)
   - [Contributing](#contributing)
   - [Acknowledgments](#acknowledgments)
+  - [Built with Qafiyah](#built-with-qafiyah)
   - [Citation](#citation)
   - [Sponsor](#sponsor)
   - [License](#license)
@@ -248,6 +250,20 @@ bun run dev        # runs the web app and API in development mode via Turbo
 
 The public REST API is hosted at [`api.qafiyah.com`](https://api.qafiyah.com) and ships with interactive documentation at [`api.qafiyah.com/v1/docs`](https://api.qafiyah.com/v1/docs), generated from oRPC contracts via `@orpc/openapi` and rendered with Scalar. The root URL redirects to the docs.
 
+## Rate Limits and Terms of Use
+
+The API is free, requires no authentication, and is provided on a best-effort basis with no SLA.
+
+- **Fair use.** Per-IP throttling is enforced at the Cloudflare edge. For bulk access, prefer the [PostgreSQL dumps](dumps/) or the [HuggingFace dataset](https://huggingface.co/datasets/qafiyah/classical-arabic-poetry) over paginating the API.
+- **Caching.** Responses are cacheable; cache them client-side when possible to reduce load.
+- **Stability.** `v1` endpoints are stable. Breaking changes ship behind a new major version.
+- **Attribution.** Not required, but appreciated, see [Citation](#citation) if you publish work that relies on the corpus.
+
+## Documentation
+
+- [Search Implementation](docs/SEARCH_FEATURE_IMPLEMENTATION.md)
+- [Deployment](docs/DEPLOYMENT.md)
+
 ## Roadmap
 
 - Semantic Search
@@ -255,11 +271,6 @@ The public REST API is hosted at [`api.qafiyah.com`](https://api.qafiyah.com) an
 - Mobile app (React Native / Expo)
 - Internal dashboard for content management
 - Dark mode
-
-## Documentation
-
-- [Search Implementation](docs/SEARCH_FEATURE_IMPLEMENTATION.md)
-- [Deployment](docs/DEPLOYMENT.md)
 
 ## Contributing
 
@@ -277,6 +288,14 @@ Listed chronologically by date of contribution:
 - **[Khalid Almulaify](https://github.com/khalidmfy)**, PhD in Morphology and Syntax at [IMSIU](https://imamu.edu.sa). Ongoing financial sponsorship ($100/month) and sustained usage of the public API through a [Telegram bot](https://t.me/QafiyahVerseBot).
 - **[Malath Alsaif](https://www.linkedin.com/in/malath-a-alsaif-a49a382a7/)**, Software Engineer at [Ejari](https://www.ejari.sa). UI improvements and implementation of the local database development workflow.
 - **[Fahad Alghamdi](https://github.com/v0id-user)**, Software Engineer at [Thmanyah](https://thmanyah.com). Diagnosis of a redundant per-request `SELECT 1` health check in the DB middleware.
+
+## Built with Qafiyah
+
+Projects and tools that use the Qafiyah corpus or API:
+
+- **[QafiyahVerseBot](https://t.me/QafiyahVerseBot)**, Telegram bot serving classical Arabic verses on demand, by [Prof. Khalid Almulaify](https://github.com/khalidmfy).
+
+Built something with Qafiyah? Open a PR to add it here.
 
 ## Citation
 
