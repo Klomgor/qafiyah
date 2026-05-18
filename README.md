@@ -60,6 +60,7 @@ Full schema and interactive playground: [`api.qafiyah.com/v1/docs`](https://api.
     - [Installation](#installation)
     - [Development](#development)
   - [Scripts](#scripts)
+  - [Continuous Integration](#continuous-integration)
   - [API Documentation](#api-documentation)
   - [Rate Limits and Terms of Use](#rate-limits-and-terms-of-use)
   - [Documentation](#documentation)
@@ -75,22 +76,27 @@ Full schema and interactive playground: [`api.qafiyah.com/v1/docs`](https://api.
 
 ### Core
 
-| Tool                                         | Purpose                                            |
-| -------------------------------------------- | -------------------------------------------------- |
-| [Bun](https://bun.sh)                        | Package manager and JavaScript runtime             |
-| [Turborepo](https://turbo.build)             | Monorepo task orchestration and build caching      |
-| [TypeScript](https://www.typescriptlang.org) | Language across all packages                       |
-| [envin](https://github.com/nktnet1/envin)    | Type-safe environment variable loading and parsing |
+| Tool                                                  | Purpose                                                     |
+| ----------------------------------------------------- | ----------------------------------------------------------- |
+| [Bun](https://bun.sh)                                 | Package manager and JavaScript runtime                      |
+| [Turborepo](https://turbo.build)                      | Monorepo task orchestration and build caching               |
+| [TypeScript](https://www.typescriptlang.org)          | Language across all packages                                |
+| [envin](https://github.com/nktnet1/envin)             | Type-safe environment variable loading and parsing          |
+| [ts-pattern](https://github.com/gvergnaud/ts-pattern) | Exhaustive, type-safe pattern matching used across all apps |
 
 ### Web (`apps/web`)
 
-| Tool                                         | Purpose                                                 |
-| -------------------------------------------- | ------------------------------------------------------- |
-| [Astro](https://astro.build)                 | Static site framework; pages pre-rendered at build time |
-| [React](https://react.dev)                   | Interactive islands (search, nav, random poem)          |
-| [TailwindCSS](https://tailwindcss.com)       | Utility-first CSS                                       |
-| [Radix Slot](https://www.radix-ui.com)       | Polymorphic-render primitive for component composition  |
-| [TanStack Query](https://tanstack.com/query) | Server-state and data-fetching in React islands         |
+| Tool                                                                                                 | Purpose                                                         |
+| ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| [Astro](https://astro.build)                                                                         | Static site framework; pages pre-rendered at build time         |
+| [React](https://react.dev)                                                                           | Interactive islands (search, nav, random poem)                  |
+| [TailwindCSS](https://tailwindcss.com)                                                               | Utility-first CSS                                               |
+| [Radix Slot](https://www.radix-ui.com)                                                               | Polymorphic-render primitive for component composition          |
+| [TanStack Query](https://tanstack.com/query)                                                         | Server-state and data-fetching in React islands                 |
+| [nuqs](https://nuqs.47ng.com)                                                                        | Type-safe URL search-param state for React islands              |
+| [lucide-react](https://lucide.dev)                                                                   | Icon set used throughout the UI                                 |
+| [clsx](https://github.com/lukeed/clsx) + [tailwind-merge](https://github.com/dcastil/tailwind-merge) | Conditional class composition with Tailwind conflict resolution |
+| [class-variance-authority](https://cva.style)                                                        | Typed variant API for component styling                         |
 
 ### API (`apps/api`)
 
@@ -112,23 +118,26 @@ Full schema and interactive playground: [`api.qafiyah.com/v1/docs`](https://api.
 
 ### Data Layer
 
-| Tool                                     | Purpose                                                       |
-| ---------------------------------------- | ------------------------------------------------------------- |
-| [Drizzle ORM](https://orm.drizzle.team)  | SQL query builder and schema definitions in `packages/db`     |
-| [PostgreSQL](https://www.postgresql.org) | Primary database; full-text search via `tsvector`/GIN indexes |
-| [Docker](https://www.docker.com)         | Local Postgres containers for development and testing         |
+| Tool                                                | Purpose                                                       |
+| --------------------------------------------------- | ------------------------------------------------------------- |
+| [Drizzle ORM](https://orm.drizzle.team)             | SQL query builder and schema definitions in `packages/db`     |
+| [postgres.js](https://github.com/porsager/postgres) | Underlying Postgres client that Drizzle wraps                 |
+| [PostgreSQL](https://www.postgresql.org)            | Primary database; full-text search via `tsvector`/GIN indexes |
+| [Docker](https://www.docker.com)                    | Local Postgres containers for development and testing         |
 
 ### Tooling
 
-| Tool                                      | Purpose                                              |
-| ----------------------------------------- | ---------------------------------------------------- |
-| [Biome](https://biomejs.dev)              | Linting and formatting for all JS/TS files           |
-| [Prettier](https://prettier.io)           | Formatting for non-JS assets                         |
-| [Vitest](https://vitest.dev)              | Unit and integration tests across all workspaces     |
-| [Husky](https://typicode.github.io/husky) | Git hooks                                            |
-| [commitlint](https://commitlint.js.org)   | Conventional commit enforcement                      |
-| [Knip](https://knip.dev)                  | Detection of unused files, dependencies, and exports |
-| [Madge](https://github.com/pahen/madge)   | Circular dependency detection                        |
+| Tool                                                                 | Purpose                                                   |
+| -------------------------------------------------------------------- | --------------------------------------------------------- |
+| [Biome](https://biomejs.dev)                                         | Linting and formatting for all JS/TS files                |
+| [Prettier](https://prettier.io)                                      | Formatting for non-JS assets                              |
+| [Vitest](https://vitest.dev)                                         | Unit and integration tests across all workspaces          |
+| [Husky](https://typicode.github.io/husky)                            | Git hooks                                                 |
+| [commitlint](https://commitlint.js.org)                              | Conventional commit enforcement                           |
+| [Knip](https://knip.dev)                                             | Detection of unused files, dependencies, and exports      |
+| [Madge](https://github.com/pahen/madge)                              | Circular dependency detection                             |
+| [dependency-cruiser](https://github.com/sverweij/dependency-cruiser) | Architectural import rules across `apps/` and `packages/` |
+| [Syncpack](https://jamiemason.github.io/syncpack)                    | Cross-workspace dependency version consistency            |
 
 ## Architecture
 
@@ -169,7 +178,7 @@ graph TD
   CONTRACTS --> TS
 ```
 
-**Two architectural constraints worth noting.** `packages/db` is consumed exclusively by `apps/api`, with no Drizzle or Postgres imports anywhere under `apps/web` or `apps/bot`. And `apps/web` is fully static: it queries the API at build time via oRPC (`src/lib/api/static.ts`) and falls back to the production API from the browser only for interactive features.
+**Two architectural constraints worth noting.** `packages/db` is consumed exclusively by `apps/api`, with no Drizzle or Postgres imports anywhere under `apps/web` or `apps/bot`. And `apps/web` is fully static: it queries the API at build time via oRPC (`src/lib/api/static/`, alongside the runtime `rpc.ts` and `client.ts`) and falls back to the production API from the browser only for interactive features.
 
 **Runtime data flow**, how requests move once deployed:
 
@@ -231,20 +240,58 @@ bun run dev        # runs the web app and API in development mode via Turbo
 
 ## Scripts
 
-| Script                    | Description                                                                                                      |
-| ------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `bun run dev`             | Run the web app and API in development mode via Turbo                                                            |
-| `bun run build`           | Build all workspaces                                                                                             |
-| `bun run test`            | Run Vitest across all workspaces                                                                                 |
-| `bun run types`           | Type-check all workspaces with `tsc --noEmit`                                                                    |
-| `bun run lint`            | Lint and auto-fix with Biome                                                                                     |
-| `bun run format`          | Format JS/TS with Biome and Markdown/MDX with Prettier                                                           |
-| `bun run knip`            | Detect unused files, dependencies, and exports                                                                   |
-| `bun run madge`           | Detect circular imports across `apps/` and `packages/`                                                           |
-| `bun run ci`              | Run format, lint, types, test, knip, madge, and `bun audit` in order                                             |
-| `bun run db:setup`        | Boot dev + test Postgres in Docker and restore the latest dump                                                   |
-| `bun run clean:dev`       | Kill orphan Astro, Wrangler, and Workerd processes from prior dev runs                                           |
-| `bun run optimize:images` | Convert raster images in the repo to sibling `.webp` files using [Bun.Image](https://bun.com/docs/runtime/image) |
+**Dev and build**
+
+| Script              | Description                                                            |
+| ------------------- | ---------------------------------------------------------------------- |
+| `bun run dev`       | Run the web app and API in development mode via Turbo                  |
+| `bun run build`     | Build all workspaces                                                   |
+| `bun run db:setup`  | Boot dev + test Postgres in Docker and restore the latest dump         |
+| `bun run clean:dev` | Kill orphan Astro, Wrangler, and Workerd processes from prior dev runs |
+
+**Quality**
+
+| Script              | Description                                                                           |
+| ------------------- | ------------------------------------------------------------------------------------- |
+| `bun run test`      | Run Vitest across all workspaces                                                      |
+| `bun run types`     | Type-check all workspaces with `tsc --noEmit`                                         |
+| `bun run lint`      | Lint and auto-fix with Biome                                                          |
+| `bun run format`    | Format JS/TS with Biome and Markdown/MDX with Prettier                                |
+| `bun run knip`      | Detect unused files, dependencies, and exports                                        |
+| `bun run madge`     | Detect circular imports across `apps/` and `packages/`                                |
+| `bun run depcruise` | Run `dependency-cruiser` against the architectural rules in `.dependency-cruiser.cjs` |
+
+**Boundary checks**
+
+| Script                            | Description                                                                         |
+| --------------------------------- | ----------------------------------------------------------------------------------- |
+| `bun run check:boundaries`        | Forbid cross-app imports (apps may not import from each other)                      |
+| `bun run check:naming`            | Enforce project-wide naming conventions on files and identifiers                    |
+| `bun run check:no-parent-imports` | Forbid `../` imports anywhere; siblings or `@/` aliases only                        |
+| `bun run check:api-db-isolation`  | Forbid Drizzle or `postgres` imports outside `packages/db`                          |
+| `bun run check:constants`         | Ensure brand strings, URLs, and ports live in `packages/constants`, not in app code |
+| `bun run check:syncpack`          | Verify dependency versions are consistent across all workspaces                     |
+
+**Aggregate and utilities**
+
+| Script                    | Description                                                                                                                                                         |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `bun run ci`              | Full pipeline: format and lint sequentially, then run types, test, knip, madge, all six boundary checks, depcruise, `bun audit`, and the API smoke test in parallel |
+| `bun run smoke`           | Spin up the API locally and hit each public endpoint to catch breakage in the request path                                                                          |
+| `bun run deps:doctor`     | Diagnose and update workspace dependencies                                                                                                                          |
+| `bun run optimize:images` | Convert raster images in the repo to sibling `.webp` files using [Bun.Image](https://bun.com/docs/runtime/image)                                                    |
+
+## Continuous Integration
+
+Three GitHub Actions workflows live in [`.github/workflows/`](.github/workflows):
+
+- **`ci.yml`**, runs on every push and pull request to `main`. Executes the same checks as `bun run ci`, plus a final gate that fails the build if any file changed during the run (catches uncommitted formatting fixes).
+- **`post-poem.yml`**, cron-triggered, posts a random poem to X four times a day.
+- **`gitleaks.yml`**, secret scanning on push and pull request.
+
+The boundary checks enforce the architectural rules the project relies on: no cross-app imports, no `../` parent imports, Drizzle and the Postgres client confined to `packages/db`, brand strings and ports centralized in `packages/constants`, naming conventions across the tree, and consistent dependency versions across workspaces.
+
+The CI pipeline definition lives in [`scripts/ci.ts`](scripts/ci.ts), `bun run ci` and the GitHub job both consume it, so local and remote stay in sync.
 
 ## API Documentation
 
@@ -293,7 +340,7 @@ Listed chronologically by date of contribution:
 
 Projects and tools that use the Qafiyah corpus or API:
 
-- **[QafiyahVerseBot](https://t.me/QafiyahVerseBot)**, Telegram bot serving classical Arabic verses on demand, by [Prof. Khalid Almulaify](https://github.com/khalidmfy).
+- **[QafiyahVerseBot](https://t.me/QafiyahVerseBot)**, Telegram bot serving classical Arabic verses on demand, by [Khalid Almulaify](https://github.com/khalidmfy).
 
 Built something with Qafiyah? Open a PR to add it here.
 
