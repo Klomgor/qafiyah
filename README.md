@@ -76,13 +76,14 @@ Full schema and interactive playground: [`api.qafiyah.com/v1/docs`](https://api.
 
 ### Core
 
-| Tool                                                  | Purpose                                                     |
-| ----------------------------------------------------- | ----------------------------------------------------------- |
-| [Bun](https://bun.sh)                                 | Package manager and JavaScript runtime                      |
-| [Turborepo](https://turbo.build)                      | Monorepo task orchestration and build caching               |
-| [TypeScript](https://www.typescriptlang.org)          | Language across all packages                                |
-| [envin](https://github.com/nktnet1/envin)             | Type-safe environment variable loading and parsing          |
-| [ts-pattern](https://github.com/gvergnaud/ts-pattern) | Exhaustive, type-safe pattern matching used across all apps |
+| Tool                                                   | Purpose                                                     |
+| ------------------------------------------------------ | ----------------------------------------------------------- |
+| [Bun](https://bun.sh)                                  | Package manager and JavaScript runtime                      |
+| [Turborepo](https://turbo.build)                       | Monorepo task orchestration and build caching               |
+| [TypeScript](https://www.typescriptlang.org)           | Language across all packages                                |
+| [envin](https://github.com/nktnet1/envin)              | Type-safe environment variable loading and parsing          |
+| [ts-pattern](https://github.com/gvergnaud/ts-pattern)  | Exhaustive, type-safe pattern matching used across all apps |
+| [neverthrow](https://github.com/supermacro/neverthrow) | Typed `Result` for fallible logic at module boundaries      |
 
 ### Web (`apps/web`)
 
