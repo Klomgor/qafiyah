@@ -31,10 +31,10 @@ Dumps are produced with `pg_dump -Fc` (PostgreSQL custom format, version 1.16). 
 
 ## Restore (local development)
 
-If you are working in this repo, prefer the one-liner, it spins up Postgres in Docker, restores the newest dump, and writes the env files:
+If you are working in this repo, the database self-seeds: `bun run db:up` spins up Postgres in Docker and restores the newest dump on a fresh volume (or `bun run dev` to also start the app). To force a re-restore from a newer dump on an existing volume, use `bun run db:reset`:
 
 ```bash
-bun run db:setup
+bun run db:up       # or: bun run db:reset to wipe the volume + re-seed
 ```
 
 ## Restore (manual / external use)

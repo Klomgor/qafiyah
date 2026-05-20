@@ -5,7 +5,7 @@ Publishes the Qafiyah poetry dataset to Hugging Face Hub.
 ## Prerequisites
 
 - Python 3.10 or later
-- The local database must be running on port 5433, run `bun run db:setup` from the monorepo root first
+- The local database must be running on port 5433, run `bun run db:up` from the monorepo root first
 - A Hugging Face account with write access to the `qafiyah` organization
 
 ## Setup
@@ -42,7 +42,7 @@ python publish.py
 
 ## Environment Variables
 
-The `--database-url` flag accepts any SQLAlchemy-compatible PostgreSQL URL. To connect to the Docker Postgres instance started by `bun run db:setup`:
+The `--database-url` flag accepts any SQLAlchemy-compatible PostgreSQL URL. To connect to the Docker Postgres instance started by `bun run db:up`:
 
 ```bash
 python publish.py --database-url "postgresql+psycopg2://qafiyah:qafiyah@127.0.0.1:5433/qafiyah"

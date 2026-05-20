@@ -221,7 +221,7 @@ PostgreSQL custom-format dumps are published in [`dumps/`](dumps) and refreshed 
 ### Prerequisites
 
 - Bun ≥ 1.3.14 (enforced via `packageManager`; the root `preinstall` script aborts under npm, yarn, or pnpm)
-- Docker (for the local Postgres containers spun up by `db:setup`)
+- Docker (runs Postgres, and the API + web for the full stack)
 - PostgreSQL ≥ 17 with `pg_restore` (only needed if you restore the bundled dumps directly; the Dockerized workflow handles this for you)
 
 ### Installation
@@ -235,20 +235,24 @@ bun install
 ### Development
 
 ```bash
-bun run db:setup   # boots dev + test Postgres in Docker and restores the latest dump
-bun run dev        # runs the web app and API in development mode via Turbo
+bun run dev        # seeded Postgres in Docker + hot-reloading web & API (Turbo)
 ```
+
+`dev` brings up the database container (auto-seeded from the latest dump on first boot), writes the local `.env` files, then starts the dev servers. For a full containerized run, use `bun run up`.
 
 ## Scripts
 
 **Dev and build**
 
-| Script              | Description                                                    |
-| ------------------- | -------------------------------------------------------------- |
-| `bun run dev`       | Run the web app and API in development mode via Turbo          |
-| `bun run build`     | Build all workspaces                                           |
-| `bun run db:setup`  | Boot dev + test Postgres in Docker and restore the latest dump |
-| `bun run clean:dev` | Kill orphan Astro and API server processes from prior dev runs |
+| Script             | Description                                                        |
+| ------------------ | ------------------------------------------------------------------ |
+| `bun run dev`      | Seeded Postgres (Docker) + web & API with hot reload (Turbo)       |
+| `bun run up`       | Build + run the full stack in Docker (DB self-seeds on first boot) |
+| `bun run down`     | Stop the Docker stack                                              |
+| `bun run build`    | Build all workspaces                                               |
+| `bun run db:up`    | Start just the Postgres container (auto-seeds on a fresh volume)   |
+| `bun run db:reset` | Wipe the DB volume and re-seed from the latest dump                |
+| `bun run clean`    | Kill orphan Astro and API server processes from prior dev runs     |
 
 **Quality**
 
