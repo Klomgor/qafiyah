@@ -11,7 +11,7 @@
 **An open-source repository of Arabic poetry, with database dumps, REST API, and web interface.**
 
 [![Turborepo](https://img.shields.io/badge/Turborepo-monorepo-EF4444?logo=turborepo&logoColor=white)](https://turbo.build/repo)
-[![Cloudflare Workers](https://img.shields.io/badge/Cloudflare-Workers-F97316?logo=cloudflare&logoColor=white)](https://workers.cloudflare.com)
+[![Docker](https://img.shields.io/badge/Docker-container-2496ED?logo=docker&logoColor=white)](https://www.docker.com)
 [![Astro](https://img.shields.io/badge/Astro-framework-BC52EE?logo=astro&logoColor=white)](https://astro.build)
 [![Bun](https://img.shields.io/badge/Bun-runtime-F59E0B?logo=bun&logoColor=white)](https://bun.sh)
 [![TypeScript](https://img.shields.io/badge/TypeScript-language-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
@@ -28,7 +28,7 @@
 
 ## About
 
-Qafiyah is an open-source corpus of classical Arabic poetry: **944,844 verses** from **932 poets** spanning **10 historical eras**. It offers full-text search with Arabic diacritics normalization; faceted browsing by era, meter (44), rhyme pattern (47), and theme (27); a public REST API on Cloudflare Workers with auto-generated OpenAPI docs; downloadable PostgreSQL dumps; and a Hugging Face dataset for ML/NLP research. An X/Twitter bot posts a random poem four times daily. The project is built for readers, researchers, and developers working with classical Arabic literature.
+Qafiyah is an open-source corpus of classical Arabic poetry: **944,844 verses** from **932 poets** spanning **10 historical eras**. It offers full-text search with Arabic diacritics normalization; faceted browsing by era, meter (44), rhyme pattern (47), and theme (27); a public REST API (Bun + Hono, Docker) with auto-generated OpenAPI docs; downloadable PostgreSQL dumps; and a Hugging Face dataset for ML/NLP research. An X/Twitter bot posts a random poem four times daily. The project is built for readers, researchers, and developers working with classical Arabic literature.
 
 ## Try it
 
@@ -101,14 +101,14 @@ Full schema and interactive playground: [`api.qafiyah.com/v1/docs`](https://api.
 
 ### API (`apps/api`)
 
-| Tool                                                 | Purpose                                                         |
-| ---------------------------------------------------- | --------------------------------------------------------------- |
-| [Hono](https://hono.dev)                             | Lightweight HTTP framework on Cloudflare Workers                |
-| [oRPC](https://orpc.unnoq.com)                       | Type-safe RPC with shared contracts                             |
-| [Valibot](https://valibot.dev)                       | Schema validation for all oRPC contract inputs and outputs      |
-| [OpenAPI](https://www.openapis.org)                  | API spec auto-generated from oRPC contracts via `@orpc/openapi` |
-| [Scalar](https://scalar.com)                         | Interactive API documentation served at `/v1/docs`              |
-| [Cloudflare Workers](https://workers.cloudflare.com) | Serverless runtime; deployed via Wrangler                       |
+| Tool                                | Purpose                                                         |
+| ----------------------------------- | --------------------------------------------------------------- |
+| [Hono](https://hono.dev)            | Lightweight HTTP framework running on a Bun server (Docker)     |
+| [oRPC](https://orpc.unnoq.com)      | Type-safe RPC with shared contracts                             |
+| [Valibot](https://valibot.dev)      | Schema validation for all oRPC contract inputs and outputs      |
+| [OpenAPI](https://www.openapis.org) | API spec auto-generated from oRPC contracts via `@orpc/openapi` |
+| [Scalar](https://scalar.com)        | Interactive API documentation served at `/v1/docs`              |
+| [Docker](https://www.docker.com)    | Container runtime; API and web served via Docker Compose        |
 
 ### Bot (`apps/bot`)
 
@@ -148,13 +148,13 @@ Qafiyah is a Bun + Turborepo monorepo with three apps and four shared packages.
 qafiyah/
 ├── apps/
 │   ├── web/          Astro 6 static site; queries the API at build time via oRPC, with browser-side fetches for interactive features
-│   ├── api/          Hono REST API on Cloudflare Workers
+│   ├── api/          Hono REST API — Bun server (Docker container)
 │   └── bot/          X/Twitter bot; posts 4× daily via GitHub Actions cron
 └── packages/
     ├── db/           Drizzle ORM schema, queries, Arabic-text utilities, and Postgres client factory
     ├── contracts/    Shared oRPC contract definitions
     ├── constants/    Shared brand, URLs, and dev-port constants
-    └── typescript/   Shared TypeScript configs (base, astro, cloudflare, bun)
+    └── typescript/   Shared TypeScript configs (base, astro, bun)
 ```
 
 **Package dependencies**, who imports whom at compile time:
@@ -163,7 +163,7 @@ qafiyah/
 graph TD
   subgraph APPS
     WEB["apps/web\nAstro · React islands"]
-    API["apps/api\nHono · Cloudflare Workers"]
+    API["apps/api\nHono · Bun server (Docker)"]
     BOT["apps/bot\nGitHub Actions cron"]
   end
   subgraph PACKAGES
@@ -189,7 +189,7 @@ graph LR
   WEB["apps/web"] -.->|"build-time oRPC"| API
   API --> DB["packages/db"]
   DB -->|"SQL + FTS"| PG[("PostgreSQL")]
-  API -->|"hosted on"| CF(["Cloudflare Workers"])
+  API -->|"hosted in"| CF(["Docker container"])
   GHA(["GitHub Actions"]) -->|"cron"| BOT["apps/bot"]
   BOT -->|"GET /poems/random"| API
   BOT -->|"post tweet"| TW(["X / Twitter"])
@@ -243,12 +243,12 @@ bun run dev        # runs the web app and API in development mode via Turbo
 
 **Dev and build**
 
-| Script              | Description                                                            |
-| ------------------- | ---------------------------------------------------------------------- |
-| `bun run dev`       | Run the web app and API in development mode via Turbo                  |
-| `bun run build`     | Build all workspaces                                                   |
-| `bun run db:setup`  | Boot dev + test Postgres in Docker and restore the latest dump         |
-| `bun run clean:dev` | Kill orphan Astro, Wrangler, and Workerd processes from prior dev runs |
+| Script              | Description                                                    |
+| ------------------- | -------------------------------------------------------------- |
+| `bun run dev`       | Run the web app and API in development mode via Turbo          |
+| `bun run build`     | Build all workspaces                                           |
+| `bun run db:setup`  | Boot dev + test Postgres in Docker and restore the latest dump |
+| `bun run clean:dev` | Kill orphan Astro and API server processes from prior dev runs |
 
 **Quality**
 
@@ -302,7 +302,7 @@ The public REST API is hosted at [`api.qafiyah.com`](https://api.qafiyah.com) an
 
 The API is free, requires no authentication, and is provided on a best-effort basis with no SLA.
 
-- **Fair use.** Per-IP throttling is enforced at the Cloudflare edge. For bulk access, prefer the [PostgreSQL dumps](dumps/) or the [HuggingFace dataset](https://huggingface.co/datasets/qafiyah/classical-arabic-poetry) over paginating the API.
+- **Fair use.** Per-IP throttling is enforced at the server level. For bulk access, prefer the [PostgreSQL dumps](dumps/) or the [HuggingFace dataset](https://huggingface.co/datasets/qafiyah/classical-arabic-poetry) over paginating the API.
 - **Caching.** Responses are cacheable; cache them client-side when possible to reduce load.
 - **Stability.** `v1` endpoints are stable. Breaking changes ship behind a new major version.
 - **Attribution.** Not required, but appreciated, see [Citation](#citation) if you publish work that relies on the corpus.
