@@ -187,19 +187,37 @@ graph TD
 
 ```mermaid
 graph LR
-  BROWSER["Browser"] -->|"search / random"| WEB["apps/web"]
-  BROWSER -->|"search / random"| API["apps/api"]
-  WEB -->|"per-request SSR oRPC"| API
-  API --> DB["packages/db"]
-  DB -->|"SQL + FTS"| PG[("PostgreSQL")]
-  API -->|"hosted in"| CF(["Docker container"])
-  GHA(["GitHub Actions"]) -->|"cron"| BOT["apps/bot"]
+  BROWSER["Browser"]
+  BOT["apps/bot"]
+  GHA(["GitHub Actions\ncron 4×/day"])
+  HFPUB(["huggingface-publisher\nPython · run manually"])
+  TW(["X / Twitter"])
+  HF(["Hugging Face"])
+
+  subgraph VPS["Docker on VPS · docker compose"]
+    subgraph WEBIMG["web image"]
+      NGINX["nginx\nproxy_cache · static assets"]
+      WEB["Astro SSR · Bun\napps/web"]
+    end
+    API["apps/api\nHono · Bun"]
+    PG[("PostgreSQL")]
+  end
+
+  BROWSER -->|"page loads"| NGINX
+  NGINX -->|"proxy 127.0.0.1:4321"| WEB
+  BROWSER -->|"island data · search, random"| API
+  WEB -->|"per-request SSR oRPC · INTERNAL_API_URL"| API
+  API -->|"@qafiyah/db · SQL + FTS"| PG
+  GHA --> BOT
   BOT -->|"GET /poems/random"| API
-  BOT -->|"post tweet"| TW(["X / Twitter"])
-  API -.->|"dataset export"| HF(["Hugging Face"])
+  BOT -->|"post tweet"| TW
+  HFPUB -.->|"SQL read"| PG
+  HFPUB -.->|"push_to_hub"| HF
 ```
 
-Dashed arrows (`-.->`) represent out-of-band or non-request relationships: the periodic Hugging Face dataset export.
+Everything inside **Docker on VPS** ships from `docker-compose.yml` (`docker compose up -d --build`): the web image bundles nginx (proxy_cache + static assets) in front of the Astro SSR server, which reaches the `api` service over the internal network (`INTERNAL_API_URL`), while browser islands call the public API directly. The bot runs on GitHub Actions, outside the VPS, and also hits the public API.
+
+Dashed arrows (`-.->`) are out-of-band, non-request relationships: the Hugging Face dataset export is run manually via `tools/huggingface-publisher`, a Python script that reads PostgreSQL directly (SQLAlchemy) and pushes with `push_to_hub` — it never goes through the API.
 
 ## Database
 
