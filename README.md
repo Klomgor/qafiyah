@@ -89,7 +89,8 @@ Full schema and interactive playground: [`api.qafiyah.com/v1/docs`](https://api.
 
 | Tool                                                                                                 | Purpose                                                         |
 | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| [Astro](https://astro.build)                                                                         | Static site framework; pages pre-rendered at build time         |
+| [Astro](https://astro.build)                                                                         | SSR framework (`output: 'server'`); pages rendered per request  |
+| [@astrojs/node](https://docs.astro.build/en/guides/integrations-guide/node/)                         | Standalone Node adapter; runs the SSR server under Bun          |
 | [React](https://react.dev)                                                                           | Interactive islands (search, nav, random poem)                  |
 | [TailwindCSS](https://tailwindcss.com)                                                               | Utility-first CSS                                               |
 | [Radix Slot](https://www.radix-ui.com)                                                               | Polymorphic-render primitive for component composition          |
@@ -147,7 +148,7 @@ Qafiyah is a Bun + Turborepo monorepo with three apps and four shared packages.
 ```
 qafiyah/
 ├── apps/
-│   ├── web/          Astro 6 static site; queries the API at build time via oRPC, with browser-side fetches for interactive features
+│   ├── web/          Astro 6 on-demand SSR (Bun + @astrojs/node); renders each route per request by fetching the API via oRPC, behind nginx proxy_cache
 │   ├── api/          Hono REST API — Bun server (Docker container)
 │   └── bot/          X/Twitter bot; posts 4× daily via GitHub Actions cron
 └── packages/
@@ -179,14 +180,15 @@ graph TD
   CONTRACTS --> TS
 ```
 
-**Two architectural constraints worth noting.** `packages/db` is consumed exclusively by `apps/api`, with no Drizzle or Postgres imports anywhere under `apps/web` or `apps/bot`. And `apps/web` is fully static: it queries the API at build time via oRPC (`src/lib/api/static/`, alongside the runtime `rpc.ts` and `client.ts`) and falls back to the production API from the browser only for interactive features.
+**Two architectural constraints worth noting.** `packages/db` is consumed exclusively by `apps/api`, with no Drizzle or Postgres imports anywhere under `apps/web` or `apps/bot`. And `apps/web` holds no DB access of its own: it renders each route on demand (SSR), querying the API per request through server-only oRPC accessors in `src/lib/server/` (pointed at `INTERNAL_API_URL`), while browser islands fetch the public API via `src/lib/api/` (`rpc.ts`, `client.ts`, `orpc.ts`) for interactive features.
 
 **Runtime data flow**, how requests move once deployed:
 
 ```mermaid
 graph LR
-  BROWSER["Browser"] -->|"search / random"| API["apps/api"]
-  WEB["apps/web"] -.->|"build-time oRPC"| API
+  BROWSER["Browser"] -->|"search / random"| WEB["apps/web"]
+  BROWSER -->|"search / random"| API["apps/api"]
+  WEB -->|"per-request SSR oRPC"| API
   API --> DB["packages/db"]
   DB -->|"SQL + FTS"| PG[("PostgreSQL")]
   API -->|"hosted in"| CF(["Docker container"])
@@ -196,7 +198,7 @@ graph LR
   API -.->|"dataset export"| HF(["Hugging Face"])
 ```
 
-Dashed arrows (`-.->`) represent out-of-band or non-request relationships: build-time calls and the periodic Hugging Face dataset export.
+Dashed arrows (`-.->`) represent out-of-band or non-request relationships: the periodic Hugging Face dataset export.
 
 ## Database
 
@@ -220,7 +222,7 @@ PostgreSQL custom-format dumps are published in [`dumps/`](dumps) and refreshed 
 
 ### Prerequisites
 
-- Bun ≥ 1.3.14 (enforced via `packageManager`; the root `preinstall` script aborts under npm, yarn, or pnpm)
+- Bun ≥ 1.3.14 (pinned via the root `packageManager` field; `engines` requires `bun >= 1`)
 - Docker (runs Postgres, and the API + web for the full stack)
 - PostgreSQL ≥ 17 with `pg_restore` (only needed if you restore the bundled dumps directly; the Dockerized workflow handles this for you)
 
