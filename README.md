@@ -171,14 +171,15 @@ graph TD
     DB["packages/db\nDrizzle ORM · queries"]
     CONTRACTS["packages/contracts\noRPC · Valibot schemas"]
     CONSTANTS["packages/constants"]
-    TS["packages/typescript"]
   end
-  WEB --> CONTRACTS & CONSTANTS & TS
-  API --> DB & CONTRACTS & CONSTANTS & TS
-  BOT --> CONSTANTS
-  DB --> TS
-  CONTRACTS --> TS
+  WEB --> CONTRACTS & CONSTANTS
+  API --> DB & CONTRACTS & CONSTANTS
+  BOT --> CONTRACTS & CONSTANTS
+  DB --> CONTRACTS & CONSTANTS
+  CONTRACTS --> CONSTANTS
 ```
+
+`packages/typescript` isn't shown above: it ships shared tsconfig presets (`base`, `astro`, `bun`) that every workspace consumes through `extends`, not via code imports.
 
 **Two architectural constraints worth noting.** `packages/db` is consumed exclusively by `apps/api`, with no Drizzle or Postgres imports anywhere under `apps/web` or `apps/bot`. And `apps/web` holds no DB access of its own: it renders each route on demand (SSR), querying the API per request through server-only oRPC accessors in `src/lib/server/` (pointed at `INTERNAL_API_URL`), while browser islands fetch the public API via `src/lib/api/` (`rpc.ts`, `client.ts`, `orpc.ts`) for interactive features.
 
