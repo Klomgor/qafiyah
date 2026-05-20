@@ -279,13 +279,13 @@ bun run dev        # seeded Postgres in Docker + hot-reloading web & API (Turbo)
 
 **Aggregate and utilities**
 
-| Script                    | Description                                                                                                                                                         |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `bun run ci`              | Full pipeline: format and lint sequentially, then run types, test, knip, madge, all six boundary checks, depcruise, `bun audit`, and the API smoke test in parallel |
-| `bun run smoke`           | Spin up the API locally and hit each public endpoint to catch breakage in the request path                                                                          |
-| `bun run deps:doctor`     | Diagnose and update workspace dependencies                                                                                                                          |
-| `bun run optimize:images` | Convert raster images in the repo to sibling `.webp` files using [Bun.Image](https://bun.com/docs/runtime/image)                                                    |
-| `bun --filter @qafiyah/web run verify:seo` | Crawl the running web server and assert SEO parity (canonical URLs, JSON-LD, metadata) across rendered pages                            |
+| Script                                     | Description                                                                                                                                                         |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `bun run ci`                               | Full pipeline: format and lint sequentially, then run types, test, knip, madge, all six boundary checks, depcruise, `bun audit`, and the API smoke test in parallel |
+| `bun run smoke`                            | Spin up the API locally and hit each public endpoint to catch breakage in the request path                                                                          |
+| `bun run deps:doctor`                      | Diagnose and update workspace dependencies                                                                                                                          |
+| `bun run optimize:images`                  | Convert raster images in the repo to sibling `.webp` files using [Bun.Image](https://bun.com/docs/runtime/image)                                                    |
+| `bun --filter @qafiyah/web run verify:seo` | Crawl the running web server and assert SEO parity (canonical URLs, JSON-LD, metadata) across rendered pages                                                        |
 
 ## Continuous Integration
 
