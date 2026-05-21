@@ -8,12 +8,15 @@ Each dump is stored in a subdirectory named `{sequence}_{DD}_{MM}_{YYYY}`, where
 
 ## Dataset Contents
 
-The current dump (`0003_29_01_2026`) contains:
+The current dump (`0004_22_05_2026` — the `0003` dataset with the custom PostgreSQL FTS
+search objects removed: `search_vector` columns, GIN indexes, and the
+`search_poems`/`search_poets`/`normalize_arabic_text` functions; the Elasticsearch-migration
+baseline) contains:
 
 | Metric          | Count   |
 | --------------- | ------- |
 | Verses          | 944,844 |
-| Poems           | 85,342  |
+| Poems           | 84,329  |
 | Poets           | 932     |
 | Historical eras | 10      |
 | Meters          | 44      |
@@ -49,7 +52,7 @@ pg_restore \
   -d qafiyah \
   --no-owner \
   --no-privileges \
-  ./0003_29_01_2026/qafiyah_public_20260129_170552.dump
+  ./0004_22_05_2026/qafiyah_public_20260522_011009.dump
 ```
 
 ## Verify
