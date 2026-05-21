@@ -340,11 +340,19 @@ The API is free, requires no authentication, and is provided on a best-effort ba
 
 ## Roadmap
 
-- Semantic Search
-- Elasticsearch
+**Upcoming (priority order, subject to change):**
+
+- Semantic search
+- Elasticsearch integration
+- Legacy route redirect middleware
+- Cloudflare Tunnel setup
+
+**Planned (independent features):**
+
 - Mobile app (React Native / Expo)
-- Internal dashboard for content management
 - Dark mode
+- Internal content management dashboard
+- Website redesign
 
 ## Contributing
 
@@ -378,7 +386,7 @@ If you use Qafiyah in academic work, please cite it as:
 ```bibtex
 @misc{qafiyah2026,
   title  = {Qafiyah: An Open Corpus of Classical Arabic Poetry},
-  author = {Alqahtani, Alwaleed},
+  author = {{The Qafiyah Project}},
   year   = {2026},
   url    = {https://qafiyah.com},
   note   = {Dataset: https://huggingface.co/datasets/qafiyah/classical-arabic-poetry}
