@@ -55,6 +55,7 @@ Full schema and interactive playground: [`api.qafiyah.com/v1/docs`](https://api.
     - [Tooling](#tooling)
   - [Architecture](#architecture)
   - [Database](#database)
+  - [Database Source and Licensing](#database-source-and-licensing)
   - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
@@ -149,7 +150,7 @@ Qafiyah is a Bun + Turborepo monorepo with three apps and four shared packages.
 qafiyah/
 ├── apps/
 │   ├── web/          Astro 6 on-demand SSR (Bun + @astrojs/node); renders each route per request by fetching the API via oRPC, behind nginx proxy_cache
-│   ├── api/          Hono REST API — Bun server (Docker container)
+│   ├── api/          Hono REST API, Bun server (Docker container)
 │   └── bot/          X/Twitter bot; posts 4× daily via GitHub Actions cron
 └── packages/
     ├── db/           Drizzle ORM schema, queries, Arabic-text utilities, and Postgres client factory
@@ -217,7 +218,7 @@ graph LR
 
 Everything inside **Docker on VPS** ships from `docker-compose.yml` (`docker compose up -d --build`): the web image bundles nginx (proxy_cache + static assets) in front of the Astro SSR server, which reaches the `api` service over the internal network (`INTERNAL_API_URL`), while browser islands call the public API directly. The bot runs on GitHub Actions, outside the VPS, and also hits the public API.
 
-Dashed arrows (`-.->`) are out-of-band, non-request relationships: the Hugging Face dataset export is run manually via `tools/huggingface-publisher`, a Python script that reads PostgreSQL directly (SQLAlchemy) and pushes with `push_to_hub` — it never goes through the API.
+Dashed arrows (`-.->`) are out-of-band, non-request relationships: the Hugging Face dataset export is run manually via `tools/huggingface-publisher`, a Python script that reads PostgreSQL directly (SQLAlchemy) and pushes with `push_to_hub`, it never goes through the API.
 
 ## Database
 
@@ -236,6 +237,14 @@ Dashed arrows (`-.->`) are out-of-band, non-request relationships: the Hugging F
 _Counts above reflect the latest dump (`0003_29_01_2026`, January 2026). Stats refresh with each new dump in [`dumps/`](dumps)._
 
 PostgreSQL custom-format dumps are published in [`dumps/`](dumps) and refreshed periodically. They are provided for research and integration as an alternative to scraping the API. See the [restore instructions](dumps/README.md); restoring requires PostgreSQL ≥ 17 and `pg_restore`.
+
+## Database Source and Licensing
+
+The original dataset was purchased in 2023 for **150 SAR** from a [Khamsat](https://khamsat.com) seller, who compiled it and transferred full ownership. It was delivered in a messy, disorganized state, and underwent roughly three months of cleaning, normalization, and restructuring into the form published here.
+
+**License.** The data is dedicated to the public domain under [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/), waiving all copyright, database (*sui generis*), and related rights. It may be copied, modified, distributed, and used for any purpose, including commercial use, ML training/evaluation, and redistribution on platforms like [Hugging Face](https://huggingface.co), without permission, attribution, or obligation. Provided "as is", without warranty.
+
+Most of the underlying poetry is classical and already in the public domain; this dedication covers the compilation and structuring work on top. It applies to the **data only**, the repository's source code is licensed separately under the [MIT License](#license).
 
 ## Getting Started
 
