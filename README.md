@@ -352,6 +352,7 @@ The API is free, requires no authentication, and is provided on a best-effort ba
 - Mobile app (React Native / Expo)
 - Dark mode
 - Internal content management dashboard
+  - CMS (Still deciding which open-source option to pick. Considering making the CMS the entire backend: user → CMS → DB, instead of extending my current API for database writes. I’ll choose the right solution when the time comes)
 - Website redesign
 
 ## Contributing
@@ -366,6 +367,7 @@ Contributions are welcome. Before opening a pull request, please read:
 
 Listed chronologically by date of contribution:
 
+- **[Alwaleed Alqahtani](https://alwalxed.com)**, Software Engineer at [Malaa](https://malaa.tech). Created and actively maintains the Qafiyah project.
 - **[Khalid Alraddady](https://www.linkedin.com/in/khalid-alraddady/)**, AI Engineer at [HRSD](https://www.hrsd.gov.sa/en). Development of the semantic search feature currently under active development.
 - **[Khalid Almulaify](https://github.com/khalidmfy)**, PhD in Morphology and Syntax at [IMSIU](https://imamu.edu.sa). Ongoing financial sponsorship ($100/month) and sustained usage of the public API through a [Telegram bot](https://t.me/QafiyahVerseBot).
 - **[Malath Alsaif](https://www.linkedin.com/in/malath-a-alsaif-a49a382a7/)**, Software Engineer at [Ejari](https://www.ejari.sa). UI improvements and implementation of the local database development workflow.
