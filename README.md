@@ -242,7 +242,7 @@ PostgreSQL custom-format dumps are published in [`dumps/`](dumps) and refreshed 
 
 The original dataset was purchased in 2023 for **150 SAR** from a [Khamsat](https://khamsat.com) seller, who compiled it and transferred full ownership. It was delivered in a messy, disorganized state, and underwent roughly three months of cleaning, normalization, and restructuring into the form published here.
 
-**License.** The data is dedicated to the public domain under [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/), waiving all copyright, database (*sui generis*), and related rights. It may be copied, modified, distributed, and used for any purpose, including commercial use, ML training/evaluation, and redistribution on platforms like [Hugging Face](https://huggingface.co), without permission, attribution, or obligation. Provided "as is", without warranty.
+**License.** The data is dedicated to the public domain under [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/), waiving all copyright, database (_sui generis_), and related rights. It may be copied, modified, distributed, and used for any purpose, including commercial use, ML training/evaluation, and redistribution on platforms like [Hugging Face](https://huggingface.co), without permission, attribution, or obligation. Provided "as is", without warranty.
 
 Most of the underlying poetry is classical and already in the public domain; this dedication covers the compilation and structuring work on top. It applies to the **data only**, the repository's source code is licensed separately under the [MIT License](#license).
 
