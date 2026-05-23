@@ -8,10 +8,11 @@ Each dump is stored in a subdirectory named `{sequence}_{DD}_{MM}_{YYYY}`, where
 
 ## Dataset Contents
 
-The current dump (`0005_23_05_2026` — the `0004` dataset with the era set consolidated:
-the legacy `متأخر` era and all its poets/poems removed, `مخضرم` merged into `إسلامي`,
-and `أيوبي` / `مملوكي` / `عثماني` merged into a fresh `متأخر`; see
-`scripts/sql/0002_consolidate_eras.sql`) contains:
+The current dump (`0009_23_05_2026` — the `0008` dataset with the theme taxonomy
+consolidated from 27 themes down to 10: each legacy theme reassigned to one of
+`المديح`, `الفخر والحماسة`, `الهجاء`, `الرثاء`, `النسيب والغزل`,
+`العتاب والاعتذار`, `الحكمة والآداب`, `الزهد والمناجاة والدينيات`, `المتفرقات`,
+or `المعلقات`; see `scripts/sql/0003_consolidate_themes.sql`) contains:
 
 | Metric          | Count   |
 | --------------- | ------- |
@@ -21,7 +22,7 @@ and `أيوبي` / `مملوكي` / `عثماني` merged into a fresh `متأخ
 | Historical eras | 6       |
 | Meters          | 44      |
 | Rhyme patterns  | 47      |
-| Themes          | 27      |
+| Themes          | 10      |
 
 ## Format Compatibility
 
@@ -52,7 +53,7 @@ pg_restore \
   -d qafiyah \
   --no-owner \
   --no-privileges \
-  ./0005_23_05_2026/qafiyah_public_20260523_054339.dump
+  ./0009_23_05_2026/qafiyah_public_20260523_173550.dump
 ```
 
 ## Verify
