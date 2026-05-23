@@ -8,13 +8,9 @@ Each dump is stored in a subdirectory named `{sequence}_{DD}_{MM}_{YYYY}`, where
 
 ## Dataset Contents
 
-The current dump (`0012_23_05_2026` — the `0011` dataset with every poem's
-`content` normalized to a strict character set: Arabic letters (U+0621–U+063A,
-U+0641–U+064A) plus ASCII space and the `*` hemistich separator. Diacritics
-(tashkeel, dagger alif, Quranic marks) were deleted with no replacement; tatweel,
-punctuation of every kind, digits, Latin letters, NBSP/ZWNJ and other strays
-were replaced with a single space; spaces were then collapsed, stripped from
-around `*`, and trimmed at the ends) contains:
+The current dump (`0013_23_05_2026` — the `0012` dataset with the `bio` column
+dropped from `poets`; poet records now carry only `id`, `name`, `slug`, and
+`era_id`) contains:
 
 | Metric          | Count  |
 | --------------- | ------ |
@@ -54,7 +50,7 @@ pg_restore \
   -d qafiyah \
   --no-owner \
   --no-privileges \
-  ./0012_23_05_2026/qafiyah_public_20260523_212434.dump
+  ./0013_23_05_2026/qafiyah_public_20260523_213734.dump
 ```
 
 ## Verify
