@@ -28,7 +28,7 @@
 
 ## About
 
-Qafiyah is an open-source corpus of classical Arabic poetry: **944,844 verses** from **932 poets** spanning **10 historical eras**. It offers full-text search with Arabic diacritics normalization; faceted browsing by era, meter (44), rhyme pattern (47), and theme (27); a public REST API (Bun + Hono, Docker) with auto-generated OpenAPI docs; downloadable PostgreSQL dumps; and a Hugging Face dataset for ML/NLP research. An X/Twitter bot posts a random poem four times daily. The project is built for readers, researchers, and developers working with classical Arabic literature.
+Qafiyah is an open-source corpus of classical Arabic poetry: **901,728 verses** from **921 poets** spanning **6 historical eras**. It offers full-text search with Arabic diacritics normalization; faceted browsing by era, meter (44), rhyme pattern (47), and theme (27); a public REST API (Bun + Hono, Docker) with auto-generated OpenAPI docs; downloadable PostgreSQL dumps; and a Hugging Face dataset for ML/NLP research. An X/Twitter bot posts a random poem four times daily. The project is built for readers, researchers, and developers working with classical Arabic literature.
 
 ## Try it
 
@@ -226,15 +226,15 @@ Dashed arrows (`-.->`) are out-of-band, non-request relationships: the Hugging F
 
 | Entity         | Count   |
 | -------------- | ------- |
-| Verses         | 944,844 |
-| Poems          | 85,342  |
-| Poets          | 932     |
-| Eras           | 10      |
+| Verses         | 901,728 |
+| Poems          | 81,232  |
+| Poets          | 921     |
+| Eras           | 6       |
 | Meters         | 44      |
 | Rhyme patterns | 47      |
 | Themes         | 27      |
 
-_Counts above reflect the latest dump (`0003_29_01_2026`, January 2026). Stats refresh with each new dump in [`dumps/`](dumps)._
+_Counts above reflect the latest dump (`0005_23_05_2026`, May 2026). Stats refresh with each new dump in [`dumps/`](dumps)._
 
 PostgreSQL custom-format dumps are published in [`dumps/`](dumps) and refreshed periodically. They are provided for research and integration as an alternative to scraping the API. See the [restore instructions](dumps/README.md); restoring requires PostgreSQL ≥ 17 and `pg_restore`.
 

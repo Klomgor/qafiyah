@@ -8,17 +8,17 @@ Each dump is stored in a subdirectory named `{sequence}_{DD}_{MM}_{YYYY}`, where
 
 ## Dataset Contents
 
-The current dump (`0004_22_05_2026` — the `0003` dataset with the custom PostgreSQL FTS
-search objects removed: `search_vector` columns, GIN indexes, and the
-`search_poems`/`search_poets`/`normalize_arabic_text` functions; the Elasticsearch-migration
-baseline) contains:
+The current dump (`0005_23_05_2026` — the `0004` dataset with the era set consolidated:
+the legacy `متأخر` era and all its poets/poems removed, `مخضرم` merged into `إسلامي`,
+and `أيوبي` / `مملوكي` / `عثماني` merged into a fresh `متأخر`; see
+`scripts/sql/0002_consolidate_eras.sql`) contains:
 
 | Metric          | Count   |
 | --------------- | ------- |
-| Verses          | 944,844 |
-| Poems           | 84,329  |
-| Poets           | 932     |
-| Historical eras | 10      |
+| Verses          | 901,728 |
+| Poems           | 81,232  |
+| Poets           | 921     |
+| Historical eras | 6       |
 | Meters          | 44      |
 | Rhyme patterns  | 47      |
 | Themes          | 27      |
@@ -52,7 +52,7 @@ pg_restore \
   -d qafiyah \
   --no-owner \
   --no-privileges \
-  ./0004_22_05_2026/qafiyah_public_20260522_011009.dump
+  ./0005_23_05_2026/qafiyah_public_20260523_054339.dump
 ```
 
 ## Verify
