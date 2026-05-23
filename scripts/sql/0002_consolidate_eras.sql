@@ -1,0 +1,68 @@
+-- scripts/sql/0002_consolidate_eras.sql
+-- One-shot data migration applied to the 0004 dump to produce the 0005 baseline.
+-- Operations (in order, single transaction):
+--   1. DELETE the existing 'متأخر' era and all its poets/poems.
+--   2. Reassign 'مخضرم' poets to 'إسلامي', then DELETE the 'مخضرم' era row.
+--   3. INSERT a new 'متأخر' era (reusing the old 'متأخر' slug for URL stability),
+--      reassign 'أيوبي' / 'مملوكي' / 'عثماني' poets to it, then DELETE those rows.
+--   4. REFRESH MATERIALIZED VIEW poem_full_data (run after COMMIT).
+--
+-- NOT idempotent: re-running on already-migrated data raises an exception via the
+-- pre-flight guard below.
+BEGIN;
+
+DO $$
+DECLARE
+  v_old_late_slug   text;
+  v_old_late_id     integer;
+  v_islamic_id      integer;
+  v_mukhadram_id    integer;
+  v_legacy_count    integer;
+  v_new_late_id     integer;
+BEGIN
+  -- Pre-flight: assert the legacy 10-era layout is present. If not, abort.
+  SELECT count(*) INTO v_legacy_count
+  FROM eras
+  WHERE name IN ('متأخر', 'مخضرم', 'إسلامي', 'أيوبي', 'مملوكي', 'عثماني');
+  IF v_legacy_count <> 6 THEN
+    RAISE EXCEPTION
+      'pre-flight failed: expected 6 legacy era rows (متأخر, مخضرم, إسلامي, أيوبي, مملوكي, عثماني), found %',
+      v_legacy_count;
+  END IF;
+
+  -- Resolve ids by name (locale-stable; ids may differ across environments).
+  SELECT id, slug INTO v_old_late_id, v_old_late_slug
+    FROM eras WHERE name = 'متأخر';
+  SELECT id INTO v_islamic_id    FROM eras WHERE name = 'إسلامي';
+  SELECT id INTO v_mukhadram_id  FROM eras WHERE name = 'مخضرم';
+
+  -- (1) Delete old 'متأخر' content, leaf-to-root to respect FKs.
+  DELETE FROM poems
+   WHERE poet_id IN (SELECT id FROM poets WHERE era_id = v_old_late_id);
+  DELETE FROM poets WHERE era_id = v_old_late_id;
+  DELETE FROM eras  WHERE id      = v_old_late_id;
+
+  -- (2) Merge مخضرم → إسلامي, then drop مخضرم.
+  UPDATE poets SET era_id = v_islamic_id WHERE era_id = v_mukhadram_id;
+  DELETE FROM eras WHERE id = v_mukhadram_id;
+
+  -- (3) Recreate متأخر (reuse the prior slug so /eras/<slug>/... URLs survive).
+  INSERT INTO eras (name, slug) VALUES ('متأخر', v_old_late_slug)
+    RETURNING id INTO v_new_late_id;
+
+  UPDATE poets SET era_id = v_new_late_id
+   WHERE era_id IN (SELECT id FROM eras WHERE name IN ('أيوبي', 'مملوكي', 'عثماني'));
+  DELETE FROM eras WHERE name IN ('أيوبي', 'مملوكي', 'عثماني');
+
+  -- Post-flight: the only eras left must be the six target names.
+  IF (SELECT count(*) FROM eras WHERE name IN
+        ('جاهلي', 'إسلامي', 'أموي', 'عباسي', 'أندلسي', 'متأخر')) <> 6
+     OR (SELECT count(*) FROM eras) <> 6 THEN
+    RAISE EXCEPTION 'post-flight failed: era set is not exactly the 6 expected names';
+  END IF;
+END $$;
+
+COMMIT;
+
+-- Outside the transaction: rebuild the denormalized view.
+REFRESH MATERIALIZED VIEW poem_full_data;
