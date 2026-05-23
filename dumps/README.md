@@ -8,9 +8,10 @@ Each dump is stored in a subdirectory named `{sequence}_{DD}_{MM}_{YYYY}`, where
 
 ## Dataset Contents
 
-The current dump (`0013_23_05_2026` — the `0012` dataset with the `bio` column
-dropped from `poets`; poet records now carry only `id`, `name`, `slug`, and
-`era_id`) contains:
+The current dump (`0014_23_05_2026` — the `0013` dataset with six poet names
+normalized to pure Arabic letters: five had tashkeel stripped and one had its
+hyphen-separated laqab collapsed to the canonical short form already used by
+its slug) contains:
 
 | Metric          | Count  |
 | --------------- | ------ |
@@ -50,7 +51,7 @@ pg_restore \
   -d qafiyah \
   --no-owner \
   --no-privileges \
-  ./0013_23_05_2026/qafiyah_public_20260523_213734.dump
+  ./0014_23_05_2026/qafiyah_public_20260523_215200.dump
 ```
 
 ## Verify
