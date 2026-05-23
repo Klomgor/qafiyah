@@ -22,13 +22,13 @@
 [![Valibot](https://img.shields.io/badge/Valibot-validation-FACC15?logoColor=black)](https://valibot.dev)
 [![Scalar](https://img.shields.io/badge/Scalar-API%20docs-06B6D4)](https://scalar.com)
 
-[Website](https://qafiyah.com) · [API](https://api.qafiyah.com) · [X Bot](https://x.com/qafiyahdotcom) · [HuggingFace Dataset](https://huggingface.co/datasets/qafiyah/classical-arabic-poetry) · [Database Dumps](dumps/)
+[Website](https://qafiyah.com) · [API](https://api.qafiyah.com) · [X Bot](https://x.com/qafiyahdotcom) · [Database Dumps](dumps/)
 
 </div>
 
 ## About
 
-Qafiyah is an open-source corpus of classical Arabic poetry: **901,728 verses** from **921 poets** spanning **6 historical eras**. It offers full-text search with Arabic diacritics normalization; faceted browsing by era, meter (44), rhyme pattern (47), and theme (27); a public REST API (Bun + Hono, Docker) with auto-generated OpenAPI docs; downloadable PostgreSQL dumps; and a Hugging Face dataset for ML/NLP research. An X/Twitter bot posts a random poem four times daily. The project is built for readers, researchers, and developers working with classical Arabic literature.
+Qafiyah is an open-source corpus of classical Arabic poetry: **901,728 verses** from **921 poets** spanning **6 historical eras**. It offers full-text search with Arabic diacritics normalization; faceted browsing by era, meter (44), rhyme pattern (47), and theme (27); a public REST API (Bun + Hono, Docker) with auto-generated OpenAPI docs; and downloadable PostgreSQL dumps. An X/Twitter bot posts a random poem four times daily. The project is built for readers, researchers, and developers working with classical Arabic literature.
 
 ## Try it
 
@@ -55,7 +55,6 @@ Full schema and interactive playground: [`api.qafiyah.com/v1/docs`](https://api.
     - [Tooling](#tooling)
   - [Architecture](#architecture)
   - [Database](#database)
-  - [Database Source and Licensing](#database-source-and-licensing)
   - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
@@ -191,9 +190,7 @@ graph LR
   BROWSER["Browser"]
   BOT["apps/bot"]
   GHA(["GitHub Actions\ncron 4×/day"])
-  HFPUB(["huggingface-publisher\nPython · run manually"])
   TW(["X / Twitter"])
-  HF(["Hugging Face"])
 
   subgraph VPS["Docker on VPS · docker compose"]
     subgraph WEBIMG["web image"]
@@ -212,13 +209,9 @@ graph LR
   GHA --> BOT
   BOT -->|"GET /poems/random"| API
   BOT -->|"post tweet"| TW
-  HFPUB -.->|"SQL read"| PG
-  HFPUB -.->|"push_to_hub"| HF
 ```
 
 Everything inside **Docker on VPS** ships from `docker-compose.yml` (`docker compose up -d --build`): the web image bundles nginx (proxy_cache + static assets) in front of the Astro SSR server, which reaches the `api` service over the internal network (`INTERNAL_API_URL`), while browser islands call the public API directly. The bot runs on GitHub Actions, outside the VPS, and also hits the public API.
-
-Dashed arrows (`-.->`) are out-of-band, non-request relationships: the Hugging Face dataset export is run manually via `tools/huggingface-publisher`, a Python script that reads PostgreSQL directly (SQLAlchemy) and pushes with `push_to_hub`, it never goes through the API.
 
 ## Database
 
@@ -237,14 +230,6 @@ Dashed arrows (`-.->`) are out-of-band, non-request relationships: the Hugging F
 _Counts above reflect the latest dump (`0005_23_05_2026`, May 2026). Stats refresh with each new dump in [`dumps/`](dumps)._
 
 PostgreSQL custom-format dumps are published in [`dumps/`](dumps) and refreshed periodically. They are provided for research and integration as an alternative to scraping the API. See the [restore instructions](dumps/README.md); restoring requires PostgreSQL ≥ 17 and `pg_restore`.
-
-## Database Source and Licensing
-
-The original dataset was purchased in 2023 for **150 SAR** from a [Khamsat](https://khamsat.com) seller, who compiled it and transferred full ownership. It was delivered in a messy, disorganized state, and underwent roughly three months of cleaning, normalization, and restructuring into the form published here.
-
-**License.** The data is dedicated to the public domain under [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/), waiving all copyright, database (_sui generis_), and related rights. It may be copied, modified, distributed, and used for any purpose, including commercial use, ML training/evaluation, and redistribution on platforms like [Hugging Face](https://huggingface.co), without permission, attribution, or obligation. Provided "as is", without warranty.
-
-Most of the underlying poetry is classical and already in the public domain; this dedication covers the compilation and structuring work on top. It applies to the **data only**, the repository's source code is licensed separately under the [MIT License](#license).
 
 ## Getting Started
 
@@ -337,7 +322,7 @@ The public REST API is hosted at [`api.qafiyah.com`](https://api.qafiyah.com) an
 
 The API is free, requires no authentication, and is provided on a best-effort basis with no SLA.
 
-- **Fair use.** Per-IP throttling is enforced at the server level. For bulk access, prefer the [PostgreSQL dumps](dumps/) or the [HuggingFace dataset](https://huggingface.co/datasets/qafiyah/classical-arabic-poetry) over paginating the API.
+- **Fair use.** Per-IP throttling is enforced at the server level. For bulk access, prefer the [PostgreSQL dumps](dumps/) over paginating the API.
 - **Caching.** Responses are cacheable; cache them client-side when possible to reduce load.
 - **Stability.** `v1` endpoints are stable. Breaking changes ship behind a new major version.
 - **Attribution.** Not required, but appreciated, see [Citation](#citation) if you publish work that relies on the corpus.
@@ -376,7 +361,6 @@ Contributions are welcome. Before opening a pull request, please read:
 
 Listed chronologically by date of contribution:
 
-- **[Alwaleed Alqahtani](https://alwalxed.com)**, Software Engineer at [Malaa](https://malaa.tech). Created and actively maintains the Qafiyah project.
 - **[Khalid Alraddady](https://www.linkedin.com/in/khalid-alraddady/)**, AI Engineer at [HRSD](https://www.hrsd.gov.sa/en). Development of the semantic search feature currently under active development.
 - **[Khalid Almulaify](https://github.com/khalidmfy)**, PhD in Morphology and Syntax at [IMSIU](https://imamu.edu.sa). Ongoing financial sponsorship ($100/month) and sustained usage of the public API through a [Telegram bot](https://t.me/QafiyahVerseBot).
 - **[Malath Alsaif](https://www.linkedin.com/in/malath-a-alsaif-a49a382a7/)**, Software Engineer at [Ejari](https://www.ejari.sa). UI improvements and implementation of the local database development workflow.
@@ -399,8 +383,7 @@ If you use Qafiyah in academic work, please cite it as:
   title  = {Qafiyah: An Open Corpus of Classical Arabic Poetry},
   author = {{The Qafiyah Project}},
   year   = {2026},
-  url    = {https://qafiyah.com},
-  note   = {Dataset: https://huggingface.co/datasets/qafiyah/classical-arabic-poetry}
+  url    = {https://qafiyah.com}
 }
 ```
 
