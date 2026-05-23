@@ -68,7 +68,6 @@ Full schema and interactive playground: [`api.qafiyah.com/v1/docs`](https://api.
   - [Contributing](#contributing)
   - [Acknowledgments](#acknowledgments)
   - [Built with Qafiyah](#built-with-qafiyah)
-  - [Citation](#citation)
   - [Sponsor](#sponsor)
   - [License](#license)
 
@@ -373,19 +372,6 @@ Projects and tools that use the Qafiyah corpus or API:
 - **[QafiyahVerseBot](https://t.me/QafiyahVerseBot)**, Telegram bot serving classical Arabic verses on demand, by [Khalid Almulaify](https://github.com/khalidmfy).
 
 Built something with Qafiyah? Open a PR to add it here.
-
-## Citation
-
-If you use Qafiyah in academic work, please cite it as:
-
-```bibtex
-@misc{qafiyah2026,
-  title  = {Qafiyah: An Open Corpus of Classical Arabic Poetry},
-  author = {{The Qafiyah Project}},
-  year   = {2026},
-  url    = {https://qafiyah.com}
-}
-```
 
 ## Sponsor
 
