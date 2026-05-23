@@ -60,14 +60,9 @@ Full schema and interactive playground: [`api.qafiyah.com/v1/docs`](https://api.
     - [Installation](#installation)
     - [Development](#development)
   - [Scripts](#scripts)
-  - [Continuous Integration](#continuous-integration)
-  - [API Documentation](#api-documentation)
   - [Rate Limits and Terms of Use](#rate-limits-and-terms-of-use)
   - [Documentation](#documentation)
-  - [Roadmap](#roadmap)
-  - [Contributing](#contributing)
   - [Acknowledgments](#acknowledgments)
-  - [Built with Qafiyah](#built-with-qafiyah)
   - [Sponsor](#sponsor)
   - [License](#license)
 
@@ -301,22 +296,6 @@ bun run dev        # seeded Postgres in Docker + hot-reloading web & API (Turbo)
 | `bun run optimize:images`                  | Convert raster images in the repo to sibling `.webp` files using [Bun.Image](https://bun.com/docs/runtime/image)                                                    |
 | `bun --filter @qafiyah/web run verify:seo` | Crawl the running web server and assert SEO parity (canonical URLs, JSON-LD, metadata) across rendered pages                                                        |
 
-## Continuous Integration
-
-Three GitHub Actions workflows live in [`.github/workflows/`](.github/workflows):
-
-- **`ci.yml`**, runs on every push and pull request to `main`. Executes the same checks as `bun run ci`, plus a final gate that fails the build if any file changed during the run (catches uncommitted formatting fixes).
-- **`post-poem.yml`**, cron-triggered, posts a random poem to X four times a day.
-- **`gitleaks.yml`**, secret scanning on push and pull request.
-
-The boundary checks enforce the architectural rules the project relies on: no cross-app imports, no `../` parent imports, Drizzle and the Postgres client confined to `packages/db`, brand strings and ports centralized in `packages/constants`, naming conventions across the tree, and consistent dependency versions across workspaces.
-
-The CI pipeline definition lives in [`scripts/ci.ts`](scripts/ci.ts), `bun run ci` and the GitHub job both consume it, so local and remote stay in sync.
-
-## API Documentation
-
-The public REST API is hosted at [`api.qafiyah.com`](https://api.qafiyah.com) and ships with interactive documentation at [`api.qafiyah.com/v1/docs`](https://api.qafiyah.com/v1/docs), generated from oRPC contracts via `@orpc/openapi` and rendered with Scalar. The root URL redirects to the docs.
-
 ## Rate Limits and Terms of Use
 
 The API is free, requires no authentication, and is provided on a best-effort basis with no SLA.
@@ -330,28 +309,6 @@ The API is free, requires no authentication, and is provided on a best-effort ba
 
 - [Search Implementation](docs/SEARCH_FEATURE_IMPLEMENTATION.md)
 - [Deployment](docs/DEPLOYMENT.md)
-
-## Roadmap
-
-**Upcoming (priority order, subject to change):**
-
-- Semantic search
-- Elasticsearch integration
-- Legacy route redirect middleware
-- Cloudflare Tunnel setup
-
-**Planned (independent features):**
-
-- Mobile app (React Native / Expo)
-- Dark mode
-- Internal content management dashboard
-  - CMS (Still deciding which open-source option to pick. Considering making the CMS the entire backend: user → CMS → DB, instead of extending my current API for database writes. I’ll choose the right solution when the time comes)
-- Website redesign
-
-## Contributing
-
-Contributions are welcome. Before opening a pull request, please read:
-
 - [Contributing Guidelines](.github/CONTRIBUTING.md)
 - [Code of Conduct](.github/CODE_OF_CONDUCT.md)
 - [Security Policy](.github/SECURITY.md)
@@ -364,14 +321,6 @@ Listed chronologically by date of contribution:
 - **[Khalid Almulaify](https://github.com/khalidmfy)**, PhD in Morphology and Syntax at [IMSIU](https://imamu.edu.sa). Ongoing financial sponsorship ($100/month) and sustained usage of the public API through a [Telegram bot](https://t.me/QafiyahVerseBot).
 - **[Malath Alsaif](https://www.linkedin.com/in/malath-a-alsaif-a49a382a7/)**, Software Engineer at [Ejari](https://www.ejari.sa). UI improvements and implementation of the local database development workflow.
 - **[Fahad Alghamdi](https://github.com/v0id-user)**, Software Engineer at [Thmanyah](https://thmanyah.com). Diagnosis of a redundant per-request `SELECT 1` health check in the DB middleware.
-
-## Built with Qafiyah
-
-Projects and tools that use the Qafiyah corpus or API:
-
-- **[QafiyahVerseBot](https://t.me/QafiyahVerseBot)**, Telegram bot serving classical Arabic verses on demand, by [Khalid Almulaify](https://github.com/khalidmfy).
-
-Built something with Qafiyah? Open a PR to add it here.
 
 ## Sponsor
 
