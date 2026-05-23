@@ -8,21 +8,18 @@ Each dump is stored in a subdirectory named `{sequence}_{DD}_{MM}_{YYYY}`, where
 
 ## Dataset Contents
 
-The current dump (`0009_23_05_2026` — the `0008` dataset with the theme taxonomy
-consolidated from 27 themes down to 10: each legacy theme reassigned to one of
-`المديح`, `الفخر والحماسة`, `الهجاء`, `الرثاء`, `النسيب والغزل`,
-`العتاب والاعتذار`, `الحكمة والآداب`, `الزهد والمناجاة والدينيات`, `المتفرقات`,
-or `المعلقات`; see `scripts/sql/0003_consolidate_themes.sql`) contains:
+The current dump (`0011_23_05_2026` — the `0010` dataset with 186 single-hemistich
+poems removed: every poem whose `content` lacked the `*` hemistich separator was
+deleted as malformed/incomplete) contains:
 
-| Metric          | Count   |
-| --------------- | ------- |
-| Verses          | 901,728 |
-| Poems           | 81,232  |
-| Poets           | 921     |
-| Historical eras | 6       |
-| Meters          | 44      |
-| Rhyme patterns  | 47      |
-| Themes          | 10      |
+| Metric          | Count  |
+| --------------- | ------ |
+| Poems           | 80,094 |
+| Poets           | 581    |
+| Historical eras | 6      |
+| Meters          | 21     |
+| Rhyme patterns  | 32     |
+| Themes          | 10     |
 
 ## Format Compatibility
 
@@ -53,7 +50,7 @@ pg_restore \
   -d qafiyah \
   --no-owner \
   --no-privileges \
-  ./0009_23_05_2026/qafiyah_public_20260523_173550.dump
+  ./0011_23_05_2026/qafiyah_public_20260523_201119.dump
 ```
 
 ## Verify
