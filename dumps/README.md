@@ -10,8 +10,9 @@ Each dump is stored in a subdirectory named `{sequence}_{DD}_{MM}_{YYYY}`, where
 
 The current dump (`0015_24_05_2026` — the `0014` dataset with the `rhymes`
 table replaced by 36 canonical qafiyah-letter rows; every `poems.rhyme_id`
-re-derived from `poems.content` by walking the عجز lines, with 77,493
-classified and 2,601 left NULL when no rhyme could be inferred) contains:
+re-derived from `poems.content` by walking the عجز lines, with 80,088
+classified and only 6 left NULL — the 6 are poems whose عجز lines never
+end in a recognized qafiyah letter at all) contains:
 
 | Metric          | Count  |
 | --------------- | ------ |
@@ -51,7 +52,7 @@ pg_restore \
   -d qafiyah \
   --no-owner \
   --no-privileges \
-  ./0015_24_05_2026/qafiyah_public_20260524_064638.dump
+  ./0015_24_05_2026/qafiyah_public_20260524_065949.dump
 ```
 
 ## Verify
