@@ -8,10 +8,10 @@ Each dump is stored in a subdirectory named `{sequence}_{DD}_{MM}_{YYYY}`, where
 
 ## Dataset Contents
 
-The current dump (`0014_23_05_2026` — the `0013` dataset with six poet names
-normalized to pure Arabic letters: five had tashkeel stripped and one had its
-hyphen-separated laqab collapsed to the canonical short form already used by
-its slug) contains:
+The current dump (`0015_24_05_2026` — the `0014` dataset with the `rhymes`
+table replaced by 36 canonical qafiyah-letter rows; every `poems.rhyme_id`
+re-derived from `poems.content` by walking the عجز lines, with 77,493
+classified and 2,601 left NULL when no rhyme could be inferred) contains:
 
 | Metric          | Count  |
 | --------------- | ------ |
@@ -19,7 +19,7 @@ its slug) contains:
 | Poets           | 581    |
 | Historical eras | 6      |
 | Meters          | 21     |
-| Rhyme patterns  | 32     |
+| Rhyme letters   | 36     |
 | Themes          | 10     |
 
 ## Format Compatibility
@@ -51,7 +51,7 @@ pg_restore \
   -d qafiyah \
   --no-owner \
   --no-privileges \
-  ./0014_23_05_2026/qafiyah_public_20260523_215200.dump
+  ./0015_24_05_2026/qafiyah_public_20260524_064638.dump
 ```
 
 ## Verify
