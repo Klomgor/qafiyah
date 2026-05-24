@@ -8,15 +8,24 @@ Each dump is stored in a subdirectory named `{sequence}_{DD}_{MM}_{YYYY}`, where
 
 ## Dataset Contents
 
-The current dump (`0021_24_05_2026` — the `0020` dataset with the
-`collections` table added and المعلقات extracted from `themes` into
-that new table; see `scripts/sql/0008_extract_collections.sql`)
-contains:
+The current dump (`0023_25_05_2026` — the `0022` dataset with the
+duplicate poet أبو النجم العجلي merged: the source had two poet rows
+holding identical 72-poem sets; the `-b`-suffixed duplicate and its
+72 redundant poems were removed, leaving one poet with the bare
+`abu-alnajm-alajli` slug. See `scripts/sql/0010_dedupe_abu_alnajm.sql`.
+
+`0022_25_05_2026` was the `0021` dataset with unified slug generation
+applied: a single `public.generate_slug(mode, input)` function backs
+every slug, all UUID slugs were converted to text (`themes`,
+`collections`, `poems`), and existing transliterated slugs were
+re-normalized to the new rule — lowercase letters + hyphens only,
+article "al" joined to the next word, no digits. See
+`scripts/sql/0009_unified_slug_generation.sql`.) contains:
 
 | Metric          | Count  |
 | --------------- | ------ |
-| Poems           | 80,093 |
-| Poets           | 581    |
+| Poems           | 80,021 |
+| Poets           | 580    |
 | Historical eras | 6      |
 | Meters          | 21     |
 | Rhyme letters   | 36     |
@@ -52,7 +61,7 @@ pg_restore \
   -d qafiyah \
   --no-owner \
   --no-privileges \
-  ./0021_24_05_2026/qafiyah_public_20260524_222105.dump
+  ./0023_25_05_2026/qafiyah_public_20260525_014343.dump
 ```
 
 ## Verify
