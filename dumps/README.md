@@ -8,18 +8,20 @@ Each dump is stored in a subdirectory named `{sequence}_{DD}_{MM}_{YYYY}`, where
 
 ## Dataset Contents
 
-The current dump (`0016_24_05_2026` — the `0015` dataset with the 60 remaining
-poems whose `content` used `**` rather than `*` as the verse separator
-normalized to a single `*`) contains:
+The current dump (`0017_24_05_2026` — the `0016` dataset with a new
+`poems.verse_count` column: even-line poems get `line_count / 2`, odd-line
+poems get `NULL`) contains:
 
-| Metric          | Count  |
-| --------------- | ------ |
-| Poems           | 80,093 |
-| Poets           | 581    |
-| Historical eras | 6      |
-| Meters          | 21     |
-| Rhyme letters   | 36     |
-| Themes          | 10     |
+| Metric                                | Count  |
+| ------------------------------------- | ------ |
+| Poems                                 | 80,093 |
+| &nbsp;&nbsp;↳ with `verse_count` set  | 78,664 |
+| &nbsp;&nbsp;↳ with `verse_count` NULL | 1,429  |
+| Poets                                 | 581    |
+| Historical eras                       | 6      |
+| Meters                                | 21     |
+| Rhyme letters                         | 36     |
+| Themes                                | 10     |
 
 ## Format Compatibility
 
@@ -50,7 +52,7 @@ pg_restore \
   -d qafiyah \
   --no-owner \
   --no-privileges \
-  ./0016_24_05_2026/qafiyah_public_20260524_071710.dump
+  ./0017_24_05_2026/qafiyah_public_20260524_072913.dump
 ```
 
 ## Verify
