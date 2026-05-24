@@ -8,13 +8,10 @@ Each dump is stored in a subdirectory named `{sequence}_{DD}_{MM}_{YYYY}`, where
 
 ## Dataset Contents
 
-The current dump (`0020_24_05_2026` — the `0019` dataset with 13 unused
-schema objects pruned: 4 orphan views (`era_poems`, `meter_poems`,
-`poet_poems`, `theme_poems`) and 9 indexes that no codebase query relied on
-(`idx_poems_poet_id`, `idx_poems_poet_id_slug`, `idx_poems_poet_id_title`,
-`idx_poems_theme_id_title`, `idx_poems_theme_meter`, `idx_poems_meter_id`,
-`idx_poems_theme_id`, `idx_poems_rhyme_id`, `idx_poets_era_id`); row data
-unchanged) contains:
+The current dump (`0021_24_05_2026` — the `0020` dataset with the
+`collections` table added and المعلقات extracted from `themes` into
+that new table; see `scripts/sql/0008_extract_collections.sql`)
+contains:
 
 | Metric          | Count  |
 | --------------- | ------ |
@@ -23,7 +20,8 @@ unchanged) contains:
 | Historical eras | 6      |
 | Meters          | 21     |
 | Rhyme letters   | 36     |
-| Themes          | 10     |
+| Themes          | 9      |
+| Collections     | 1      |
 
 ## Format Compatibility
 
@@ -54,7 +52,7 @@ pg_restore \
   -d qafiyah \
   --no-owner \
   --no-privileges \
-  ./0020_24_05_2026/qafiyah_public_20260524_213057.dump
+  ./0021_24_05_2026/qafiyah_public_20260524_222105.dump
 ```
 
 ## Verify
