@@ -8,7 +8,12 @@ Each dump is stored in a subdirectory named `{sequence}_{DD}_{MM}_{YYYY}`, where
 
 ## Dataset Contents
 
-The current dump (`0024_25_05_2026` — the `0023` dataset with `poems.title`
+The current dump (`0025_25_05_2026`) is the `0024` dataset with 354
+duplicate poems removed: rows sharing identical `poet_id` + `content`
+were deduplicated by keeping the lowest `id` and deleting the rest,
+reducing the poem count from 80,021 to 79,667.
+
+`0024_25_05_2026` was the `0023` dataset with `poems.title`
 converted from a manually-curated column to a `GENERATED ALWAYS AS STORED`
 column derived from `split_part(content, '*', 1)` (the first verse line).
 2,535 stored titles previously diverged from the actual first line; they
@@ -30,7 +35,7 @@ article "al" joined to the next word, no digits. See
 
 | Metric          | Count  |
 | --------------- | ------ |
-| Poems           | 80,021 |
+| Poems           | 79,667 |
 | Poets           | 580    |
 | Historical eras | 6      |
 | Meters          | 21     |
@@ -67,7 +72,7 @@ pg_restore \
   -d qafiyah \
   --no-owner \
   --no-privileges \
-  ./0024_25_05_2026/qafiyah_public_20260525_015433.dump
+  ./0025_25_05_2026/qafiyah_public_20260525_020211.dump
 ```
 
 ## Verify
