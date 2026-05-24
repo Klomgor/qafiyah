@@ -8,7 +8,18 @@ Each dump is stored in a subdirectory named `{sequence}_{DD}_{MM}_{YYYY}`, where
 
 ## Dataset Contents
 
-The current dump (`0025_25_05_2026`) is the `0024` dataset with 354
+The current dump (`0027_25_05_2026`) is the `0026` dataset with 309
+content-duplicate poems removed: rows sharing identical `content` (across
+any poet) were deduplicated by keeping the row whose poet belongs to the
+earliest era (lowest `eras.sort_order`), breaking ties by the lowest
+`poems.id`, and deleting the rest. Poem count reduced from 79,667 to
+79,358.
+
+`0026_25_05_2026` was the `0025` dataset with curated era slugs
+(`jahili`, `islami`, `umawi`, `abbasi`, `andalusi`, `mutaakhkhir`) and
+`eras.sort_order` (1–6) added to the `eras` table.
+
+`0025_25_05_2026` was the `0024` dataset with 354
 duplicate poems removed: rows sharing identical `poet_id` + `content`
 were deduplicated by keeping the lowest `id` and deleting the rest,
 reducing the poem count from 80,021 to 79,667.
@@ -35,7 +46,7 @@ article "al" joined to the next word, no digits. See
 
 | Metric          | Count  |
 | --------------- | ------ |
-| Poems           | 79,667 |
+| Poems           | 79,358 |
 | Poets           | 580    |
 | Historical eras | 6      |
 | Meters          | 21     |
@@ -72,7 +83,7 @@ pg_restore \
   -d qafiyah \
   --no-owner \
   --no-privileges \
-  ./0025_25_05_2026/qafiyah_public_20260525_020211.dump
+  ./0027_25_05_2026/qafiyah_public_20260525_024706.dump
 ```
 
 ## Verify
