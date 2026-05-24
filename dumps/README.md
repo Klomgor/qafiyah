@@ -8,9 +8,10 @@ Each dump is stored in a subdirectory named `{sequence}_{DD}_{MM}_{YYYY}`, where
 
 ## Dataset Contents
 
-The current dump (`0018_24_05_2026` — the `0017` dataset with the 1,429
-odd-line `poems.verse_count` NULLs floored to `lines / 2`; the column is now
-`NOT NULL` and ranges from 1 to 1,338) contains:
+The current dump (`0019_24_05_2026` — the `0018` dataset with the 9
+`poems.title` rows that contained non-Arabic characters normalized in place
+to flat Arabic letters and single spaces; every title now matches
+`^[ء-ي ]+$`) contains:
 
 | Metric          | Count  |
 | --------------- | ------ |
@@ -50,7 +51,7 @@ pg_restore \
   -d qafiyah \
   --no-owner \
   --no-privileges \
-  ./0018_24_05_2026/qafiyah_public_20260524_073734.dump
+  ./0019_24_05_2026/qafiyah_public_20260524_075014.dump
 ```
 
 ## Verify
