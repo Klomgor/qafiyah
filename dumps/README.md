@@ -8,10 +8,13 @@ Each dump is stored in a subdirectory named `{sequence}_{DD}_{MM}_{YYYY}`, where
 
 ## Dataset Contents
 
-The current dump (`0019_24_05_2026` — the `0018` dataset with the 9
-`poems.title` rows that contained non-Arabic characters normalized in place
-to flat Arabic letters and single spaces; every title now matches
-`^[ء-ي ]+$`) contains:
+The current dump (`0020_24_05_2026` — the `0019` dataset with 13 unused
+schema objects pruned: 4 orphan views (`era_poems`, `meter_poems`,
+`poet_poems`, `theme_poems`) and 9 indexes that no codebase query relied on
+(`idx_poems_poet_id`, `idx_poems_poet_id_slug`, `idx_poems_poet_id_title`,
+`idx_poems_theme_id_title`, `idx_poems_theme_meter`, `idx_poems_meter_id`,
+`idx_poems_theme_id`, `idx_poems_rhyme_id`, `idx_poets_era_id`); row data
+unchanged) contains:
 
 | Metric          | Count  |
 | --------------- | ------ |
@@ -51,7 +54,7 @@ pg_restore \
   -d qafiyah \
   --no-owner \
   --no-privileges \
-  ./0019_24_05_2026/qafiyah_public_20260524_075014.dump
+  ./0020_24_05_2026/qafiyah_public_20260524_213057.dump
 ```
 
 ## Verify
