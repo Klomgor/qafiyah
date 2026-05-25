@@ -8,7 +8,14 @@ Each dump is stored in a subdirectory named `{sequence}_{DD}_{MM}_{YYYY}`, where
 
 ## Dataset Contents
 
-The current dump (`0028_25_05_2026`) adds the `poem_relations` table:
+The current dump (`0029_26_05_2026`) consolidates meters to the 16 canonical
+Khalilian meters. The 7 non-classical meters (موشح, مخلع, الدوبيت, المواليا,
+أحذ, عدد, مجزوء) are collapsed into a new catch-all entry **غير ذلك**
+(11,096 poems reassigned). The two Khalilian meters missing from the previous
+dataset — **المضارع** and **المقتضب** — are added as empty rows. Meter count
+drops from 21 to 17 (16 classical + غير ذلك).
+
+`0028_25_05_2026` adds the `poem_relations` table:
 396,790 precomputed rows (5 related poems per poem) scored by shared
 collection (6), poet (5), era (4), theme (3), rhyme (2), and meter (1).
 The old `get_related_poems` and `get_poem_with_related` SQL functions are
@@ -55,7 +62,7 @@ article "al" joined to the next word, no digits. See
 | Poems           | 79,358  |
 | Poets           | 580     |
 | Historical eras | 6       |
-| Meters          | 21      |
+| Meters          | 17      |
 | Rhyme letters   | 36      |
 | Themes          | 9       |
 | Collections     | 1       |
@@ -90,7 +97,7 @@ pg_restore \
   -d qafiyah \
   --no-owner \
   --no-privileges \
-  ./0028_25_05_2026/qafiyah_public_20260525_081341.dump
+  ./0029_26_05_2026/qafiyah_public_20260526_002817.dump
 ```
 
 ## Verify
