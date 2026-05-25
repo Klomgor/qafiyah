@@ -8,7 +8,14 @@ Each dump is stored in a subdirectory named `{sequence}_{DD}_{MM}_{YYYY}`, where
 
 ## Dataset Contents
 
-The current dump (`0029_26_05_2026`) consolidates meters to the 16 canonical
+The current dump (`0030_26_05_2026`) consolidates the 6 random-poem SQL
+functions into one. `get_random_eligible_poem_slug`, `get_random_eligible_poet`,
+`get_random_poem_by_poet`, `get_poem_details`, and `get_poem_slug` are dropped.
+`get_random_eligible_poem` is replaced with a single CTE that returns
+`poem_id`, `poet_name`, `content`, and `slug` in one query. See
+`scripts/sql/0014_consolidate_random_poem_functions.sql`.
+
+`0029_26_05_2026` consolidates meters to the 16 canonical
 Khalilian meters. The 7 non-classical meters (موشح, مخلع, الدوبيت, المواليا,
 أحذ, عدد, مجزوء) are collapsed into a new catch-all entry **غير ذلك**
 (11,096 poems reassigned). The two Khalilian meters missing from the previous
@@ -97,7 +104,7 @@ pg_restore \
   -d qafiyah \
   --no-owner \
   --no-privileges \
-  ./0029_26_05_2026/qafiyah_public_20260526_002817.dump
+  ./0030_26_05_2026/qafiyah_public_20260526_012204.dump
 ```
 
 ## Verify
