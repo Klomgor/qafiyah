@@ -50,16 +50,16 @@ re-normalized to the new rule — lowercase letters + hyphens only,
 article "al" joined to the next word, no digits. See
 `scripts/sql/0009_unified_slug_generation.sql`.) contains:
 
-| Metric            | Count   |
-| ----------------- | ------- |
-| Poems             | 79,358  |
-| Poets             | 580     |
-| Historical eras   | 6       |
-| Meters            | 21      |
-| Rhyme letters     | 36      |
-| Themes            | 9       |
-| Collections       | 1       |
-| Poem relations    | 396,790 |
+| Metric          | Count   |
+| --------------- | ------- |
+| Poems           | 79,358  |
+| Poets           | 580     |
+| Historical eras | 6       |
+| Meters          | 21      |
+| Rhyme letters   | 36      |
+| Themes          | 9       |
+| Collections     | 1       |
+| Poem relations  | 396,790 |
 
 ## Format Compatibility
 
