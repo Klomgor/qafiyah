@@ -8,7 +8,13 @@ Each dump is stored in a subdirectory named `{sequence}_{DD}_{MM}_{YYYY}`, where
 
 ## Dataset Contents
 
-The current dump (`0027_25_05_2026`) is the `0026` dataset with 309
+The current dump (`0028_25_05_2026`) adds the `poem_relations` table:
+396,790 precomputed rows (5 related poems per poem) scored by shared
+collection (6), poet (5), era (4), theme (3), rhyme (2), and meter (1).
+The old `get_related_poems` and `get_poem_with_related` SQL functions are
+dropped. Schema change documented in `scripts/sql/0013_poem_relations.sql`.
+
+`0027_25_05_2026` was the `0026` dataset with 309
 content-duplicate poems removed: rows sharing identical `content` (across
 any poet) were deduplicated by keeping the row whose poet belongs to the
 earliest era (lowest `eras.sort_order`), breaking ties by the lowest
@@ -44,15 +50,16 @@ re-normalized to the new rule — lowercase letters + hyphens only,
 article "al" joined to the next word, no digits. See
 `scripts/sql/0009_unified_slug_generation.sql`.) contains:
 
-| Metric          | Count  |
-| --------------- | ------ |
-| Poems           | 79,358 |
-| Poets           | 580    |
-| Historical eras | 6      |
-| Meters          | 21     |
-| Rhyme letters   | 36     |
-| Themes          | 9      |
-| Collections     | 1      |
+| Metric            | Count   |
+| ----------------- | ------- |
+| Poems             | 79,358  |
+| Poets             | 580     |
+| Historical eras   | 6       |
+| Meters            | 21      |
+| Rhyme letters     | 36      |
+| Themes            | 9       |
+| Collections       | 1       |
+| Poem relations    | 396,790 |
 
 ## Format Compatibility
 
@@ -83,7 +90,7 @@ pg_restore \
   -d qafiyah \
   --no-owner \
   --no-privileges \
-  ./0027_25_05_2026/qafiyah_public_20260525_024706.dump
+  ./0028_25_05_2026/qafiyah_public_20260525_081341.dump
 ```
 
 ## Verify
