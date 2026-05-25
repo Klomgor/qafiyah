@@ -8,7 +8,13 @@ Each dump is stored in a subdirectory named `{sequence}_{DD}_{MM}_{YYYY}`, where
 
 ## Dataset Contents
 
-The current dump (`0030_26_05_2026`) consolidates the 6 random-poem SQL
+The current dump (`0031_26_05_2026`) drops and recreates the `poems.title`
+`GENERATED ALWAYS AS STORED` column to refresh all stored values. The
+definition is unchanged — `split_part(content, '*', 1)` — but the column
+position moves to last and the `poem_full_data` view is recreated in lock
+step. No data rows were added or removed.
+
+`0030_26_05_2026` consolidates the 6 random-poem SQL
 functions into one. `get_random_eligible_poem_slug`, `get_random_eligible_poet`,
 `get_random_poem_by_poet`, `get_poem_details`, and `get_poem_slug` are dropped.
 `get_random_eligible_poem` is replaced with a single CTE that returns
@@ -104,7 +110,7 @@ pg_restore \
   -d qafiyah \
   --no-owner \
   --no-privileges \
-  ./0030_26_05_2026/qafiyah_public_20260526_012204.dump
+  ./0031_26_05_2026/qafiyah_public_20260526_013039.dump
 ```
 
 ## Verify
