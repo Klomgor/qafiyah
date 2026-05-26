@@ -56,8 +56,7 @@ CREATE VIEW public.meter_stats WITH (security_invoker = 'on') AS
     count(DISTINCT p.poet_id)  AS poets_count
   FROM public.meters m
   LEFT JOIN public.poems p ON m.id = p.meter_id
-  GROUP BY m.id, m.name, m.slug, m.is_formal
-  ORDER BY m.name COLLATE "C";
+  GROUP BY m.id, m.name, m.slug, m.is_formal;
 
 COMMIT;
 
@@ -258,6 +257,7 @@ $$;
 CREATE OR REPLACE FUNCTION public.auto_assign_rhyme_id()
   RETURNS trigger
   LANGUAGE plpgsql
+  SET search_path TO ''
 AS $$
 DECLARE
   v_letter   text;
@@ -281,5 +281,21 @@ CREATE TRIGGER trg_auto_assign_rhyme
   ON public.poems
   FOR EACH ROW
   EXECUTE FUNCTION public.auto_assign_rhyme_id();
+
+COMMIT;
+
+BEGIN;
+
+-- ── Post-Task-6 backfill: re-derive rhyme_id for all poems ───────────────────
+-- Task 3 stripped double-quotes from content, potentially changing which
+-- character is the last char of each ajuz line. Re-run the extraction for
+-- all poems to ensure rhyme_id is consistent with the normalized content.
+
+UPDATE public.poems
+  SET rhyme_id = (
+    SELECT id FROM public.rhymes
+    WHERE letter = public.extract_rhyme_letter(poems.content)
+    LIMIT 1
+  );
 
 COMMIT;
