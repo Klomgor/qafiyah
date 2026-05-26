@@ -77,3 +77,46 @@ UPDATE public.poets
   WHERE name LIKE '%"%';
 
 COMMIT;
+
+BEGIN;
+
+-- ── Task 4: verse_count as generated column ───────────────────────────────────
+-- verse_count is fully deterministic from content (number of *-separated lines,
+-- paired into hemistichs, truncated). GENERATED ALWAYS AS prevents drift if
+-- content is ever updated without recomputing verse_count manually.
+-- Note: floor (not ceil) is correct — odd part counts mean a trailing unpaired
+-- hemistich that does not count as a full verse.
+-- poem_full_data must be dropped and recreated because it references verse_count.
+
+DROP VIEW IF EXISTS public.poem_full_data;
+
+ALTER TABLE public.poems DROP COLUMN verse_count;
+
+ALTER TABLE public.poems
+  ADD COLUMN verse_count integer
+    GENERATED ALWAYS AS (
+      floor(array_length(string_to_array(content, '*'), 1)::decimal / 2)::integer
+    ) STORED NOT NULL;
+
+CREATE VIEW public.poem_full_data WITH (security_invoker = 'on') AS
+  SELECT
+    p.slug,
+    p.title,
+    p.content,
+    p.verse_count,
+    po.name  AS poet_name,
+    po.slug  AS poet_slug,
+    m.name   AS meter_name,
+    t.name   AS theme_name,
+    e.name   AS era_name,
+    e.slug   AS era_slug,
+    c.name   AS collection_name,
+    c.slug   AS collection_slug
+  FROM public.poems p
+  JOIN public.poets      po ON p.poet_id       = po.id
+  JOIN public.meters     m  ON p.meter_id      = m.id
+  JOIN public.themes     t  ON p.theme_id      = t.id
+  JOIN public.eras       e  ON po.era_id       = e.id
+  LEFT JOIN public.collections c ON p.collection_id = c.id;
+
+COMMIT;
