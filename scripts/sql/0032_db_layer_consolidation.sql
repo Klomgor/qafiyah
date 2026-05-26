@@ -60,3 +60,20 @@ CREATE VIEW public.meter_stats WITH (security_invoker = 'on') AS
   ORDER BY m.name COLLATE "C";
 
 COMMIT;
+
+BEGIN;
+
+-- ── Task 3: Content normalization ─────────────────────────────────────────────
+-- Double-quote characters (") in poem content and poet names are an artifact of
+-- the original data source. Strip them at rest so application code never needs
+-- to strip them at read time.
+
+UPDATE public.poems
+  SET content = replace(content, '"', '')
+  WHERE content LIKE '%"%';
+
+UPDATE public.poets
+  SET name = replace(name, '"', '')
+  WHERE name LIKE '%"%';
+
+COMMIT;
