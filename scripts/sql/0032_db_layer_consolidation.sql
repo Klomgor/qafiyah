@@ -120,3 +120,63 @@ CREATE VIEW public.poem_full_data WITH (security_invoker = 'on') AS
   LEFT JOIN public.collections c ON p.collection_id = c.id;
 
 COMMIT;
+
+BEGIN;
+
+-- ── Task 5: bot_eligible on eras ─────────────────────────────────────────────
+-- The random-poem function previously excluded era_id IN (3, 9) which are
+-- deleted eras. This column makes eligibility legible and configurable without
+-- touching SQL.
+
+ALTER TABLE public.eras
+  ADD COLUMN IF NOT EXISTS bot_eligible boolean NOT NULL DEFAULT true;
+
+-- Era IDs 3 and 9 no longer exist (were deleted), so all current eras are
+-- eligible. Set bot_eligible = false on specific eras to exclude them.
+
+CREATE OR REPLACE FUNCTION public.get_random_eligible_poem() RETURNS json
+  LANGUAGE plpgsql
+  SECURITY DEFINER
+  SET search_path TO ''
+AS $$
+DECLARE
+  result JSON;
+BEGIN
+  WITH random_poet AS (
+    SELECT po.id
+    FROM public.poets po
+    JOIN public.eras e ON e.id = po.era_id
+    WHERE e.bot_eligible = true
+    ORDER BY random()
+    LIMIT 1
+  ),
+  random_poem AS (
+    SELECT p.id
+    FROM public.poems p
+    JOIN random_poet rp ON p.poet_id = rp.id
+    ORDER BY random()
+    LIMIT 1
+  )
+  SELECT json_build_object(
+    'poem_id',   p.id,
+    'poet_name', pt.name,
+    'content',   p.content,
+    'slug',      p.slug
+  )
+  INTO result
+  FROM public.poems p
+  JOIN public.poets pt ON pt.id = p.poet_id
+  WHERE p.id = (SELECT id FROM random_poem);
+
+  IF result IS NULL THEN
+    RETURN json_build_object('error', 'No eligible poem found');
+  END IF;
+
+  RETURN result;
+EXCEPTION
+  WHEN OTHERS THEN
+    RETURN json_build_object('error', 'An error occurred: ' || SQLERRM);
+END;
+$$;
+
+COMMIT;
