@@ -180,3 +180,106 @@ END;
 $$;
 
 COMMIT;
+
+BEGIN;
+
+-- ── Task 6: extract_rhyme_letter PL/pgSQL function + trigger ──────────────────
+-- Ports packages/db/src/extract-rhymes.ts to PL/pgSQL so rhyme_id is
+-- auto-assigned on INSERT and content UPDATE without a separate backfill step.
+
+CREATE OR REPLACE FUNCTION public.extract_rhyme_letter(p_content text)
+  RETURNS text
+  LANGUAGE plpgsql
+  IMMUTABLE
+AS $$
+DECLARE
+  rhyme_letters  text[] := ARRAY[
+    'ا','أ','إ','آ','ى','ء','ؤ','ئ','ة',
+    'ب','ت','ث','ج','ح','خ','د','ذ','ر','ز',
+    'س','ش','ص','ض','ط','ظ','ع','غ','ف','ق',
+    'ك','ل','م','ن','ه','و','ي'
+  ];
+  lines          text[];
+  ajuz           text[];
+  finals         text[];
+  seen           text[] := '{}';
+  i              int;
+  line           text;
+  last_char      text;
+  c              text;
+  n_lines        int;
+BEGIN
+  -- NOTE: string_to_array on empty string returns {''}, array_length returns 1.
+  -- Guard with n_lines to avoid a null upper-bound in the FOR loop when content
+  -- is truly NULL (though the column is NOT NULL, defensive is safer here).
+  lines := string_to_array(p_content, '*');
+  n_lines := array_length(lines, 1);
+
+  IF n_lines IS NULL OR n_lines = 0 THEN
+    RETURN NULL;
+  END IF;
+
+  FOR i IN 1..n_lines LOOP
+    IF i % 2 = 0 THEN
+      ajuz := array_append(ajuz, trim(lines[i]));
+    END IF;
+  END LOOP;
+
+  IF ajuz IS NULL OR array_length(ajuz, 1) = 0 THEN
+    RETURN NULL;
+  END IF;
+
+  FOREACH line IN ARRAY ajuz LOOP
+    last_char := right(line, 1);
+    IF last_char = ANY(rhyme_letters) THEN
+      finals := array_append(finals, last_char);
+    END IF;
+  END LOOP;
+
+  IF finals IS NULL OR array_length(finals, 1) = 0 THEN
+    RETURN NULL;
+  END IF;
+
+  IF array_length(ajuz, 1) = 1 THEN
+    RETURN finals[1];
+  END IF;
+
+  FOREACH c IN ARRAY finals LOOP
+    IF c = ANY(seen) THEN
+      RETURN c;
+    END IF;
+    seen := array_append(seen, c);
+  END LOOP;
+
+  RETURN finals[1];
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION public.auto_assign_rhyme_id()
+  RETURNS trigger
+  LANGUAGE plpgsql
+AS $$
+DECLARE
+  v_letter   text;
+  v_rhyme_id integer;
+BEGIN
+  v_letter := public.extract_rhyme_letter(NEW.content);
+  IF v_letter IS NOT NULL THEN
+    SELECT id INTO v_rhyme_id
+    FROM public.rhymes
+    WHERE letter = v_letter
+    LIMIT 1;
+  END IF;
+  NEW.rhyme_id := v_rhyme_id;
+  RETURN NEW;
+END;
+$$;
+
+DROP TRIGGER IF EXISTS trg_auto_assign_rhyme ON public.poems;
+CREATE TRIGGER trg_auto_assign_rhyme
+  BEFORE INSERT OR UPDATE OF content
+  ON public.poems
+  FOR EACH ROW
+  EXECUTE FUNCTION public.auto_assign_rhyme_id();
+
+COMMIT;
