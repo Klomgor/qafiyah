@@ -25,3 +25,38 @@ CREATE INDEX IF NOT EXISTS idx_poets_era_id
   ON public.poets(era_id);
 
 COMMIT;
+
+BEGIN;
+
+-- ── Task 2: is_formal column on meters ───────────────────────────────────────
+-- The 16 classical (Khalilian) Arabic meters are now classified in the DB.
+-- The app no longer needs the hardcoded FORMAL_METERS constant.
+
+ALTER TABLE public.meters
+  ADD COLUMN IF NOT EXISTS is_formal boolean NOT NULL DEFAULT false;
+
+UPDATE public.meters
+SET is_formal = true
+WHERE name IN (
+  'الطويل', 'المديد', 'البسيط', 'الوافر', 'الكامل',
+  'الهزج', 'الرجز', 'الرمل', 'السريع', 'المنسرح',
+  'الخفيف', 'المضارع', 'المقتضب', 'المجتث', 'المتقارب', 'المتدارك'
+);
+
+-- Recreate meter_stats to expose is_formal. ORDER BY replaces app-level localeCompare.
+-- Must DROP + CREATE (not CREATE OR REPLACE) because column order changes.
+DROP VIEW IF EXISTS public.meter_stats;
+CREATE VIEW public.meter_stats WITH (security_invoker = 'on') AS
+  SELECT
+    m.id,
+    m.name,
+    m.slug,
+    m.is_formal,
+    count(DISTINCT p.id)       AS poems_count,
+    count(DISTINCT p.poet_id)  AS poets_count
+  FROM public.meters m
+  LEFT JOIN public.poems p ON m.id = p.meter_id
+  GROUP BY m.id, m.name, m.slug, m.is_formal
+  ORDER BY m.name COLLATE "C";
+
+COMMIT;
